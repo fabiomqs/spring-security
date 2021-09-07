@@ -47,6 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 class BeerControllerTest {
+
     @Mock
     BeerRepository beerRepository;
 
@@ -85,9 +86,9 @@ class BeerControllerTest {
     }
 
     //ToDO: Mocking Page
-     void processFindFormReturnMany() throws Exception{
+    void processFindFormReturnMany() throws Exception{
         when(beerRepository.findAllByBeerName(anyString(), PageRequest.of(0,
-              10,Sort.Direction.DESC,"beerName"))).thenReturn(pagedResponse);
+                10,Sort.Direction.DESC,"beerName"))).thenReturn(pagedResponse);
         mockMvc.perform(get("/beers"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/beerList"))
