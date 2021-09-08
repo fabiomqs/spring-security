@@ -1,6 +1,6 @@
 package guru.sfg.brewery.web.controllers.api;
 
-import guru.sfg.brewery.security.RestHeaderAuthFilter;
+import guru.sfg.brewery.security.AbstractRestAuthFilter;
 import guru.sfg.brewery.web.controllers.BaseIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,18 +13,35 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 public class BeerRestControllerIT extends BaseIT {
 
     @Test
+    void deleteBeerUrl() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                .header(AbstractRestAuthFilter.API_KEY, "spring")
+                .header(AbstractRestAuthFilter.API_SECRET, "guru"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteBeerBadCredsUrl() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                .header(AbstractRestAuthFilter.API_KEY, "spring")
+                .header(AbstractRestAuthFilter.API_SECRET, "guruXXXX"))
+                .andExpect(status().isUnauthorized());
+    }
+
+
+    @Test
     void deleteBeerBadCreds() throws Exception{
         mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
-                .header(RestHeaderAuthFilter.API_KEY, "spring")
-                .header(RestHeaderAuthFilter.API_SECRET, "guruXXXX"))
+                .header(AbstractRestAuthFilter.API_KEY, "spring")
+                .header(AbstractRestAuthFilter.API_SECRET, "guruXXXX"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void deleteBeer() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
-                .header(RestHeaderAuthFilter.API_KEY, "spring")
-                .header(RestHeaderAuthFilter.API_SECRET, "guru"))
+                .header(AbstractRestAuthFilter.API_KEY, "spring")
+                .header(AbstractRestAuthFilter.API_SECRET, "guru"))
                 .andExpect(status().isOk());
     }
 
