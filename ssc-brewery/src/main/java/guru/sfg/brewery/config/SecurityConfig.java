@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new StandardPasswordEncoder();
+        return new BCryptPasswordEncoder();
+        //return new StandardPasswordEncoder();
         //return new LdapShaPasswordEncoder();
         //return NoOpPasswordEncoder.getInstance();
     }
@@ -55,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("4824cb09005be02571a1553baa723f887ea59dec1e1e481f85eee04b4c53c0efcc4b8cd91d688fa4")
+                .password("$2a$10$zKvTjwFCFN3.FYEIxug65.8lsbWbADZKsEmwYXaaoqHbx/LWchhUe")
                 .roles("USER");
 
         auth.inMemoryAuthentication().withUser("scott")
