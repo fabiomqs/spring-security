@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 
@@ -24,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new LdapShaPasswordEncoder();
+        return new StandardPasswordEncoder();
+        //return new LdapShaPasswordEncoder();
         //return NoOpPasswordEncoder.getInstance();
     }
 
@@ -53,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("{SSHA}LT+zqH2PO+ALzl36ULU96DR/uJUSkrSi+7646Q==")
+                .password("4824cb09005be02571a1553baa723f887ea59dec1e1e481f85eee04b4c53c0efcc4b8cd91d688fa4")
                 .roles("USER");
 
         auth.inMemoryAuthentication().withUser("scott")
