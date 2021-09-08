@@ -20,6 +20,7 @@ public class PasswordEncodingTests {
 
         System.out.println(bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode("guru"));
 
     }
 

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        //return new BCryptPasswordEncoder();
         //return new StandardPasswordEncoder();
         //return new LdapShaPasswordEncoder();
         //return NoOpPasswordEncoder.getInstance();
@@ -53,15 +55,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("spring")
-                .password("{SSHA}LT+zqH2PO+ALzl36ULU96DR/uJUSkrSi+7646Q==")
+                .password("{bcrypt}$2a$10$/K6J.1aazVKumTekHMF5b.b5Jsw4O4ja1vYURX.cV/vyXlUBbPRSW")
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("$2a$10$zKvTjwFCFN3.FYEIxug65.8lsbWbADZKsEmwYXaaoqHbx/LWchhUe")
+                .password("{sha256}ab781fb2e760eb3939cbde9419f1f451f73156e0d2cd808e1eb056cf4d348eac517ea72afdf5096b")
                 .roles("USER");
 
         auth.inMemoryAuthentication().withUser("scott")
-                .password("{SSHA}kbRvihwHFjbvSvbk0NaihTYbMqkd5ZVzr5TXJw==").roles("CUSTOMER");
+                .password("{ldap}{SSHA}9rQ1Kr1w3VAyrZQdVtrzFUGeH0rQjQ4DPWlv0Q==").roles("CUSTOMER");
     }
 
     /*@Override
