@@ -13,6 +13,14 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 public class BeerRestControllerIT extends BaseIT {
 
     @Test
+    void deleteBeerBadCreds() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                .header(RestHeaderAuthFilter.API_KEY, "spring")
+                .header(RestHeaderAuthFilter.API_SECRET, "guruXXXX"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void deleteBeer() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
                 .header(RestHeaderAuthFilter.API_KEY, "spring")
