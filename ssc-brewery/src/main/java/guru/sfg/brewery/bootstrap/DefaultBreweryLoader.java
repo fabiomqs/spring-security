@@ -47,8 +47,10 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        loadBreweryData();
-        loadCustomerData();
+        if (customerRepository.count() == 0) {
+            loadBreweryData();
+            loadCustomerData();
+        }
     }
 
     private void loadCustomerData() {

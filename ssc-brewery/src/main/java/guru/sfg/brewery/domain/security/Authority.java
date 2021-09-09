@@ -1,7 +1,6 @@
 package guru.sfg.brewery.domain.security;
 
 import lombok.*;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.util.Set;
