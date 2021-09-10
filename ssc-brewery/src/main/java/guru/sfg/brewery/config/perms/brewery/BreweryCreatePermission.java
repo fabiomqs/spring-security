@@ -1,11 +1,12 @@
-package guru.sfg.brewery.config.perms;
+package guru.sfg.brewery.config.perms.brewery;
 
+import guru.sfg.brewery.domain.security.Authority;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('beer.update')")
-public @interface BeerUpdatePermission {
+@PreAuthorize("hasAuthority('brewery.create')")
+public @interface BreweryCreatePermission {
 }
