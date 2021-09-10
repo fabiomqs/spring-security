@@ -1,20 +1,3 @@
-/*
- *  Copyright 2020 the original author or authors.
- *
- * This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 package guru.sfg.brewery.web.controllers;
 
 import guru.sfg.brewery.domain.Customer;
@@ -42,15 +25,16 @@ public class CustomerController {
     //ToDO: Add service
     private final CustomerRepository customerRepository;
 
+    @PreAuthorize("hasAuthority('customer.read')")
     @RequestMapping("/find")
-    public String findCustomers(Model model){
+    public String findCustomers(Model model) {
         model.addAttribute("customer", Customer.builder().build());
         return "customers/findCustomers";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @PreAuthorize("hasAuthority('customer.read')")
     @GetMapping
-    public String processFindFormReturnMany(Customer customer, BindingResult result, Model model){
+    public String processFindFormReturnMany(Customer customer, BindingResult result, Model model) {
         // find customers by name
         //ToDO: Add Service
         List<Customer> customers = customerRepository.findAllByCustomerNameLike("%" + customer.getCustomerName() + "%");
@@ -69,7 +53,8 @@ public class CustomerController {
         }
     }
 
-   @GetMapping("/{customerId}")
+    @PreAuthorize("hasAuthority('customer.read')")
+    @GetMapping("/{customerId}")
     public ModelAndView showCustomer(@PathVariable UUID customerId) {
         ModelAndView mav = new ModelAndView("customers/customerDetails");
         //ToDO: Add Service
@@ -77,13 +62,14 @@ public class CustomerController {
         return mav;
     }
 
+    @PreAuthorize("hasAuthority('customer.create')")
     @GetMapping("/new")
     public String initCreationForm(Model model) {
         model.addAttribute("customer", Customer.builder().build());
         return "customers/createCustomer";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('customer.create')")
     @PostMapping("/new")
     public String processCreationForm(Customer customer) {
         //ToDO: Add Service
@@ -91,24 +77,26 @@ public class CustomerController {
                 .customerName(customer.getCustomerName())
                 .build();
 
-        Customer savedCustomer= customerRepository.save(newCustomer);
+        Customer savedCustomer = customerRepository.save(newCustomer);
         return "redirect:/customers/" + savedCustomer.getId();
     }
 
+    @PreAuthorize("hasAuthority('customer.update')")
     @GetMapping("/{customerId}/edit")
-   public String initUpdateCustomerForm(@PathVariable UUID customerId, Model model) {
-       if(customerRepository.findById(customerId).isPresent())
-          model.addAttribute("customer", customerRepository.findById(customerId).get());
-       return "customers/createOrUpdateCustomer";
-   }
+    public String initUpdateCustomerForm(@PathVariable UUID customerId, Model model) {
+        if (customerRepository.findById(customerId).isPresent())
+            model.addAttribute("customer", customerRepository.findById(customerId).get());
+        return "customers/createOrUpdateCustomer";
+    }
 
+    @PreAuthorize("hasAuthority('customer.update')")
     @PostMapping("/{beerId}/edit")
     public String processUpdationForm(@Valid Customer customer, BindingResult result) {
         if (result.hasErrors()) {
             return "beers/createOrUpdateCustomer";
         } else {
             //ToDO: Add Service
-            Customer savedCustomer =  customerRepository.save(customer);
+            Customer savedCustomer = customerRepository.save(customer);
             return "redirect:/customers/" + savedCustomer.getId();
         }
     }
