@@ -23,8 +23,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Created by jt on 2019-01-26.
+ */
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
     List<Customer> findAllByCustomerNameLike(String customerName);
 
-    Optional<Customer> findAllByCustomerName(String name);
+    Optional<Customer> findAllByCustomerName(String customerName);
 }

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+/**
+ * Created by jt on 7/6/20.
+ */
 @Slf4j
 @Component
 public class BeerOrderAuthenticationManger {
