@@ -12,10 +12,9 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-/**
- * Created by jt on 6/27/20.
- */
+
 @SpringBootTest
 public class CustomerControllerIT extends BaseIT {
 
@@ -53,7 +52,7 @@ public class CustomerControllerIT extends BaseIT {
         @Rollback
         @Test
         void processCreationForm() throws Exception{
-            mockMvc.perform(post("/customers/new")
+            mockMvc.perform(post("/customers/new").with(csrf())
                     .param("customerName", "Foo Customer")
                     .with(httpBasic("spring", "guru")))
                     .andExpect(status().is3xxRedirection());
@@ -71,7 +70,7 @@ public class CustomerControllerIT extends BaseIT {
 
         @Test
         void processCreationFormNOAUTH() throws Exception{
-            mockMvc.perform(post("/customers/new")
+            mockMvc.perform(post("/customers/new").with(csrf())
                     .param("customerName", "Foo Customer"))
                     .andExpect(status().isUnauthorized());
         }
