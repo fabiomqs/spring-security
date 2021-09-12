@@ -11,14 +11,17 @@ import org.springframework.util.DigestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Created by jt on 6/16/20.
+ */
 @Disabled
 public class PasswordEncodingTests {
 
     static final String PASSWORD = "password";
 
     @Test
-    void testBcrypt10() {
-        PasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
+    void testBcrypt15() {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(15);
 
         System.out.println(bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode(PASSWORD));
@@ -48,8 +51,8 @@ public class PasswordEncodingTests {
     void testLdap() {
         PasswordEncoder ldap = new LdapShaPasswordEncoder();
         System.out.println(ldap.encode(PASSWORD));
+        System.out.println(ldap.encode(PASSWORD));
         System.out.println(ldap.encode("tiger"));
-
         String encodedPwd = ldap.encode(PASSWORD);
 
         assertTrue(ldap.matches(PASSWORD, encodedPwd ));
