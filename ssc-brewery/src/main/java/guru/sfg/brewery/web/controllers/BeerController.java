@@ -24,6 +24,7 @@ import guru.sfg.brewery.repositories.BeerRepository;
 import guru.sfg.brewery.security.perms.beer.BeerCreatePermission;
 import guru.sfg.brewery.security.perms.beer.BeerReadPermission;
 import guru.sfg.brewery.security.perms.beer.BeerUpdatePermission;
+import guru.sfg.brewery.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -95,6 +96,9 @@ public class BeerController {
     @GetMapping("/new")
     public String initCreationForm(Model model) {
         model.addAttribute("beer", Beer.builder().build());
+        //If Removed Causes Exception: Instantiation of new objects and access to static classes is forbidden in this context
+        //The controller must return the values of the Enum
+        model.addAttribute("beerStyles", BeerStyleEnum.values());
         return "beers/createBeer";
     }
 
@@ -120,6 +124,9 @@ public class BeerController {
     public String initUpdateBeerForm(@PathVariable UUID beerId, Model model) {
         if (beerRepository.findById(beerId).isPresent())
             model.addAttribute("beer", beerRepository.findById(beerId).get());
+        //If Removed Causes Exception: Instantiation of new objects and access to static classes is forbidden in this context
+        //The controller must return the values of the Enum
+        model.addAttribute("beerStyles", BeerStyleEnum.values());
         return "beers/createOrUpdateBeer";
     }
 
