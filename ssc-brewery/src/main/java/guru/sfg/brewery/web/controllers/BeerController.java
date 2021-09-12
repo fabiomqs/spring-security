@@ -18,9 +18,9 @@
 package guru.sfg.brewery.web.controllers;
 
 
-import guru.sfg.brewery.config.perms.beer.BeerCreatePermission;
-import guru.sfg.brewery.config.perms.beer.BeerReadPermission;
-import guru.sfg.brewery.config.perms.beer.BeerUpdatePermission;
+import guru.sfg.brewery.security.perms.beer.BeerCreatePermission;
+import guru.sfg.brewery.security.perms.beer.BeerReadPermission;
+import guru.sfg.brewery.security.perms.beer.BeerUpdatePermission;
 import guru.sfg.brewery.domain.Beer;
 import guru.sfg.brewery.repositories.BeerInventoryRepository;
 import guru.sfg.brewery.repositories.BeerRepository;

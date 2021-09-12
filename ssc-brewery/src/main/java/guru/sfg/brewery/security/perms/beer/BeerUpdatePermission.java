@@ -1,12 +1,11 @@
-package guru.sfg.brewery.config.perms.brewery;
+package guru.sfg.brewery.security.perms.beer;
 
-import guru.sfg.brewery.domain.security.Authority;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('brewery.delete')")
-public @interface BreweryDeletePermission {
+@PreAuthorize("hasAuthority('beer.update')")
+public @interface BeerUpdatePermission {
 }

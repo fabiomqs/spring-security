@@ -1,9 +1,9 @@
 package guru.sfg.brewery.web.controllers.api;
 
-import guru.sfg.brewery.config.perms.beer.BeerCreatePermission;
-import guru.sfg.brewery.config.perms.beer.BeerDeletePermission;
-import guru.sfg.brewery.config.perms.beer.BeerReadPermission;
-import guru.sfg.brewery.config.perms.beer.BeerUpdatePermission;
+import guru.sfg.brewery.security.perms.beer.BeerCreatePermission;
+import guru.sfg.brewery.security.perms.beer.BeerDeletePermission;
+import guru.sfg.brewery.security.perms.beer.BeerReadPermission;
+import guru.sfg.brewery.security.perms.beer.BeerUpdatePermission;
 import guru.sfg.brewery.services.BeerService;
 import guru.sfg.brewery.web.model.BeerDto;
 import guru.sfg.brewery.web.model.BeerPagedList;

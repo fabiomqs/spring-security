@@ -1,8 +1,8 @@
 package guru.sfg.brewery.web.controllers;
 
-import guru.sfg.brewery.config.perms.customer.CustomerCreatePermission;
-import guru.sfg.brewery.config.perms.customer.CustomerReadPermission;
-import guru.sfg.brewery.config.perms.customer.CustomerUpdatePermission;
+import guru.sfg.brewery.security.perms.customer.CustomerCreatePermission;
+import guru.sfg.brewery.security.perms.customer.CustomerReadPermission;
+import guru.sfg.brewery.security.perms.customer.CustomerUpdatePermission;
 import guru.sfg.brewery.domain.Customer;
 import guru.sfg.brewery.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
