@@ -11,7 +11,18 @@
 
 <div class="row" sec:authorize="!isAuthenticated()">
     <div class="col-md-12">
-        <div th:if="${param.error}" class="alert alert-danger">Invalid Username or Password</div>
+        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION'] != null}">
+            <div th:if="${#strings.contains(session['SPRING_SECURITY_LAST_EXCEPTION'], 'BadCredentialsException')}">
+                <div class="alert alert-danger">Invalid Username or Password.</div>
+            </div>
+        </div>
+
+        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION'] != null}">
+            <div th:if="${#strings.contains(session['SPRING_SECURITY_LAST_EXCEPTION'], 'LockedException')}">
+                <div class="alert alert-danger">User Account is Locked.</div>
+            </div>
+        </div>
+
         <div th:if="${param.logout}" class="alert alert-success">You Have Logged Out</div>
         <form th:action="@{/login}" method="post">
             <label for="username">Username:</label>
@@ -30,7 +41,6 @@
         <p><a th:href="@{/logout}">Logout</a></p>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-12">
