@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Created by jt on 7/23/20.
- */
 @Slf4j
 @RequestMapping("/user")
 @Controller
@@ -57,6 +54,25 @@ public class UserController {
         } else {
             // bad code
             return "user/register2fa";
+        }
+    }
+
+    @GetMapping("/verify2fa")
+    public String verify2fa(){
+        return "user/verify2fa";
+    }
+
+    @PostMapping
+    public String verifyPostOf2Fa(@RequestParam Integer verifyCode){
+
+        User user = getUser();
+
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+            ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
+
+            return "/index";
+        } else {
+            return "user/verify2fa";
         }
     }
 
