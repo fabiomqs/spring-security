@@ -50,7 +50,7 @@ public class Google2faFilter extends GenericFilterBean {
             log.debug("Processing 2FA Filter");
 
             if (authentication.getPrincipal() != null && authentication.getPrincipal() instanceof User) {
-                User user = (User) authentication.getPrincipal();
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
                 if (user.getUseGoogle2f() && user.getGoogle2faRequired()) {
                     log.debug("2FA Required");

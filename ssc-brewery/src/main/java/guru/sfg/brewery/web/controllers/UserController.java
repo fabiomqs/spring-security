@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping("/register2fa")
     public String register2fa(Model model){
 
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL("SFG", user.getUsername(),
                 googleAuthenticator.createCredentials(user.getUsername()));
@@ -38,10 +38,10 @@ public class UserController {
         return "user/register2fa";
     }
 
-    @PostMapping
+    @PostMapping("/register2fa")
     public String confirm2Fa(@RequestParam Integer verifyCode){
 
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         log.debug("Entered Code is:" + verifyCode);
 
@@ -62,10 +62,10 @@ public class UserController {
         return "user/verify2fa";
     }
 
-    @PostMapping
+    @PostMapping("/verify2fa")
     public String verifyPostOf2Fa(@RequestParam Integer verifyCode){
 
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
             ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
@@ -76,8 +76,8 @@ public class UserController {
         }
     }
 
-    private User getUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+    //private User getUser() {
+    //    return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+   // }
 
 }
