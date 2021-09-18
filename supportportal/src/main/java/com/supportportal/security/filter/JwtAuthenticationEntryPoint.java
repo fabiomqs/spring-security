@@ -15,7 +15,7 @@ import java.io.OutputStream;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.supportportal.security.constant.SecurityConstant.*;
+import static com.supportportal.constant.SecurityConstant.*;
 
 @Slf4j
 @Component

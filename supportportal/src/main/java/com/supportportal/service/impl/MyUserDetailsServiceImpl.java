@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+import static com.supportportal.constant.UserImplConstant.*;
+
 @Slf4j
 @Qualifier("userDetailsService")
 @Transactional
@@ -29,14 +31,14 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username);
         if(user == null) {
-            log.error("User not found by username: " + username);
-            throw new UsernameNotFoundException("User not found by username: " + username);
+            log.error(NO_USER_FOUND_BY_USERNAME + username);
+            throw new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
         } else {
             user.setLastLoginDateDisplay(user.getLastLoginDate());
             user.setLastLoginDate(new Date());
             userRepository.save(user);
             UserPrincipal userPrincipal = new UserPrincipal(user);
-            log.info("Returning found user by username: " + username);
+            log.info(FOUND_USER_BY_USERNAME + username);
             return userPrincipal;
         }
     }

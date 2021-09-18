@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.supportportal.security.constant.SecurityConstant.*;
+import static com.supportportal.constant.SecurityConstant.*;
 
 @Slf4j
 @Component

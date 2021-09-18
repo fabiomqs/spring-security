@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import static com.supportportal.security.constant.SecurityConstant.*;
+import static com.supportportal.constant.SecurityConstant.*;
 
 @Configuration
 @EnableWebSecurity

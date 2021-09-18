@@ -1,7 +1,6 @@
 package com.supportportal.service.impl;
 
 import com.supportportal.domain.User;
-import com.supportportal.domain.UserPrincipal;
 import com.supportportal.exception.domain.EmailExistException;
 import com.supportportal.exception.domain.UserNotFoundException;
 import com.supportportal.exception.domain.UsernameExistException;
@@ -10,10 +9,6 @@ import com.supportportal.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.Date;
 import java.util.List;
 
-import static com.supportportal.security.constant.UserImplConstant.*;
-import static com.supportportal.security.enums.Role.*;
+import static com.supportportal.constant.UserImplConstant.*;
+import static com.supportportal.security.enums.Role.ROLE_USER;
+import static com.supportportal.constant.FileConstant.*;
 
 @Slf4j
 @Transactional
@@ -67,7 +63,7 @@ public class UserServiceImpl implements UserService {
     private String getTemporaryProfileImageUrl() {
         return ServletUriComponentsBuilder
                 .fromCurrentContextPath()
-                .path("/user/image/profile/temp")
+                .path(DEFAULT_USER_IMAGE_PATH)
                 .toString();
     }
 
@@ -85,17 +81,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
     public User findUserByUsername(String username) {
-        return null;
+        return userRepository.findUserByUsername(username);
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return null;
+        return userRepository.findUserByEmail(email);
     }
 
     private User validateNewUsernameAndEmail(String currentUsername,

@@ -1,6 +1,6 @@
 package com.supportportal.security.enums;
 
-import static com.supportportal.security.constant.Authority.*;
+import static com.supportportal.constant.Authority.*;
 
 public enum Role {
     ROLE_USER(USER_AUTHORITIES),
