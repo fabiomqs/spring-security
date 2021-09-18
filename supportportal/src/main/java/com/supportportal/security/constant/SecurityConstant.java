@@ -1,4 +1,4 @@
-package com.supportportal.constant;
+package com.supportportal.security.constant;
 
 public class SecurityConstant {
 
