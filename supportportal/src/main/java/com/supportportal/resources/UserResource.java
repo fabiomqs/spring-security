@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/user")
-public class UserResource {//don't need to extend the controller advice
+@RequestMapping(path = { "/", "/user"})
+public class UserResource extends ExceptionHandling {
     //
     @GetMapping("/home")
     public String showUser() throws Exception {

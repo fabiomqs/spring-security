@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.supportportal.domain.HttpResponse;
 import com.supportportal.exception.domain.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionHandling {
+public class ExceptionHandling implements ErrorController {
 
     private static final String ACCOUNT_LOCKED = "Your account has been locked. Please contact administration";
     private static final String METHOD_IS_NOT_ALLOWED = "This request method is not allowed on this endpoint. Please send a '%s' request";
@@ -120,10 +121,10 @@ public class ExceptionHandling {
         return createHttpResponse(NOT_FOUND, "There is no mapping for this URL");
     }
 
-    //    @Override
-    //public String getErrorPath() {
-//        return ERROR_PATH;
-//    }
+    //@Override
+    public String getErrorPath() {
+       return ERROR_PATH;
+    }
 
     private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(
