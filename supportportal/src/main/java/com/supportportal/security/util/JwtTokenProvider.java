@@ -25,12 +25,12 @@ import static java.util.Arrays.stream;
 
 @Slf4j
 @Component
-public class JWTTokenProvider {
+public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
     private String secret;
     
-    public String generateJWTToken(UserPrincipal userPrincipal) {
+    public String generateJwtToken(UserPrincipal userPrincipal) {
         String[] claims = getClaimsFromUser(userPrincipal);
         return JWT.create()
                 .withIssuer(GET_ARRAYS_LLC)
@@ -65,22 +65,22 @@ public class JWTTokenProvider {
     }
 
     public boolean isTokenExpired(String token) {
-        Date expirationDate = getJWTVerifier().verify(token).getExpiresAt();
+        Date expirationDate = getJwtVerifier().verify(token).getExpiresAt();
         return expirationDate.before(new Date());
     }
 
     public String getSubject(String token) {
-        return getJWTVerifier().verify(token).getSubject();
+        return getJwtVerifier().verify(token).getSubject();
     }
 
     private String[] getClaimsFromToken(String token) {
-        return getJWTVerifier()
+        return getJwtVerifier()
                 .verify(token)
                 .getClaim(AUTHORITIES)
                 .asArray(String.class);
     }
 
-    private JWTVerifier getJWTVerifier() {
+    private JWTVerifier getJwtVerifier() {
         JWTVerifier jwtVerifier;
         try {
             jwtVerifier = JWT.require(HMAC512(secret)).withIssuer(GET_ARRAYS_LLC).build();

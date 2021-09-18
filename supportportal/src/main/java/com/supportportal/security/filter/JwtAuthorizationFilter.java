@@ -1,6 +1,6 @@
 package com.supportportal.security.filter;
 
-import com.supportportal.security.util.JWTTokenProvider;
+import com.supportportal.security.util.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,11 +21,11 @@ import static com.supportportal.security.constant.SecurityConstant.*;
 
 @Slf4j
 @Component
-public class JWTAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private final JWTTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public JWTAuthorizationFilter(JWTTokenProvider jwtTokenProvider) {
+    public JwtAuthorizationFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
