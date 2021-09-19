@@ -1,6 +1,6 @@
 package com.supportportal.security.listener;
 
-import com.supportportal.domain.User;
+import com.supportportal.domain.UserPrincipal;
 import com.supportportal.service.LoginAttemptService;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
@@ -17,8 +17,8 @@ public class AuthenticationSuccessListener {
 
     @EventListener
     public void onAuthenticationSuccess(AuthenticationSuccessEvent event) {
-        if(event.getAuthentication().getPrincipal() instanceof User) {
-            User user = (User) event.getAuthentication().getPrincipal();
+        if(event.getAuthentication().getPrincipal() instanceof UserPrincipal) {
+            UserPrincipal user = (UserPrincipal) event.getAuthentication().getPrincipal();
             loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
         }
     }
