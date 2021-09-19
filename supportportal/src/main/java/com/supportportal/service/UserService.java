@@ -1,6 +1,7 @@
 package com.supportportal.service;
 
 import com.supportportal.domain.User;
+import com.supportportal.domain.UserPrincipal;
 import com.supportportal.exception.domain.EmailExistException;
 import com.supportportal.exception.domain.UserNotFoundException;
 import com.supportportal.exception.domain.UsernameExistException;
@@ -16,4 +17,6 @@ public interface UserService {
     User findUserByUsername(String username);
 
     User findUserByEmail(String email);
+
+    UserPrincipal login(User user);
 }

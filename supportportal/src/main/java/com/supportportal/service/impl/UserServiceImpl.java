@@ -1,14 +1,18 @@
 package com.supportportal.service.impl;
 
 import com.supportportal.domain.User;
+import com.supportportal.domain.UserPrincipal;
 import com.supportportal.exception.domain.EmailExistException;
 import com.supportportal.exception.domain.UserNotFoundException;
 import com.supportportal.exception.domain.UsernameExistException;
 import com.supportportal.repository.UserRepository;
+import com.supportportal.security.util.JwtTokenProvider;
 import com.supportportal.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +32,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           AuthenticationManager authenticationManager,
+                           JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -92,6 +102,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public UserPrincipal login(User user) {
+        authenticate(user.getUsername(), user.getPassword());
+        User loginUser = findUserByUsername(user.getUsername());
+        UserPrincipal userPrincipal = new UserPrincipal(loginUser);
+        return userPrincipal;
+    }
+
+    private void authenticate(String username, String password) {
+
+
+        authenticationManager
+                .authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                username, password));
+
+
     }
 
     private User validateNewUsernameAndEmail(String currentUsername,
