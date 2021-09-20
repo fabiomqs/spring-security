@@ -1,5 +1,6 @@
 package com.supportportal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,12 +24,17 @@ public class User implements Serializable {
     private String lastName;
     private String username;
     private String password;
+
+    @Transient
+    @JsonIgnore
+    private String transientPassword;
+
     private String email;
     private String profileImageUrl;
     private Date lastLoginDate;
     private Date lastLoginDateDisplay;
     private Date joinDate;
-    private String roles;
+    private String role;
     private String[] authorities;
     private boolean active;
     private boolean notLocked;
