@@ -7,6 +7,7 @@ import com.supportportal.exception.domain.UserNotFoundException;
 import com.supportportal.exception.domain.UsernameExistException;
 import com.supportportal.repository.UserRepository;
 import com.supportportal.security.util.JwtTokenProvider;
+import com.supportportal.service.EmailService;
 import com.supportportal.service.LoginAttemptService;
 import com.supportportal.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
 
@@ -34,21 +37,26 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final LoginAttemptService loginAttemptService;
+    private final EmailService emailService;
 
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            AuthenticationManager authenticationManager,
-                           JwtTokenProvider jwtTokenProvider, LoginAttemptService loginAttemptService) {
+                           JwtTokenProvider jwtTokenProvider,
+                           LoginAttemptService loginAttemptService,
+                           EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.loginAttemptService = loginAttemptService;
+        this.emailService = emailService;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public User register(String firstName, String lastName, String username, String email)
-            throws UserNotFoundException, EmailExistException, UsernameExistException {
+            throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
 
         validateNewUsernameAndEmail(StringUtils.EMPTY, username, email);
         String password = generatePassword();
@@ -66,7 +74,9 @@ public class UserServiceImpl implements UserService {
                 .authorities(ROLE_USER.getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl())
                 .build());
-        log.info(username + " new password: " + password);
+        //log.info(username + " new password: " + password);
+        //
+        //emailService.sendNewPasswordEmail(firstName, password, email);
 
         return user;
     }
@@ -83,7 +93,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private String generatePassword() {
-        return RandomStringUtils.randomAlphanumeric(10);
+        return "1234";
+        //return RandomStringUtils.randomAlphanumeric(10);
     }
 
     private String generateUserId() {

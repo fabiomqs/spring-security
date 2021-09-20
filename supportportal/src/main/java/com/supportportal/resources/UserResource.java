@@ -13,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 import static org.springframework.http.HttpStatus.*;
 import static com.supportportal.constant.SecurityConstant.*;
 
@@ -45,7 +47,8 @@ public class UserResource extends ExceptionHandling {
     //
     @ResponseStatus(OK)
     @PostMapping("/register")
-    public User register(@RequestBody User user) throws UserNotFoundException, EmailExistException, UsernameExistException {
+    public User register(@RequestBody User user)
+            throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
         User savedUser = userService
                 .register(user.getFirstName(),
                         user.getLastName(),
