@@ -23,9 +23,10 @@ import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping(UserResource.BASE_URL)
 public class UserResource {
 
+    public static final String BASE_URL = "/api/v1/user";
     public static final String EMAIL_SENT = "An email with new password was sent to: ";
     public static final String USER_DELETED_SUCCESSFULLY = "User Deleted Successfully!";
     private final UserService userService;
@@ -49,13 +50,20 @@ public class UserResource {
 
     @ResponseStatus(OK)
     @PostMapping("/add")
-    public User addUser(@RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
-                        @RequestBody User user) throws UserNotFoundException, EmailExistException, IOException,
+    public User addUser(@RequestParam("firstName") String firstName,
+                        @RequestParam("lastName") String lastName,
+                        @RequestParam("username") String username,
+                        @RequestParam("email") String email,
+                        @RequestParam("role") String role,
+                        @RequestParam("isNonLocked") String isNonLocked,
+                        @RequestParam("isActive") String isActive,
+                        @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
+            throws UserNotFoundException, EmailExistException, IOException,
             UsernameExistException, NotAnImageFileException {
 
-        User newUser = userService.addNewUser(user.getFirstName(), user.getLastName(),
-                user.getUsername(), user.getEmail(), user.getRole(), user.isNotLocked(),
-                user.isActive(), profileImage);
+        User newUser = userService.addNewUser(firstName, lastName,
+                username, email, role, Boolean.parseBoolean(isNonLocked),
+                Boolean.parseBoolean(isActive), profileImage);
         return newUser;
     }
 
