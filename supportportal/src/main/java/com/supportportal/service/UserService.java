@@ -16,7 +16,7 @@ public interface UserService {
 
     List<User> getUsers();
 
-    User findUserByUsername(String username);
+    User findUserByUsername(String username) throws UserNotFoundException;
 
     User findUserByEmail(String email);
 

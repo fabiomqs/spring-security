@@ -89,7 +89,7 @@ public class UserResource {
 
     @ResponseStatus(OK)
     @GetMapping("/find/{username}")
-    public User findUser(@PathVariable String username) {
+    public User findUser(@PathVariable String username) throws UserNotFoundException {
         return userService.findUserByUsername(username);
     }
 
@@ -100,7 +100,7 @@ public class UserResource {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/resetPassword/{email}")
+    @GetMapping("/resetpassword/{email}")
     public HttpResponse resetPassword(@PathVariable String email) throws EmailNotFoundException, MessagingException {
         userService.resetPassword(email);
         return response(OK, EMAIL_SENT + email);

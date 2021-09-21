@@ -63,7 +63,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPrincipal login(User user) {
         authenticate(user.getUsername(), user.getPassword());
-        User loginUser = findUserByUsername(user.getUsername());
+        User loginUser = null;
+        try {
+            loginUser = findUserByUsername(user.getUsername());
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected Error on Authenticate, Shouldn't get here.");
+        }
         UserPrincipal userPrincipal = new UserPrincipal(loginUser);
         return userPrincipal;
     }
@@ -159,8 +165,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public User findUserByUsername(String username) throws UserNotFoundException {
+        User user = userRepository.findUserByUsername(username);
+        if(user == null)
+            throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
+        return user;
     }
 
     @Override
@@ -246,29 +255,36 @@ public class UserServiceImpl implements UserService {
                                              String newUsername,
                                              String newEmail)
             throws UserNotFoundException, UsernameExistException, EmailExistException {
-
-        User userByNewUsername = findUserByUsername(newUsername);
-        User userByNewEmail = findUserByEmail(newEmail);
-        if(StringUtils.isNotBlank(currentUsername)) {
-            User currentUser = findUserByUsername(currentUsername);
-            if(currentUser == null) {
+        if(newUsername == null && newEmail == null) {
+            User user = findUserByUsername(currentUsername);
+            if (user == null) {
                 throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + currentUsername);
             }
-            if(userByNewUsername != null && !currentUser.getId().equals(userByNewUsername.getId())) {
-                throw new UsernameExistException(USERNAME_ALREADY_EXISTS);
-            }
-            if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
-                throw new EmailExistException(EMAIL_ALREADY_EXISTS);
-            }
-            return currentUser;
+            return user;
         } else {
-            if(userByNewUsername != null) {
-                throw new UsernameExistException(USERNAME_ALREADY_EXISTS);
+            User userByNewUsername = findUserByUsername(newUsername);
+            User userByNewEmail = findUserByEmail(newEmail);
+            if (StringUtils.isNotBlank(currentUsername)) {
+                User currentUser = findUserByUsername(currentUsername);
+                if (currentUser == null) {
+                    throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + currentUsername);
+                }
+                if (userByNewUsername != null && !currentUser.getId().equals(userByNewUsername.getId())) {
+                    throw new UsernameExistException(USERNAME_ALREADY_EXISTS);
+                }
+                if (userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
+                    throw new EmailExistException(EMAIL_ALREADY_EXISTS);
+                }
+                return currentUser;
+            } else {
+                if (userByNewUsername != null) {
+                    throw new UsernameExistException(USERNAME_ALREADY_EXISTS);
+                }
+                if (userByNewEmail != null) {
+                    throw new EmailExistException(EMAIL_ALREADY_EXISTS);
+                }
+                return null;
             }
-            if(userByNewEmail != null) {
-                throw new EmailExistException(EMAIL_ALREADY_EXISTS);
-            }
-            return null;
         }
     }
 }
