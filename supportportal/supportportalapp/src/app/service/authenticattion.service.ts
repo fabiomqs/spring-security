@@ -36,5 +36,9 @@ export class AuthenticattionService {
     localStorage.setItem('token', token);
   }
 
+  public addUserToLocalCache(user: User){
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
   
 }
