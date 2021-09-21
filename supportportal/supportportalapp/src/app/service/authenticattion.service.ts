@@ -23,7 +23,7 @@ export class AuthenticattionService {
         `${this.host}${this.loginPath}`, user, {observe: 'response'});
   }
 
-  public logout(){
+  public logout(): void{
     this.token = null;
     this.loggedInUsername = null;
     localStorage.removeItem('user');
@@ -31,13 +31,17 @@ export class AuthenticattionService {
     localStorage.removeItem('users');
   }
 
-  public saveToken(token: string){
+  public saveToken(token: string):void {
     this.token = token;
     localStorage.setItem('token', token);
   }
 
-  public addUserToLocalCache(user: User){
+  public addUserToLocalCache(user: User):void {
     localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  public getUserFromLocalCache():User {
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   
