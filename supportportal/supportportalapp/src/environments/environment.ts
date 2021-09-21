@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:8081',
   prefix: '/api/v1',
-  login: '/login',
+  loginPath: '/login',
   user: '/user'
 };
 
