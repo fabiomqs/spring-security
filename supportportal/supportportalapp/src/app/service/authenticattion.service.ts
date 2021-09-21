@@ -31,5 +31,10 @@ export class AuthenticattionService {
     localStorage.removeItem('users');
   }
 
+  public saveToken(token: string){
+    this.token = token;
+    localStorage.setItem('token', token);
+  }
+
   
 }
