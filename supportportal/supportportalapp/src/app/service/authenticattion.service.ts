@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/htt
 
 import { Observable } from 'rxjs';
 
+import { JwtHelperService } from "@auth0/angular-jwt";
+
 import {environment} from '../../environments/environment';
 
 import { User } from '../model/user';
@@ -15,6 +17,7 @@ export class AuthenticattionService {
 
   private token: string;
   private loggedInUsername: string;
+  private jwtHelper = new JwtHelperService();
 
   constructor(private httpClient:HttpClient) { }
 
@@ -50,6 +53,22 @@ export class AuthenticattionService {
 
   public getToken():string {
     return this.token;
+  }
+
+  public isLoggedIn():boolean {
+      this.loadToken();
+      if(this.token != null && this.token != '') {
+          if(this.jwtHelper.decodeToken(this.token).sub != null || '') {
+              if(!this.jwtHelper.isTokenExpired(this.token)) {
+                  this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub;
+                  return true;
+              }
+          }
+          return false;
+      } else {
+        this.logout();
+        return false;
+      }
   }
 
   
