@@ -19,4 +19,6 @@ export class AuthenticattionService {
       return this.httpClient.post<HttpResponse<any> | HttpErrorResponse>(
         `${this.host}${this.loginPath}`, user, {observe: 'response'});
   }
+
+  
 }
