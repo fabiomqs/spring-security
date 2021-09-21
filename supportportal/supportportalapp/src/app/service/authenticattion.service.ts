@@ -13,11 +13,22 @@ export class AuthenticattionService {
   private host = environment.apiUrl;
   private loginPath = environment.loginPath;
 
+  private token: string;
+  private loggedInUsername: string;
+
   constructor(private httpClient:HttpClient) { }
 
   public login(user:User):Observable<HttpResponse<any> | HttpErrorResponse> {
       return this.httpClient.post<HttpResponse<any> | HttpErrorResponse>(
         `${this.host}${this.loginPath}`, user, {observe: 'response'});
+  }
+
+  public logout(){
+    this.token = null;
+    this.loggedInUsername = null;
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('users');
   }
 
   
