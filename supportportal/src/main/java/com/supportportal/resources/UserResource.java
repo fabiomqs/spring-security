@@ -70,13 +70,20 @@ public class UserResource {
     @ResponseStatus(OK)
     @PostMapping("/update")
     public User updateUser(@RequestParam("currentUsername") String currentUsername,
-            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
-            @RequestBody User user) throws UserNotFoundException, EmailExistException, IOException,
+                           @RequestParam("firstName") String firstName,
+                           @RequestParam("lastName") String lastName,
+                           @RequestParam("username") String username,
+                           @RequestParam("email") String email,
+                           @RequestParam("role") String role,
+                           @RequestParam("isNonLocked") String isNonLocked,
+                           @RequestParam("isActive") String isActive,
+                           @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
+            throws UserNotFoundException, EmailExistException, IOException,
             UsernameExistException, NotAnImageFileException {
 
-        User updatedUser = userService.updateUser(currentUsername, user.getFirstName(), user.getLastName(),
-                user.getUsername(), user.getEmail(), user.getRole(), user.isNotLocked(),
-                user.isActive(), profileImage);
+        User updatedUser = userService.updateUser(currentUsername, firstName, lastName,
+                username, email, role, Boolean.parseBoolean(isNonLocked),
+                Boolean.parseBoolean(isActive), profileImage);
         return updatedUser;
     }
 
