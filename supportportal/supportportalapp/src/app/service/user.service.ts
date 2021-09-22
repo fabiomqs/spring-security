@@ -61,6 +61,10 @@ export class UserService {
         return null;
     }
 
+    public createUserFormData():FormData {
+        return null;
+    }
+
     
 
     public register(user:User):Observable<User | HttpErrorResponse> {
