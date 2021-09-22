@@ -30,6 +30,12 @@ export class UserService {
             formData);
     }
 
+    public updateUser(formData:FormData):Observable<User | HttpErrorResponse> {
+        return this.httpClient.post<User>(
+            `${this.host}${this.prefix}${this.user}/update`, 
+            formData);
+    }
+
     public register(user:User):Observable<User | HttpErrorResponse> {
         return this.httpClient.post<User>(
             `${this.host}${this.prefix}${this.user}/register`, 
