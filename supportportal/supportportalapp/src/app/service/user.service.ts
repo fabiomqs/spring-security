@@ -36,6 +36,11 @@ export class UserService {
             formData);
     }
 
+    public resetpassword(email:string):Observable<any | HttpErrorResponse> {
+        return this.httpClient.get(
+            `${this.host}${this.prefix}${this.user}/resetpassword/${email}`);
+    }
+
     public register(user:User):Observable<User | HttpErrorResponse> {
         return this.httpClient.post<User>(
             `${this.host}${this.prefix}${this.user}/register`, 
