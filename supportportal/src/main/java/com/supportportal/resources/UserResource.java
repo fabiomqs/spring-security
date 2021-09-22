@@ -100,7 +100,7 @@ public class UserResource {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/resetpassword/{email}")
+    @GetMapping("/reset-password/{email}")
     public HttpResponse resetPassword(@PathVariable String email) throws EmailNotFoundException, MessagingException {
         userService.resetPassword(email);
         return response(OK, EMAIL_SENT + email);
@@ -114,7 +114,7 @@ public class UserResource {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/updateProfileImage")
+    @PostMapping("/update-profile-image")
     public User updateUser(@RequestParam("username") String username,
                            @RequestParam("profileImage") MultipartFile profileImage)
             throws UserNotFoundException, EmailExistException, IOException,
