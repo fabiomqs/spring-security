@@ -12,8 +12,8 @@ import { User } from '../model/user';
 @Injectable({providedIn: 'root'})
 export class AuthenticattionService {
 
-    private host = environment.apiUrl;
-    private loginPath = environment.loginPath;
+    public host = environment.apiUrl;
+    public loginPath = environment.loginPath;
 
     private token: string;
     private loggedInUsername: string;

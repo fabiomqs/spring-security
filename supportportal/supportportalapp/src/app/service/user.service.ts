@@ -12,9 +12,9 @@ import { CustomHttpResponse } from '../model/custom-http-response';
 @Injectable({providedIn: 'root'})
 export class UserService {
 
-    private host = environment.apiUrl;
-    private apiPrefix = environment.prefix;
-    private userPath = environment.user;
+    public host = environment.apiUrl;
+    public apiPrefix = environment.prefix;
+    public userPath = environment.user;
 
     constructor(private httpClient:HttpClient) { }
 
@@ -77,8 +77,6 @@ export class UserService {
         formData.append('profileImage', profileImage);
         return formData;
     }
-
-    
 
     public register(user:User):Observable<User | HttpErrorResponse> {
         return this.httpClient.post<User>(
