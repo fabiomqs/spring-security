@@ -52,6 +52,10 @@ export class UserService {
             `${this.host}${this.apiPrefix}${this.userPath}/delete/${userId}`);
     }
 
+    public addUsersToLocalCache(users:User[]):void {
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+
     
 
     public register(user:User):Observable<User | HttpErrorResponse> {
