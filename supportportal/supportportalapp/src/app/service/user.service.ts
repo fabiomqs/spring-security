@@ -8,9 +8,7 @@ import {environment} from '../../environments/environment';
 import { User } from '../model/user';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class UserService {
 
     private host = environment.apiUrl;
@@ -54,6 +52,13 @@ export class UserService {
 
     public addUsersToLocalCache(users:User[]):void {
         localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    public getUsersFromLocalCache():User[] {
+        if(localStorage.getItem('users')) {
+            return JSON.parse(localStorage.getItem('users'));
+        }
+        return null;
     }
 
     
