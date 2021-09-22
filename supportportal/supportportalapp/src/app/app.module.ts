@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptor } from './core/auth/request.interceptor';
+import { NotificationModule } from './core/notification/notification/notification.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { RequestInterceptor } from './core/auth/request.interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NotificationModule
   ],
   providers: [
       {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true}

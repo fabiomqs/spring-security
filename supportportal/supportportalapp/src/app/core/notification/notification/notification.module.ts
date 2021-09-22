@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
-const notifierCustomOptions: NotifierOptions = {
+const customNotifierOptions: NotifierOptions = {
     position: {
       horizontal: {
         position: 'left',
@@ -46,7 +46,7 @@ const notifierCustomOptions: NotifierOptions = {
   declarations: [],
   exports:[NotifierModule],
   imports: [
-    NotifierModule.withConfig(notifierCustomOptions)
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   
 })
