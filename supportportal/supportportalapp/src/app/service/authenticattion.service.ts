@@ -21,12 +21,12 @@ export class AuthenticattionService {
 
     constructor(private httpClient:HttpClient) { }
 
-   public login(user:User):Observable<HttpResponse<any> | HttpErrorResponse> {
+   public logIn(user:User):Observable<HttpResponse<any> | HttpErrorResponse> {
         return this.httpClient.post<HttpResponse<any> | HttpErrorResponse>(
            `${this.host}${this.loginPath}`, user, {observe: 'response'});
     }
 
-    public logout(): void{
+    public logOut(): void{
         this.token = null;
         this.loggedInUsername = null;
         localStorage.removeItem('user');
@@ -55,7 +55,7 @@ export class AuthenticattionService {
         return this.token;
     }
 
-    public isLoggedIn():boolean {
+    public isUserLoggedIn():boolean {
         this.loadToken();
         if(this.token != null && this.token != '') {
             if(this.jwtHelper.decodeToken(this.token).sub != null || '') {
@@ -66,7 +66,7 @@ export class AuthenticattionService {
             }
             return false;
         } else {
-            this.logout();
+            this.logOut();
             return false;
         }
     }
