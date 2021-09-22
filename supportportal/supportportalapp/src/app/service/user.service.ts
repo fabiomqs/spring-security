@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import {environment} from '../../environments/environment';
 
 import { User } from '../model/user';
+import { CustomHttpResponse } from '../model/custom-http-response';
 
 
 @Injectable({providedIn: 'root'})
@@ -34,8 +35,8 @@ export class UserService {
             formData);
     }
 
-    public resetpassword(email:string):Observable<any | HttpErrorResponse> {
-        return this.httpClient.get(
+    public resetpassword(email:string):Observable<CustomHttpResponse | HttpErrorResponse> {
+        return this.httpClient.get<CustomHttpResponse>(
             `${this.host}${this.apiPrefix}${this.userPath}/reset-password/${email}`);
     }
 
@@ -45,8 +46,8 @@ export class UserService {
             formData, {reportProgress: true, observe: 'events'});
     }
 
-    public deleteUser(userId:number):Observable<any | HttpErrorResponse> {
-        return this.httpClient.delete(
+    public deleteUser(userId:number):Observable<CustomHttpResponse | HttpErrorResponse> {
+        return this.httpClient.delete<CustomHttpResponse>(
             `${this.host}${this.apiPrefix}${this.userPath}/delete/${userId}`);
     }
 
