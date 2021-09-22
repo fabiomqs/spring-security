@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -19,9 +19,14 @@ export class UserService {
 
   constructor(private httpClient:HttpClient) { }
 
+  public getUsers():Observable<User[] | HttpErrorResponse> {
+      return this.httpClient.get<User[] | HttpErrorResponse>(
+        `${this.host}${this.prefix}${this.user}/list`);
+  }
+
   public register(user:User):Observable<User | HttpErrorResponse> {
-    return this.httpClient.post<User | HttpErrorResponse>(
-      `${this.host}${this.prefix}${this.user}/register`, 
-      user);
+      return this.httpClient.post<User | HttpErrorResponse>(
+        `${this.host}${this.prefix}${this.user}/register`, 
+        user);
   }
 }
