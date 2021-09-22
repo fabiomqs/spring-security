@@ -47,6 +47,11 @@ export class UserService {
             formData, {reportProgress: true, observe: 'events'});
     }
 
+    public deleteUser(userId:number):Observable<any | HttpErrorResponse> {
+        return this.httpClient.delete(
+            `${this.host}${this.apiPrefix}${this.userPath}/delete/${userId}`);
+    }
+
     
 
     public register(user:User):Observable<User | HttpErrorResponse> {
