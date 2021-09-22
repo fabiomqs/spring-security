@@ -13,20 +13,26 @@ import { User } from '../model/user';
 })
 export class UserService {
 
-  private host = environment.apiUrl;
-  private prefix = environment.prefix;
-  private user = environment.user;
+    private host = environment.apiUrl;
+    private prefix = environment.prefix;
+    private user = environment.user;
 
-  constructor(private httpClient:HttpClient) { }
+    constructor(private httpClient:HttpClient) { }
 
-  public getUsers():Observable<User[] | HttpErrorResponse> {
-      return this.httpClient.get<User[] | HttpErrorResponse>(
-        `${this.host}${this.prefix}${this.user}/list`);
-  }
+    public getUsers():Observable<User[] | HttpErrorResponse> {
+        return this.httpClient.get<User[]>(
+            `${this.host}${this.prefix}${this.user}/list`);
+    }
 
-  public register(user:User):Observable<User | HttpErrorResponse> {
-      return this.httpClient.post<User | HttpErrorResponse>(
-        `${this.host}${this.prefix}${this.user}/register`, 
-        user);
-  }
+    public addUser(formData:FormData):Observable<User | HttpErrorResponse> {
+        return this.httpClient.post<User>(
+            `${this.host}${this.prefix}${this.user}/add`, 
+            formData);
+    }
+
+    public register(user:User):Observable<User | HttpErrorResponse> {
+        return this.httpClient.post<User>(
+            `${this.host}${this.prefix}${this.user}/register`, 
+            user);
+    }
 }
