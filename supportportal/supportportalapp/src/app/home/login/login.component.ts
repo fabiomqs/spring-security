@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         );
     }
 
-    private sendErrorNotification(message: string) {
+    private sendErrorNotification(message: string):void {
         if(message) 
             this.notificationService.notify(NotificationType.ERROR, message);
         else

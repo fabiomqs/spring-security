@@ -40,13 +40,13 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -59,19 +59,36 @@
                   "maximumError": "4kb"
                 }
               ]
-            }
+            },
+            "development": {
+                "buildOptimizer": false,
+                "optimization": false,
+                "vendorChunk": true,
+                "extractLicenses": false,
+                "sourceMap": true,
+                "namedChunks": true
+              }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "supportportalapp:build"
+            "browserTarget": "supportportalapp:build",
+            "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              }
           },
           "configurations": {
             "production": {
-              "browserTarget": "supportportalapp:build:production"
+              "browserTarget": "supportportalapp:build:development"
+            },
+            "development": {
+                "browserTarget": "supportportalapp:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

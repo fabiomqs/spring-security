@@ -14,7 +14,7 @@
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
                 <input type="text" class="form-control" name="username" placeholder="Username"
-                    ngModel #usernameInput="ngModel" required>
+                    ngModel #usernameInput="ngModel" required >
               </div>
               <span class="help-block" style="color:red;" 
               *ngIf="usernameInput.invalid && usernameInput.touched">Please enter a username</span>
@@ -28,7 +28,7 @@
               <span class="help-block" style="color:red;"
               *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a password.</span>
           <div class="d-flex justify-content-center mt-3 login_container">
-            <button type="submit"  name="button" class="btn login_btn">
+            <button type="submit" [disabled]="loginForm.invalid || showLoading"  name="button" class="btn login_btn">
               <i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;
               <span *ngIf="showLoading">Loading...</span>
               <span *ngIf="!showLoading">Login</span>

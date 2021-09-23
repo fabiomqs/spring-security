@@ -22,6 +22,7 @@ import static com.supportportal.constant.FileConstant.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
+@CrossOrigin
 @RestController
 @RequestMapping(UserResource.BASE_URL)
 public class UserResource {
