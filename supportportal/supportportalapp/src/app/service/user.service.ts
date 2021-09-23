@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -80,7 +80,7 @@ export class UserService {
         return formData;
     }
 
-    public register(user:User):Observable<User | HttpErrorResponse> {
+    public register(user:User):Observable<User> {
         return this.httpClient.post<User>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.REGISTER}`, 
             user);

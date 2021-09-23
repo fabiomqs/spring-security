@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -22,7 +22,6 @@ export class AuthenticationService {
 
     constructor(private httpClient:HttpClient) { }
 
-    //public logIn(user:User):Observable<HttpResponse<User> | HttpErrorResponse> {
     public logIn(user:User):Observable<HttpResponse<User>> {
         return this.httpClient.post<User>(
            `${this.host}${this.loginPath}`, user, {observe: 'response'});

@@ -17,7 +17,7 @@ import { NotificationService } from 'src/app/service/notification.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-    public showLoading: boolean;
+    showLoading: boolean;
     private subscriptions: Subscription[] = [];
 
     constructor(private router:Router,
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    public onLogin(user:User) {
+    onLogin(user:User) {
         this.showLoading = true;
         console.log(user);
         this.subscriptions.push(
@@ -53,7 +53,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             )
         );
     }
-    sendErrorNotification(message: string) {
+
+    private sendErrorNotification(message: string) {
         if(message) 
             this.notificationService.notify(NotificationType.ERROR, message);
         else
