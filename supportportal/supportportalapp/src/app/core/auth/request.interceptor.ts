@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthenticattionService } from 'src/app/service/authenticattion.service';
+import { AuthenticationService } from 'src/app/service/authenticattion.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
 
     constructor(
-        private authenticattionService: AuthenticattionService,
+        private authenticattionService: AuthenticationService,
         private userService: UserService) {}
 
     //exclude

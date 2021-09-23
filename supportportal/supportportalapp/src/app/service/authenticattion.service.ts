@@ -10,7 +10,7 @@ import {environment} from '../../environments/environment';
 import { User } from '../model/user';
 
 @Injectable({providedIn: 'root'})
-export class AuthenticattionService {
+export class AuthenticationService {
 
     public host = environment.apiUrl;
     public loginPath = environment.loginPath;
@@ -21,8 +21,9 @@ export class AuthenticattionService {
 
     constructor(private httpClient:HttpClient) { }
 
-   public logIn(user:User):Observable<HttpResponse<any> | HttpErrorResponse> {
-        return this.httpClient.post<HttpResponse<any> | HttpErrorResponse>(
+    //public logIn(user:User):Observable<HttpResponse<User> | HttpErrorResponse> {
+    public logIn(user:User):Observable<HttpResponse<User>> {
+        return this.httpClient.post<User>(
            `${this.host}${this.loginPath}`, user, {observe: 'response'});
     }
 
