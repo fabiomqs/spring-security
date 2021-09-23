@@ -2,7 +2,9 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { EnumMessages } from 'src/app/enums/enum-messages.enum';
 import { EnumRoutes } from 'src/app/enums/enum-routes.enum';
+import { HeaderType } from 'src/app/enums/header-type.enum';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authenticattion.service';
@@ -25,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         if(this.authenticationService.isUserLoggedIn()) {
-            this.router.navigateByUrl(EnumRoutes.SLASH_USERS)
+            this.router.navigateByUrl(`/${EnumRoutes.USERS}`);
         }
     }
 
@@ -36,11 +38,11 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.authenticationService.logIn(user).subscribe(
                 (response: HttpResponse<User>) => {
                 //response => {
-                    const token = response.headers.get('JWT-Token');
+                    const token = response.headers.get(HeaderType.JWT_TOKEN);
                     this.authenticationService.saveToken(token);
                     this.authenticationService.addUserToLocalCache(response.body);
                     this.showLoading = false;
-                    this.router.navigateByUrl(EnumRoutes.SLASH_USERS);
+                    this.router.navigateByUrl(`/${EnumRoutes.USERS}`);
                     
                 },
                 (errorResponse: HttpErrorResponse) => {
@@ -51,11 +53,11 @@ export class LoginComponent implements OnInit, OnDestroy {
             )
         );
     }
-    sendErrorNotification(m: string) {
-        let message = 'An Unknow Error Occurred, please try again!'
-        if(m) 
-            message = m;
-        this.notificationService.notify(NotificationType.ERROR, message);
+    sendErrorNotification(message: string) {
+        if(message) 
+            this.notificationService.notify(NotificationType.ERROR, message);
+        else
+            this.notificationService.notify(NotificationType.ERROR, EnumMessages.UNKNOW_ERROR_MESSAGE);
     }
 
      ngOnDestroy(): void {

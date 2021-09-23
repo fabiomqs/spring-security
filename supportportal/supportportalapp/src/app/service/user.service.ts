@@ -7,6 +7,8 @@ import {environment} from '../../environments/environment';
 
 import { User } from '../model/user';
 import { CustomHttpResponse } from '../model/custom-http-response';
+import { EnumKeyType } from '../enums/enum-key-type.enum';
+import { EnumRoutes } from '../enums/enum-routes.enum';
 
 
 @Injectable({providedIn: 'root'})
@@ -20,44 +22,44 @@ export class UserService {
 
     public getUsers():Observable<User[] | HttpErrorResponse> {
         return this.httpClient.get<User[]>(
-            `${this.host}${this.apiPrefix}${this.userPath}/list`);
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.LIST}`);
     }
 
     public addUser(formData:FormData):Observable<User | HttpErrorResponse> {
         return this.httpClient.post<User>(
-            `${this.host}${this.apiPrefix}${this.userPath}/add`, 
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.ADD}`, 
             formData);
     }
 
     public updateUser(formData:FormData):Observable<User | HttpErrorResponse> {
         return this.httpClient.post<User>(
-            `${this.host}${this.apiPrefix}${this.userPath}/update`, 
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.UPDATE}`, 
             formData);
     }
 
     public resetpassword(email:string):Observable<CustomHttpResponse | HttpErrorResponse> {
         return this.httpClient.get<CustomHttpResponse>(
-            `${this.host}${this.apiPrefix}${this.userPath}/reset-password/${email}`);
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.RESET_PASSWORD}/${email}`);
     }
 
     public updateProfileImage(formData:FormData):Observable<HttpEvent<User> | HttpErrorResponse> {
         return this.httpClient.post<User>(
-            `${this.host}${this.apiPrefix}${this.userPath}/update-profile-image`, 
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.UPDATE_PROFILE_IMAGE}`, 
             formData, {reportProgress: true, observe: 'events'});
     }
 
     public deleteUser(userId:number):Observable<CustomHttpResponse | HttpErrorResponse> {
         return this.httpClient.delete<CustomHttpResponse>(
-            `${this.host}${this.apiPrefix}${this.userPath}/delete/${userId}`);
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.DELETE}/${userId}`);
     }
 
     public addUsersToLocalCache(users:User[]):void {
-        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem(EnumKeyType.USERS, JSON.stringify(users));
     }
 
     public getUsersFromLocalCache():User[] {
-        if(localStorage.getItem('users')) {
-            return JSON.parse(localStorage.getItem('users'));
+        if(localStorage.getItem(EnumKeyType.USERS)) {
+            return JSON.parse(localStorage.getItem(EnumKeyType.USERS));
         }
         return null;
     }
@@ -80,7 +82,7 @@ export class UserService {
 
     public register(user:User):Observable<User | HttpErrorResponse> {
         return this.httpClient.post<User>(
-            `${this.host}${this.apiPrefix}${this.userPath}/register`, 
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.REGISTER}`, 
             user);
     }
 }

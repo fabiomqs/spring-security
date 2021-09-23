@@ -8,6 +8,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import {environment} from '../../environments/environment';
 
 import { User } from '../model/user';
+import { EnumKeyType } from '../enums/enum-key-type.enum';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -30,26 +31,26 @@ export class AuthenticationService {
     public logOut(): void{
         this.token = null;
         this.loggedInUsername = null;
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        localStorage.removeItem('users');
+        localStorage.removeItem(EnumKeyType.USER);
+        localStorage.removeItem(EnumKeyType.TOKEN);
+        localStorage.removeItem(EnumKeyType.USERS);
     }
 
     public saveToken(token: string):void {
         this.token = token;
-        localStorage.setItem('token', token);
+        localStorage.setItem(EnumKeyType.TOKEN, token);
     }
 
     public addUserToLocalCache(user: User):void {
-       localStorage.setItem('user', JSON.stringify(user));
+       localStorage.setItem(EnumKeyType.USER, JSON.stringify(user));
     }
 
     public getUserFromLocalCache():User {
-       return JSON.parse(localStorage.getItem('user'));
+       return JSON.parse(localStorage.getItem(EnumKeyType.USER));
     }
 
     public loadToken():void {
-        this.token = localStorage.getItem('token');
+        this.token = localStorage.getItem(EnumKeyType.TOKEN);
     }
 
     public getToken():string {
