@@ -21,7 +21,8 @@ export class UserComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
     selectedUser: User;
     isAdmin: boolean = true;
-    fileName: boolean;
+    fileName: string;
+    profileImage: File;
 
     constructor(private userService: UserService, 
                 private notificationService: NotificationService) { }
@@ -58,18 +59,20 @@ export class UserComponent implements OnInit, OnDestroy {
         this.selectedUser = selectedUser;
         document.getElementById('openUserInfo').click();
     }
-
-    onAddNewUser(form: any):void {
-
+    
+    onProfileImageChange(event: Event):void {
+        const target = event.target as HTMLInputElement;
+        const file: File = (target.files as FileList)[0];
+        this.profileImage = file
+        this.fileName = file.name;        
     }
 
     saveNewUser():void {
-
+        document.getElementById('new-user-save').click();
     }
 
-    //filename: string, 
-    onProfileImageChange(event: any):void {
-        console.log(event);
+    onAddNewUser(form: any):void {
+
     }
 
     onResetPassword(f: any): void {
