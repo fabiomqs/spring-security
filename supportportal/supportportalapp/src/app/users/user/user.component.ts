@@ -19,6 +19,7 @@ export class UserComponent implements OnInit, OnDestroy {
     users: User[];
     refreshing: boolean;
     private subscriptions: Subscription[] = [];
+    selectedUser: User;
 
     constructor(private userService: UserService, 
                 private notificationService: NotificationService) { }
@@ -52,6 +53,10 @@ export class UserComponent implements OnInit, OnDestroy {
         ))
     }
     
+    onSelectUser(selectedUser: User):void {
+        this.selectedUser = selectedUser;
+        document.getElementById('openUserInfo').click();
+    }
 
     onResetPassword(f: any): void {
 
