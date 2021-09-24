@@ -17,6 +17,10 @@ export class UserComponent implements OnInit {
         this.titleSubject.next(title);
     }
 
+    onResetPassword(f: any): void {
+        
+    }
+
     ngOnInit(): void {
     }
 
