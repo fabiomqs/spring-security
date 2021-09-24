@@ -23,12 +23,17 @@ export class UserComponent implements OnInit, OnDestroy {
     constructor(private userService: UserService, 
                 private notificationService: NotificationService) { }
 
+    ngOnInit(): void {
+        this.getUsers(true);
+    }
+
     changeTitle(title: string): void {
         this.titleSubject.next(title);
     }
 
     getUsers(notification: boolean):void {
         this.refreshing = true;
+        console.log('click')
         this.subscriptions.push(
             this.userService.getUsers().subscribe(
             (response: User[]) => {
@@ -52,8 +57,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnInit(): void {
-    }
+    
 
     private sendNotification(type: NotificationType, message: string):void {
         if(message) 
