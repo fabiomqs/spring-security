@@ -24,7 +24,7 @@ export class AuthenticationService {
 
     public logIn(user:User):Observable<HttpResponse<User>> {
         return this.httpClient.post<User>(
-           `${this.host}${this.loginPath}`, user, {observe: 'response'});
+           `${this.host}${this.loginPath}`, user, {observe: 'response', withCredentials: true});
     }
 
     public logOut(): void{
