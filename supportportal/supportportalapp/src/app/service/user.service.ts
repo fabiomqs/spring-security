@@ -83,6 +83,7 @@ export class UserService {
     public register(user:User):Observable<User> {
         return this.httpClient.post<User>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.REGISTER}`, 
-            user);
+            user, {withCredentials: true});
     }
+    
 }

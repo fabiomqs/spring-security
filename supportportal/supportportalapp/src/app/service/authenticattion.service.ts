@@ -59,13 +59,19 @@ export class AuthenticationService {
     public isUserLoggedIn():boolean {
         this.loadToken();
         if(this.token != null && this.token != '') {
-            if(this.jwtHelper.decodeToken(this.token).sub != null || '') {
-                if(!this.jwtHelper.isTokenExpired(this.token)) {
-                    this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub;
-                    return true;
+            try {
+                if(this.jwtHelper.decodeToken(this.token).sub != null || '') {
+                    if(!this.jwtHelper.isTokenExpired(this.token)) {
+                        this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub;
+                        return true;
+                    }
                 }
+                return false;
+            } catch(error) {
+                console.log("Error decoding Token.");
+                console.log(error);
+                return false;
             }
-            return false;
         } else {
             this.logOut();
             return false;
