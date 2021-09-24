@@ -248,7 +248,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private Role getRoleEnumName(String role) {
-        return Role.valueOf(role.toUpperCase());
+        return Role.valueOf(role);
     }
 
     private User validateNewUsernameAndEmail(String currentUsername,

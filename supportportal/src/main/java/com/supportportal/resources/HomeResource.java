@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.supportportal.constant.SecurityConstant.JWT_TOKEN_HEADER;
 import static org.springframework.http.HttpStatus.OK;
 
-@CrossOrigin
+@CrossOrigin("http://localhost:4200/")
 @RestController
 @RequestMapping("")
 public class HomeResource extends ErrorMappingHandling {

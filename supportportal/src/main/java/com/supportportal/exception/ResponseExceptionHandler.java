@@ -11,8 +11,8 @@ public abstract class ResponseExceptionHandler {
                 HttpResponse.builder()
                         .httpStatusCode(httpStatus.value())
                         .httpStatus(httpStatus)
-                        .reason(httpStatus.getReasonPhrase().toUpperCase())
-                        .message(message.toUpperCase())
+                        .reason(httpStatus.getReasonPhrase())
+                        .message(message)
                         .build(),
                 httpStatus);
     }

@@ -22,7 +22,7 @@ import static com.supportportal.constant.FileConstant.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
-@CrossOrigin
+@CrossOrigin("http://localhost:4200/")
 @RestController
 @RequestMapping(UserResource.BASE_URL)
 public class UserResource {
@@ -146,8 +146,8 @@ public class UserResource {
         return HttpResponse.builder()
                 .httpStatusCode(httpStatus.value())
                 .httpStatus(httpStatus)
-                .reason(httpStatus.getReasonPhrase().toUpperCase())
-                .message(message.toUpperCase())
+                .reason(httpStatus.getReasonPhrase())
+                .message(message)
                 .build();
     }
 }

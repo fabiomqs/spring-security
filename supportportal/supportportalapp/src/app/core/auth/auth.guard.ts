@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
         this.router.navigate([`${this.authenticattionService.loginPath}`])
         this.notificationService
                 .notify(NotificationType.ERROR, 
-                        `${EnumMessages.FORBIDEN_MESSAGE}`.toUpperCase());
+                        `${EnumMessages.FORBIDEN_MESSAGE}`);
         return false;
     }
   
