@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { EnumMessages } from 'src/app/enums/enum-messages.enum';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
@@ -71,8 +72,24 @@ export class UserComponent implements OnInit, OnDestroy {
         document.getElementById('new-user-save').click();
     }
 
-    onAddNewUser(form: any):void {
-
+    onAddNewUser(userForm: NgForm):void {
+        const formData = this.userService.createUserFormData(null, userForm.value, this.profileImage);
+        this.subscriptions.push(
+            this.userService.addUser(formData).subscribe(
+                (reponse: User) => {
+                    document.getElementById('new-user-close').click();
+                    this.getUsers(false);
+                    this.fileName = null;
+                    this.profileImage = null;
+                    userForm.reset();
+                    this.sendNotification(NotificationType.SUCCESS, 
+                        `${reponse.firstName} ${reponse.lastName}${EnumMessages}`);
+                },
+                (errorResponse: HttpErrorResponse) => {
+                    this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+                }
+            )
+        );
     }
 
     onResetPassword(f: any): void {
