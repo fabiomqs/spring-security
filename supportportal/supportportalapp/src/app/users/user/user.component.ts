@@ -77,7 +77,6 @@ export class UserComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.userService.addUser(formData).subscribe(
                 (response: User) => {
-                    console.log(response);
                     this.clickButton('new-user-close');
                     this.getUsers(false);
                     this.fileName = null;
@@ -88,9 +87,29 @@ export class UserComponent implements OnInit, OnDestroy {
                 },
                 (errorResponse: HttpErrorResponse) => {
                     this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+                    this.profileImage = null;
                 }
             )
         );
+    }
+
+    searchUsers(searchTerm: string):void {
+        const results: User[] = [];
+        this.userService
+                .getUsersFromLocalCache()
+                .forEach(user => {
+                    if(user.firstName.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) != -1 || 
+                        user.lastName.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) != -1 ||
+                        user.username.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) != -1 ||
+                        user.userId.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) != -1) {
+                        
+                            results.push(user);
+                    }
+                });
+        this.users = results;
+        if(!searchTerm) {
+            this.users = this.userService.getUsersFromLocalCache();
+        }
     }
 
     onResetPassword(f: any): void {
