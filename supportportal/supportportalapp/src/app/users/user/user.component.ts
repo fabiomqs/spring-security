@@ -20,6 +20,8 @@ export class UserComponent implements OnInit, OnDestroy {
     refreshing: boolean;
     private subscriptions: Subscription[] = [];
     selectedUser: User;
+    isAdmin: boolean = true;
+    fileName: boolean;
 
     constructor(private userService: UserService, 
                 private notificationService: NotificationService) { }
@@ -56,6 +58,18 @@ export class UserComponent implements OnInit, OnDestroy {
     onSelectUser(selectedUser: User):void {
         this.selectedUser = selectedUser;
         document.getElementById('openUserInfo').click();
+    }
+
+    onAddNewUser(form: any):void {
+
+    }
+
+    saveNewUser():void {
+        
+    }
+
+    onProfileImageChange(filename: string, file:any):void {
+
     }
 
     onResetPassword(f: any): void {
