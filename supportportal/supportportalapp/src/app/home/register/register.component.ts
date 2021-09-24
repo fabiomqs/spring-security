@@ -32,7 +32,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     onRegister(user:User) {
         this.showLoading = true;
-        console.log(user);
         this.subscriptions.push(
             this.userService.register(user).subscribe(
                 (response: User) => {
@@ -43,7 +42,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
                     //this.router.navigateByUrl(`/${EnumRoutes.LOGIN}`);
                 },
                 error => {
-                    console.log(error);
                     this.sendNotification(NotificationType.ERROR, error.error.message);
                     this.showLoading = false;
                 }
