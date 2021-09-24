@@ -268,7 +268,7 @@ public class UserServiceImpl implements UserService {
             } catch (UserNotFoundException e) {
             }
             User userByNewEmail = findUserByEmail(newEmail);
-            
+
             if (StringUtils.isNotBlank(currentUsername)) {
                 User currentUser = findUserByUsername(currentUsername);
                 if (currentUser == null) {
