@@ -36,7 +36,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
     getUsers(notification: boolean):void {
         this.refreshing = true;
-        console.log('click')
         this.subscriptions.push(
             this.userService.getUsers().subscribe(
             (response: User[]) => {
@@ -65,11 +64,12 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     saveNewUser():void {
-        
+
     }
 
-    onProfileImageChange(filename: string, file:any):void {
-
+    //filename: string, 
+    onProfileImageChange(event: any):void {
+        console.log(event);
     }
 
     onResetPassword(f: any): void {
