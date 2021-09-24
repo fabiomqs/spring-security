@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -20,35 +20,35 @@ export class UserService {
 
     constructor(private httpClient:HttpClient) { }
 
-    public getUsers():Observable<User[] | HttpErrorResponse> {
+    public getUsers():Observable<User[]> {
         return this.httpClient.get<User[]>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.LIST}`);
     }
 
-    public addUser(formData:FormData):Observable<User | HttpErrorResponse> {
+    public addUser(formData:FormData):Observable<User> {
         return this.httpClient.post<User>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.ADD}`, 
             formData);
     }
 
-    public updateUser(formData:FormData):Observable<User | HttpErrorResponse> {
+    public updateUser(formData:FormData):Observable<User> {
         return this.httpClient.post<User>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.UPDATE}`, 
             formData);
     }
 
-    public resetpassword(email:string):Observable<CustomHttpResponse | HttpErrorResponse> {
+    public resetpassword(email:string):Observable<CustomHttpResponse> {
         return this.httpClient.get<CustomHttpResponse>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.RESET_PASSWORD}/${email}`);
     }
 
-    public updateProfileImage(formData:FormData):Observable<HttpEvent<User> | HttpErrorResponse> {
+    public updateProfileImage(formData:FormData):Observable<HttpEvent<User>> {
         return this.httpClient.post<User>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.UPDATE_PROFILE_IMAGE}`, 
             formData, {reportProgress: true, observe: 'events'});
     }
 
-    public deleteUser(userId:number):Observable<CustomHttpResponse | HttpErrorResponse> {
+    public deleteUser(userId:number):Observable<CustomHttpResponse> {
         return this.httpClient.delete<CustomHttpResponse>(
             `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.DELETE}/${userId}`);
     }

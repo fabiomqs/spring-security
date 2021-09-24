@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.notificationService.notify(NotificationType.ERROR, EnumMessages.UNKNOW_ERROR_MESSAGE);
     }
 
-     ngOnDestroy(): void {
+    ngOnDestroy(): void {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
