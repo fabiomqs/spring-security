@@ -58,7 +58,7 @@ export class UserComponent implements OnInit, OnDestroy {
     
     onSelectUser(selectedUser: User):void {
         this.selectedUser = selectedUser;
-        document.getElementById('openUserInfo').click();
+        this.clickButton('openUserInfo');
     }
     
     onProfileImageChange(event: Event):void {
@@ -69,21 +69,22 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     saveNewUser():void {
-        document.getElementById('new-user-save').click();
+        this.clickButton('new-user-save');
     }
 
     onAddNewUser(userForm: NgForm):void {
         const formData = this.userService.createUserFormData(null, userForm.value, this.profileImage);
         this.subscriptions.push(
             this.userService.addUser(formData).subscribe(
-                (reponse: User) => {
-                    document.getElementById('new-user-close').click();
+                (response: User) => {
+                    console.log(response);
+                    this.clickButton('new-user-close');
                     this.getUsers(false);
                     this.fileName = null;
                     this.profileImage = null;
                     userForm.reset();
                     this.sendNotification(NotificationType.SUCCESS, 
-                        `${reponse.firstName} ${reponse.lastName}${EnumMessages}`);
+                        `${response.firstName} ${response.lastName}${EnumMessages.USER_ADDED_SUCCESS}`);
                 },
                 (errorResponse: HttpErrorResponse) => {
                     this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -103,6 +104,10 @@ export class UserComponent implements OnInit, OnDestroy {
             this.notificationService.notify(type, message);
         else
             this.notificationService.notify(NotificationType.ERROR, EnumMessages.UNKNOW_ERROR_MESSAGE);
+    }
+
+    private clickButton(buttonId: string): void {
+        document.getElementById(buttonId).click();
     }
 
     ngOnDestroy(): void {
