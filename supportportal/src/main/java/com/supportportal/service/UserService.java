@@ -32,7 +32,7 @@ public interface UserService {
             throws UserNotFoundException, UsernameExistException, EmailExistException, IOException,
             NotAnImageFileException;
 
-    void deleteUser(String username) throws UserNotFoundException;
+    void deleteUser(String username) throws UserNotFoundException, IOException;
 
     void resetPassword(String email) throws MessagingException, EmailNotFoundException;
 

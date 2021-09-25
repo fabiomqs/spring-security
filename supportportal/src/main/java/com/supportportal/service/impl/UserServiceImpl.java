@@ -12,6 +12,7 @@ import com.supportportal.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -131,11 +133,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void deleteUser(String username) throws UserNotFoundException {
+    public void deleteUser(String username) throws UserNotFoundException, IOException {
         User user = userRepository.findUserByUsername(username);
         if (user == null) {
             throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
         }
+        Path userFolder =
+                Paths.get(USER_FOLDER + user.getUsername())
+                    .toAbsolutePath().normalize();
+        FileUtils.deleteDirectory(new File(userFolder.toString()));
         userRepository.deleteById(user.getId());
     }
 
