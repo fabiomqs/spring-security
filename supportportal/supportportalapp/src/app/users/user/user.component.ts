@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -221,6 +221,23 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     onUpdateProfileImage():void {
+        const formData = new FormData();
+        formData.append('username', this.user.username);
+        formData.append('profileImage',this.profileImage);
+        
+        this.subscriptions.push(
+            this.userService.updateProfileImage(formData).subscribe(
+                (event: HttpEvent<any>) => {
+                    this.sendNotification(NotificationType.INFO, 
+                        `profile image updating ${event.type} -> ${event.type.valueOf}`);
+                        
+                },
+                (errorResponse: HttpErrorResponse) => {
+                    this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+                    this.profileImage = null;
+                }
+            )
+        );
 
     }
 
