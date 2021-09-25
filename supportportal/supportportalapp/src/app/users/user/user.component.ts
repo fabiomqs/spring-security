@@ -29,19 +29,17 @@ export class UserComponent implements OnInit, OnDestroy {
     fileName: string;
     profileImage: File;
     editUser = new User();
+    user = new User();
     private currentUserName: string;
 
     constructor(private userService: UserService, 
-                private router: Router,
                 private authenticationService:AuthenticationService,
                 private notificationService: NotificationService) { }
 
     ngOnInit(): void {
-        if(!this.authenticationService.isUserLoggedIn()) {
-            this.router.navigateByUrl(`/${EnumRoutes.LOGIN}`);
-        } else {
-            this.getUsers(true);
-        }
+        this.getUsers(true);
+        this.user = this.authenticationService.getUserFromLocalCache();
+        
     }
 
     changeTitle(title: string): void {
@@ -143,6 +141,7 @@ export class UserComponent implements OnInit, OnDestroy {
                     this.editUser = new User();
                     this.sendNotification(NotificationType.SUCCESS, 
                         `${response.firstName} ${response.lastName}${EnumMessages.USER_UPDATED_SUCCESS}`);
+                        
                 },
                 (errorResponse: HttpErrorResponse) => {
                     this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -166,8 +165,26 @@ export class UserComponent implements OnInit, OnDestroy {
         );
     }
 
-    onResetPassword(f: any): void {
-
+    onResetPassword(emailForm: NgForm): void {
+        this.refreshing = true;
+        const emailAddress = emailForm.value['reset-password-email'];
+        this.subscriptions.push(
+            this.userService.resetpassword(emailAddress).subscribe(
+                (response: CustomHttpResponse) => {
+                    this.sendNotification(NotificationType.SUCCESS, response.message);
+                    this.refreshing = false;
+                },
+                (errorResponse: HttpErrorResponse) => {
+                    console.log(errorResponse)
+                    let notificationType = NotificationType.WARNING;
+                    if(errorResponse.status != 400)
+                        notificationType = NotificationType.ERROR;
+                    this.sendNotification(notificationType, errorResponse.error.message);
+                    this.refreshing = false;
+                },
+                () => emailForm.reset()
+            )
+        );
     }
 
     
