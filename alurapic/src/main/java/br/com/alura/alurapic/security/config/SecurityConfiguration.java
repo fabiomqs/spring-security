@@ -1,5 +1,8 @@
 package br.com.alura.alurapic.security.config;
 
+import br.com.alura.alurapic.security.filters.JwtAccessDeniedHandler;
+import br.com.alura.alurapic.security.filters.JwtAuthenticationEntryPoint;
+import br.com.alura.alurapic.security.filters.JwtAuthorizationFilter;
 import br.com.alura.alurapic.security.util.AlurapicPasswordEncoderFactories;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +31,19 @@ import static br.com.alura.alurapic.util.constant.SecurityConstant.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final UserDetailsService userDetailsService;
 
     public SecurityConfiguration(
+            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+            JwtAccessDeniedHandler jwtAccessDeniedHandler,
+            JwtAuthorizationFilter jwtAuthorizationFilter,
             @Qualifier("userDetailsService") UserDetailsService userDetailsService) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
         this.userDetailsService = userDetailsService;
     }
 
@@ -48,12 +60,12 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and().authorizeRequests().antMatchers(PUBLIC_URLS).permitAll()
-                .anyRequest().authenticated();
-                //        .and()
-                //.exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
-                //.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                //.and()
-        //.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated()
+                        .and()
+                .exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
