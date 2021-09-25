@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class LoginSuccess {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

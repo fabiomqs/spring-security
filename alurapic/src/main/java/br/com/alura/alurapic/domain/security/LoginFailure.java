@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class LoginFailure {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String username;
