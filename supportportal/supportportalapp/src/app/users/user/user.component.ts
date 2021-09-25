@@ -253,12 +253,32 @@ export class UserComponent implements OnInit, OnDestroy {
         );
     }
 
+    canEdit(user:User): boolean {
+        return !this.isAdmin && (user.role === Role.ADMIN || user.role === Role.SUPER_ADMIN);
+    }
+
+    canEditSuper(user:User): boolean {
+        return (!this.isSuperAdmin && user.role === Role.SUPER_ADMIN) || !this.isAdmin;
+    }
+
+    get isSuperAdmin():boolean {
+        return this.getUerRole() === Role.SUPER_ADMIN;
+    }
+
     get isAdmin():boolean {
         return this.getUerRole() === Role.ADMIN || this.getUerRole() === Role.SUPER_ADMIN;
     }
 
+    get isOnlyAdmin():boolean {
+        return this.getUerRole() === Role.ADMIN ;
+    }
+
     get isManager():boolean {
         return this.isAdmin || this.getUerRole() === Role.MANAGER || this.getUerRole() === Role.HR;
+    }
+
+    get isOnlyManager():boolean {
+        return this.getUerRole() === Role.MANAGER || this.getUerRole() === Role.HR;
     }
 
     private getUerRole():string {

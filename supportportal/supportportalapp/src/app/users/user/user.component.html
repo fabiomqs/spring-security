@@ -19,7 +19,7 @@
             <i class="fa fa-users"></i>
             Users
           </a>
-          <a class="nav-item nav-link ml-3" (click)="changeTitle('Settings')" data-toggle="tab" 
+          <a [hidden]="!isAdmin" class="nav-item nav-link ml-3" (click)="changeTitle('Settings')" data-toggle="tab" 
           href="#reset-password">
             <i class="fa fa-cogs"></i>
             Settings
@@ -45,7 +45,7 @@
             (ngModelChange)="searchUsers(searchInput.value)"
              type="search" placeholder="Search users...">
          </form>
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addUserModal">
+          <button [hidden]="!isManager" type="button" class="btn btn-info" data-toggle="modal" data-target="#addUserModal">
             <i class="fa fa-plus"></i>New User
           </button>
         </div>
@@ -84,9 +84,9 @@
               </td>
             <td class="">
               <div class="btn-group" >
-                <button class="btn btn-outline-info" [disabled]="appUser?.username == user.username" 
+                <button [hidden]="!isManager" class="btn btn-outline-info" [disabled]="appUser?.username == user.username" 
                 (click)="onEditUser(appUser)"><i class="fas fa-edit"></i></button>
-                <button  class="btn btn-outline-danger" [disabled]="appUser?.username == user.username" 
+                <button  [hidden]="!isAdmin" class="btn btn-outline-danger" [disabled]="appUser?.username == user.username" 
                 (click)="onDeleteUser(appUser.username)"><i class="fas fa-trash"></i></button>
               </div>
             </td>
@@ -357,7 +357,7 @@
 
 
     <!-- model add user -->
-    <div [hidden]="!isAdmin" class="modal draggable fade bd-example-modal-lg" id="addUserModal" tabindex="-1" role="dialog"
+    <div [hidden]="!isManager" class="modal draggable fade bd-example-modal-lg" id="addUserModal" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -386,20 +386,43 @@
                   <label for="email">Email</label>
                   <input type="email" name="email" required ngModel class="form-control">
                 </div>
-                <div *ngIf="isAdmin" class="form-group">
+
+                <div *ngIf="isSuperAdmin" class="form-group">
+                    <label for="authority">Role</label>
+                    <select name="role" required ngModel="ROLE_USER" class="form-control">
+                      <option value="ROLE_USER">USER</option>
+                      <option value="ROLE_HR">HR</option>
+                      <option value="ROLE_MANAGER">MANAGER</option>
+                      <option value="ROLE_ADMIN">ADMIN</option>
+                      <option value="ROLE_SUPER_ADMIN">SUPER ADMIN</option>
+                    </select>
+                  </div>
+
+                <div *ngIf="isOnlyAdmin" class="form-group">
                   <label for="authority">Role</label>
                   <select name="role" required ngModel="ROLE_USER" class="form-control">
                     <option value="ROLE_USER">USER</option>
                     <option value="ROLE_HR">HR</option>
                     <option value="ROLE_MANAGER">MANAGER</option>
                     <option value="ROLE_ADMIN">ADMIN</option>
-                    <option value="ROLE_SUPER_ADMIN">SUPER ADMIN</option>
                   </select>
                 </div>
-                <div *ngIf="!isAdmin" class="form-group">
+
+                <div *ngIf="isOnlyManager" class="form-group">
+                    <label for="authority">Role</label>
+                    <select name="role" required ngModel="ROLE_USER" class="form-control">
+                      <option value="ROLE_USER">USER</option>
+                      <option value="ROLE_HR">HR</option>
+                      <option value="ROLE_MANAGER">MANAGER</option>
+                    </select>
+                  </div>
+
+                <div *ngIf="!isManager" class="form-group">
                   <label for="authority">Role</label>
                   <input type="text" name="role" required ngModel="USER" readonly class="form-control">
                 </div>
+
+
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Profile Picture </span>
@@ -441,7 +464,7 @@
 
  
 <!-- modal edit user -->
-<div class="modal draggable fade bd-example-modal-lg" id="editUserModal" tabindex="-1"
+<div [hidden]="!isManager" class="modal draggable fade bd-example-modal-lg" id="editUserModal" tabindex="-1"
 role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -467,22 +490,22 @@ role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           </div>
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" name="username" required
+            <input [disabled]="!isAdmin" type="text" name="username" required
               [(ngModel)]="editUser.username" class="form-control">
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" required [(ngModel)]="editUser.email"
+            <input [disabled]="!isAdmin" type="email" name="email" required [(ngModel)]="editUser.email"
               class="form-control">
           </div>
           <div class="form-group">
             <label for="authority">Role</label>
-              <select name="role" required [(ngModel)]="editUser.role" class="form-control">
+              <select [disabled]="canEditSuper(editUser)" name="role" required [(ngModel)]="editUser.role" class="form-control">
                 <option value="ROLE_USER">USER</option>
                 <option value="ROLE_HR">HR</option>
                 <option value="ROLE_MANAGER">MANAGER</option>
                 <option value="ROLE_ADMIN">ADMIN</option>
-                <option value="ROLE_SUPER_ADMIN">SUPER ADMIN</option>
+                <option *ngIf="isSuperAdmin" value="ROLE_SUPER_ADMIN">SUPER ADMIN</option>
               </select>
           </div>
           <div class="input-group mb-2">
@@ -501,14 +524,14 @@ role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <fieldset class="form-group">
             <div class="form-check">
               <label class="form-check-label">
-                <input name="active" type="checkbox" [(ngModel)]="editUser.active"
+                <input [disabled]="canEdit(editUser)" name="active" type="checkbox" [(ngModel)]="editUser.active"
                   class="form-check-input">
                 Acitve
               </label>
             </div>
             <div class="form-check disabled">
               <label class="form-check-label">
-                <input name="locked" type="checkbox" [(ngModel)]="editUser.notLocked"
+                <input [disabled]="canEdit(editUser)" name="locked" type="checkbox" [(ngModel)]="editUser.notLocked"
                   class="form-check-input">
                 Unlocked
               </label>
