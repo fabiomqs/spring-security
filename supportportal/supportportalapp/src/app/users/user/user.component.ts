@@ -6,6 +6,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { EnumMessages } from 'src/app/enums/enum-messages.enum';
 import { EnumRoutes } from 'src/app/enums/enum-routes.enum';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
+import { Role } from 'src/app/enums/role.enum';
 import { CustomHttpResponse } from 'src/app/model/custom-http-response';
 import { FileUploadStatus } from 'src/app/model/file-upload.status';
 import { User } from 'src/app/model/user';
@@ -26,7 +27,6 @@ export class UserComponent implements OnInit, OnDestroy {
     users: User[];
     refreshing: boolean;
     selectedUser: User;
-    isAdmin: boolean = true;
     fileName: string;
     profileImage: File;
     editUser = new User();
@@ -251,6 +251,18 @@ export class UserComponent implements OnInit, OnDestroy {
                 }
             )
         );
+    }
+
+    get isAdmin():boolean {
+        return this.getUerRole() === Role.ADMIN || this.getUerRole() === Role.SUPER_ADMIN;
+    }
+
+    get isManager():boolean {
+        return this.isAdmin || this.getUerRole() === Role.MANAGER || this.getUerRole() === Role.HR;
+    }
+
+    private getUerRole():string {
+        return this.authenticationService.getUserFromLocalCache().role;
     }
 
     private reportUploadProgress(event: HttpEvent<any>): void {
