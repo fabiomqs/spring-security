@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,6 +57,13 @@ public class User {
 
     @Builder.Default
     private boolean credentialsNotExpired = true;
+
+    @Builder.Default
+    private boolean suspended = true;
+
+    @Builder.Default
+    private boolean banned = true;
+
 
     @Singular
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
