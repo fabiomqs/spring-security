@@ -1,11 +1,9 @@
 export class User {
-    public id: number;
     public userId: string;
     public firstName: string;
     public lastName: string;
     public username: string;
     public email: string;
-    //public password: string;
     public lastLoginDateDisplay: Date;
     public joinDate: Date;
     public profileImageUrl: string;

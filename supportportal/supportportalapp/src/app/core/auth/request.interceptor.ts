@@ -13,15 +13,12 @@ export class RequestInterceptor implements HttpInterceptor {
         private authenticattionService: AuthenticationService,
         private userService: UserService) {}
 
-    //exclude
-    // /login, /api/v1/user/register, /api/v1/user/resetpassword/**, /api/v1/user/image/**
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
         const loginPath = `${this.authenticattionService.host}${this.authenticattionService.loginPath}`;
         const regiterPath = `${this.userService.host}${this.userService.apiPrefix}${this.userService.userPath}/${EnumRoutes.REGISTER}`;
-        const resetpasswordPath = `${this.userService.host}${this.userService.apiPrefix}${this.userService.userPath}/${EnumRoutes.RESET_PASSWORD}`;
         const imagePath = `${this.userService.host}${this.userService.apiPrefix}${this.userService.userPath}/${EnumRoutes.IMAGE}`;
 
-        if(request.url.includes(loginPath) || request.url.includes(regiterPath) || request.url.includes(resetpasswordPath) || request.url.includes(imagePath)) {
+        if(request.url.includes(loginPath) || request.url.includes(regiterPath) || request.url.includes(imagePath)) {
             
             return handler.handle(request);
 
