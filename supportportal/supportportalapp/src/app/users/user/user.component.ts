@@ -217,6 +217,10 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     updateProfileImage(): void {
+        this.clickButton('profile-image-input');
+    }
+
+    onUpdateProfileImage():void {
 
     }
 
