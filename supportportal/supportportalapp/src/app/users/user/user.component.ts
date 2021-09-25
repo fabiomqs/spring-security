@@ -187,16 +187,40 @@ export class UserComponent implements OnInit, OnDestroy {
         );
     }
 
+    onUpdateCurrentUser(user: User) :void {
+        this.refreshing = true;
+        this.currentUserName = this.authenticationService.getUserFromLocalCache().username;
+
+        const formData = this.userService.createUserFormData(this.currentUserName, user, this.profileImage);
+        this.subscriptions.push(
+            this.userService.updateUser(formData).subscribe(
+                (response: User) => {
+                    this.authenticationService.addUserToLocalCache(response);
+                    this.user = response;
+                    this.getUsers(false);
+                    this.fileName = null;
+                    this.profileImage = null;
+                    this.sendNotification(NotificationType.SUCCESS, 
+                        `${response.firstName} ${response.lastName}${EnumMessages.USER_UPDATED_SUCCESS}`);
+                    this.refreshing = false;
+                    if(response.username != this.currentUserName)
+                        this.onLogOut();
+                },
+                (errorResponse: HttpErrorResponse) => {
+                    this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+                    this.profileImage = null;
+                    this.refreshing = false;
+                }
+            )
+        );
+    }
+
     updateProfileImage(): void {
 
     }
 
-    onUpdateCurrentUser(profileUserForm: NgForm) :void {
-
-    }
-
     onLogOut(): void {
-        
+        this.sendNotification(NotificationType.WARNING, 'implement Logout');
     }
     
 
