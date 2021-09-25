@@ -33,6 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private currentUserName: string;
 
     constructor(private userService: UserService, 
+                private router:  Router,
                 private authenticationService:AuthenticationService,
                 private notificationService: NotificationService) { }
 
@@ -220,7 +221,9 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     onLogOut(): void {
-        this.sendNotification(NotificationType.WARNING, 'implement Logout');
+        this.authenticationService.logOut();
+        this.router.navigate([`/${EnumRoutes.LOGIN}`]);
+        this.notificationService.notify(NotificationType.INFO, EnumMessages.USER_LOGGED_OUT_INFO);
     }
     
 

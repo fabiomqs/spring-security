@@ -5,5 +5,6 @@ export enum EnumMessages {
     REGISTER_SUCCESS_SUFIX = 'Please check your e-mail for password to log in.',
     USERS_LOADED_SUCCESS = ' user(s) loaded successfully.',
     USER_ADDED_SUCCESS = ' added successfully',
-    USER_UPDATED_SUCCESS = ' updated successfully'
+    USER_UPDATED_SUCCESS = ' updated successfully',
+    USER_LOGGED_OUT_INFO = `You've been successfully logged out`
 }
