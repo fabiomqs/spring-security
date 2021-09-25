@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { EnumMessages } from 'src/app/enums/enum-messages.enum';
 import { EnumRoutes } from 'src/app/enums/enum-routes.enum';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { CustomHttpResponse } from 'src/app/model/custom-http-response';
+import { FileUploadStatus } from 'src/app/model/file-upload.status';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authenticattion.service';
 import { NotificationService } from 'src/app/service/notification.service';
@@ -21,15 +22,18 @@ export class UserComponent implements OnInit, OnDestroy {
 
     private titleSubject = new BehaviorSubject<string>('Users');
     titleAction$ = this.titleSubject.asObservable();
+
     users: User[];
     refreshing: boolean;
-    private subscriptions: Subscription[] = [];
     selectedUser: User;
     isAdmin: boolean = true;
     fileName: string;
     profileImage: File;
     editUser = new User();
     user = new User();
+    fileStatus = new FileUploadStatus();
+
+    private subscriptions: Subscription[] = [];
     private currentUserName: string;
 
     constructor(private userService: UserService, 
@@ -39,8 +43,17 @@ export class UserComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getUsers(true);
+        //let init = true;
         this.user = this.authenticationService.getUserFromLocalCache();
-        
+        //this.subscriptions.push(
+        //    this.titleSubject.subscribe(value => {
+        //        if(value == 'Users' && !init) {
+                    
+        //        }
+        //        if(init)
+        //            init=false;
+        //    })
+        //);
     }
 
     changeTitle(title: string): void {
@@ -142,7 +155,7 @@ export class UserComponent implements OnInit, OnDestroy {
                     this.editUser = new User();
                     this.sendNotification(NotificationType.SUCCESS, 
                         `${response.firstName} ${response.lastName}${EnumMessages.USER_UPDATED_SUCCESS}`);
-                        
+                    
                 },
                 (errorResponse: HttpErrorResponse) => {
                     this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -228,23 +241,51 @@ export class UserComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.userService.updateProfileImage(formData).subscribe(
                 (event: HttpEvent<any>) => {
-                    this.sendNotification(NotificationType.INFO, 
-                        `profile image updating ${event.type} -> ${event.type.valueOf}`);
-                        
+                    this.reportUploadProgress(event);
                 },
                 (errorResponse: HttpErrorResponse) => {
                     this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+                    this.fileName = null;
                     this.profileImage = null;
+                    this.fileStatus.status = 'done';
                 }
             )
         );
+    }
 
+    private reportUploadProgress(event: HttpEvent<any>): void {
+        switch(event.type) {
+            case HttpEventType.UploadProgress:
+                this.fileStatus.percentage = Math.round(100 * event.loaded / event.total);
+                this.fileStatus.status = 'progress';
+                break;
+            case HttpEventType.Response:
+                if(event.status === 200) {
+                    this.user.profileImageUrl = `${event.body.profileImageUrl}?time=${new Date().getTime()}`
+                    this.sendNotification(NotificationType.SUCCESS, 
+                        `${event.body.firstName}${EnumMessages.IMAGE_UPLOADED_SUCCESS}`);
+                    this.fileStatus.percentage = 100;
+                    this.fileStatus.status = 'done';
+                    this.fileName = null;
+                    this.profileImage = null;
+                    this.getUsers(false);
+                    break;
+                } else {
+                    this.sendNotification(NotificationType.ERROR, 
+                        `${EnumMessages.IMAGE_UPLOADED_FAILED}`);
+                    this.fileName = null;
+                    this.profileImage = null;
+                    break;
+                }
+            default:
+                break;
+        }
     }
 
     onLogOut(): void {
         this.authenticationService.logOut();
         this.router.navigate([`/${EnumRoutes.LOGIN}`]);
-        this.notificationService.notify(NotificationType.INFO, EnumMessages.USER_LOGGED_OUT_INFO);
+        this.sendNotification(NotificationType.INFO, EnumMessages.USER_LOGGED_OUT_INFO);
     }
     
 

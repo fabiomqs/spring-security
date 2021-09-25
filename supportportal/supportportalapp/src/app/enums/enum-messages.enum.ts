@@ -6,5 +6,7 @@ export enum EnumMessages {
     USERS_LOADED_SUCCESS = ' user(s) loaded successfully.',
     USER_ADDED_SUCCESS = ' added successfully',
     USER_UPDATED_SUCCESS = ' updated successfully',
-    USER_LOGGED_OUT_INFO = `You've been successfully logged out`
+    USER_LOGGED_OUT_INFO = `You've been successfully logged out`,
+    IMAGE_UPLOADED_SUCCESS = `'s profile image uploaded successfully`,
+    IMAGE_UPLOADED_FAILED = `Unable to upload image, please try again`
 }
