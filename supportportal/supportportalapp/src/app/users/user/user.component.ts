@@ -1,10 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { EnumMessages } from 'src/app/enums/enum-messages.enum';
+import { EnumRoutes } from 'src/app/enums/enum-routes.enum';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
+import { CustomHttpResponse } from 'src/app/model/custom-http-response';
 import { User } from 'src/app/model/user';
+import { AuthenticationService } from 'src/app/service/authenticattion.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -28,10 +32,16 @@ export class UserComponent implements OnInit, OnDestroy {
     private currentUserName: string;
 
     constructor(private userService: UserService, 
+                private router: Router,
+                private authenticationService:AuthenticationService,
                 private notificationService: NotificationService) { }
 
     ngOnInit(): void {
-        this.getUsers(true);
+        if(!this.authenticationService.isUserLoggedIn()) {
+            this.router.navigateByUrl(`/${EnumRoutes.LOGIN}`);
+        } else {
+            this.getUsers(true);
+        }
     }
 
     changeTitle(title: string): void {
@@ -137,6 +147,20 @@ export class UserComponent implements OnInit, OnDestroy {
                 (errorResponse: HttpErrorResponse) => {
                     this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
                     this.profileImage = null;
+                }
+            )
+        );
+    }
+
+    onDeleteUser(idUser: number): void {
+        this.subscriptions.push(
+            this.userService.deleteUser(idUser).subscribe(
+                (response: CustomHttpResponse) => {
+                    this.sendNotification(NotificationType.SUCCESS, response.message);
+                    this.getUsers(false);
+                },
+                (errorResponse: HttpErrorResponse) => {
+                    this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
                 }
             )
         );
