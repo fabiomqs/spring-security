@@ -106,10 +106,10 @@ public class UserResource {
         return response(OK, EMAIL_SENT + email);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{username}")
     @UserDeletePermission
-    public HttpResponse deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public HttpResponse deleteUser(@PathVariable String username) throws UserNotFoundException {
+        userService.deleteUser(username);
         return response(NO_CONTENT, USER_DELETED_SUCCESSFULLY);
     }
 

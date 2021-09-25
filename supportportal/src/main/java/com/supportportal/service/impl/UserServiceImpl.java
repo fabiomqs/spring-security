@@ -131,8 +131,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(String username) throws UserNotFoundException {
+        User user = userRepository.findUserByUsername(username);
+        if (user == null) {
+            throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
+        }
+        userRepository.deleteById(user.getId());
     }
 
     @Transactional(rollbackFor = Exception.class)

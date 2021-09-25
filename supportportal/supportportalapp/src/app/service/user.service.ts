@@ -48,9 +48,9 @@ export class UserService {
             formData, {reportProgress: true, observe: 'events'});
     }
 
-    public deleteUser(userId:number):Observable<CustomHttpResponse> {
+    public deleteUser(username:string):Observable<CustomHttpResponse> {
         return this.httpClient.delete<CustomHttpResponse>(
-            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.DELETE}/${userId}`);
+            `${this.host}${this.apiPrefix}${this.userPath}/${EnumRoutes.DELETE}/${username}`);
     }
 
     public addUsersToLocalCache(users:User[]):void {
