@@ -9,6 +9,7 @@ import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authenticattion.service';
 import { NotificationService } from 'src/app/service/notification.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ import { NotificationService } from 'src/app/service/notification.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
     showLoading: boolean;
-    private subscriptions: Subscription[] = [];
+    private subs = new SubSink();
+    //private subscriptions: Subscription[] = [];
 
     constructor(private router:Router,
                 private authenticationService: AuthenticationService,
@@ -33,7 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     onLogin(user:User) {
         this.showLoading = true;
-        this.subscriptions.push(
+        //this.subscriptions.push(
+        this.subs.add( 
             this.authenticationService.logIn(user).subscribe(
                 (response: HttpResponse<User>) => {
                 //response => {
@@ -61,7 +64,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscriptions.forEach(sub => sub.unsubscribe());
+        this.subs.unsubscribe();
+        //this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
 }
