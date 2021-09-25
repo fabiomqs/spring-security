@@ -24,6 +24,8 @@ export class UserComponent implements OnInit, OnDestroy {
     isAdmin: boolean = true;
     fileName: string;
     profileImage: File;
+    editUser = new User();
+    private currentUserName: string;
 
     constructor(private userService: UserService, 
                 private notificationService: NotificationService) { }
@@ -110,6 +112,34 @@ export class UserComponent implements OnInit, OnDestroy {
         if(!searchTerm) {
             this.users = this.userService.getUsersFromLocalCache();
         }
+    }
+
+    onEditUser(editUser: User): void {
+        this.editUser = editUser;
+        this.currentUserName = editUser.username;
+        this.clickButton('openUserEdit');
+    }
+
+    onUpdateUser():void {
+        const formData = this.userService.createUserFormData(this.currentUserName, this.editUser, this.profileImage);
+        this.subscriptions.push(
+            this.userService.updateUser(formData).subscribe(
+                (response: User) => {
+                    this.clickButton('closeEditUserModalButton');
+                    this.getUsers(false);
+                    this.fileName = null;
+                    this.profileImage = null;
+                    this.currentUserName = null;
+                    this.editUser = new User();
+                    this.sendNotification(NotificationType.SUCCESS, 
+                        `${response.firstName} ${response.lastName}${EnumMessages.USER_UPDATED_SUCCESS}`);
+                },
+                (errorResponse: HttpErrorResponse) => {
+                    this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+                    this.profileImage = null;
+                }
+            )
+        );
     }
 
     onResetPassword(f: any): void {
