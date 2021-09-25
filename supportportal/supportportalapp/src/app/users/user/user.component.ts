@@ -187,6 +187,17 @@ export class UserComponent implements OnInit, OnDestroy {
         );
     }
 
+    updateProfileImage(): void {
+
+    }
+
+    onUpdateCurrentUser(profileUserForm: NgForm) :void {
+
+    }
+
+    onLogOut(): void {
+        
+    }
     
 
     private sendNotification(type: NotificationType, message: string):void {
