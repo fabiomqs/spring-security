@@ -43,4 +43,7 @@ public interface UserService {
             throws UserNotFoundException, UsernameExistException, EmailExistException, IOException,
             NotAnImageFileException;
 
+    User suspendUser(String username) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
+
+    User banUser(String username) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
 }

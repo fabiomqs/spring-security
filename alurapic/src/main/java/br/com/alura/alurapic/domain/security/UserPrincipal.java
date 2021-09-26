@@ -35,7 +35,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.user.isAccountNonLocked();
+        return this.user.isAccountNonLocked() && !this.user.isSuspended() && !this.user.isBanned();
     }
 
     @Override

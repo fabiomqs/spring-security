@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodePassword(password));
         userRepository.save(user);
         log.info("New user password: " + password);
-        //emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
+        //emailService.sendEmail(user.getFirstName(), password, user.getEmail());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -203,6 +203,35 @@ public class UserServiceImpl implements UserService {
         User user = validateNewUsernameAndEmail(username, null, null);
         saveProfileImage(user, profileImage);
         return user;
+    }
+
+    @Override
+    public User suspendUser(String username) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
+        User user = validateNewUsernameAndEmail(username, null, null);
+        user.setAccountNonLocked(false);
+        user.setSuspended(true);
+        User savedUser = userRepository.save(user);
+        String msg = "Hello " + user.getFirstName() +
+                ", \n \n Your new account(" + user.getUsername() + ") has been suspended!"+
+                "\n \n The Support Team";
+
+        //
+        //emailService.sendEmail("Alura Pic - Account Suspended", msg, user.getEmail());
+        return savedUser;
+    }
+
+    @Override
+    public User banUser(String username) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
+        User user = validateNewUsernameAndEmail(username, null, null);
+        user.setAccountNonLocked(false);
+        user.setActive(false);
+        user.setBanned(true);
+        User savedUser = userRepository.save(user);
+        String msg = "Hello " + user.getFirstName() +
+                ", \n \n Your new account(" + user.getUsername() + ") has been banned!"+
+                "\n \n The Support Team";
+        //emailService.sendEmail("Alura Pic - Account Banned", msg, user.getEmail());
+        return savedUser;
     }
 
     private void authenticate(String username, String password) {

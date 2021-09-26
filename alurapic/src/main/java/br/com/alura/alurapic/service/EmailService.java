@@ -46,24 +46,33 @@ public class EmailService {
     private String SMTP_STARTTLS_REQUIRED;
 
     public void sendNewPasswordEmail(String firstName, String password, String email) throws MessagingException {
-        Message message = createEmail(firstName, password, email);
+        String msg = "Hello " + firstName +
+                ", \n \n Your new account password is: " +
+                password +
+                "\n \n The Support Team";
+        Message message = createEmailMessage(EMAIL_SUBJECT, msg, email);
         SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
         smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
         smtpTransport.sendMessage(message, message.getAllRecipients());
         smtpTransport.close();
     }
 
-    private Message createEmail(String firstName, String password, String email)
+    public void sendEmail(String subject, String msg, String email) throws MessagingException{
+        Message message = createEmailMessage(subject, msg, email);
+        SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
+        smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
+        smtpTransport.sendMessage(message, message.getAllRecipients());
+        smtpTransport.close();
+    }
+
+    private Message createEmailMessage(String subject, String msg, String email)
             throws MessagingException {
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(FROM_EMAIL));
         message.setRecipients(TO, InternetAddress.parse(email, false));
         message.setRecipients(CC, InternetAddress.parse(CC_EMAIL, false));
-        message.setSubject(EMAIL_SUBJECT);
-        message.setText("Hello " + firstName +
-                ", \n \n Your new account password is: " +
-                password +
-                "\n \n The Support Team");
+        message.setSubject(subject);
+        message.setText(msg);
         message.setSentDate(new Date());
         message.saveChanges();
         return message;
