@@ -18,6 +18,7 @@ import static br.com.alura.alurapic.util.constant.FileConstant.*;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
+@RestController
 @RequestMapping("/api/v1/photo")
 public class PhotoController {
 
@@ -68,7 +69,7 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/{idPhoto}")
+    @PostMapping("/like/{idPhoto}")
     public void likePhoto(@RequestParam("username") String username,
                             @PathVariable String idPhoto)
             throws PhotoNotFounException, CommentNotFoundException, UserNotFoundException, IOException {
