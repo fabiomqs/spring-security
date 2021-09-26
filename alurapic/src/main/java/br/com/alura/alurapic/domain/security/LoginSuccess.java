@@ -20,7 +20,7 @@ public class LoginSuccess {
     private Integer id;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String sourceIp;

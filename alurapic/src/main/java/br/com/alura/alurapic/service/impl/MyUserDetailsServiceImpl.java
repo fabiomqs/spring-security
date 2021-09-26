@@ -43,11 +43,11 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
     }
 
     private void validateLoginAttempt(User user) {
-        if(user.isNotLocked()) {
+        if(user.isAccountNonLocked()) {
             if(loginAttemptService.hasExceededMaXAttempts(user.getUsername())) {
-                user.setNotLocked(false);
+                user.setAccountNonLocked(false);
             } else {
-                user.setNotLocked(true);
+                user.setAccountNonLocked(true);
             }
         } else {
             loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());

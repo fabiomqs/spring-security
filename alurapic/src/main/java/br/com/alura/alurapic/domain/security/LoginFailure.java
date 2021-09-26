@@ -22,7 +22,7 @@ public class LoginFailure {
     private String username;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String sourceIp;

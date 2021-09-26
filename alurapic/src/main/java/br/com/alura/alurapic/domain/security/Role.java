@@ -1,5 +1,6 @@
 package br.com.alura.alurapic.domain.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,10 +16,12 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 

@@ -18,15 +18,15 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-public class DefaultUserLoader implements CommandLineRunner {
+//@Component
+public class DefaultUserLoader { //implements CommandLineRunner {
 
     private final AuthorityRepository authorityRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
+    //@Override
     public void run(String... args) {
         if (authorityRepository.count() == 0) {
             loadSecurityData();

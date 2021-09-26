@@ -110,17 +110,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
     public User findUserByUsername(String username) throws UserNotFoundException {
-        return null;
+        User user = userRepository.findUserByUsername(username);
+        if(user == null)
+            throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
+        return user;
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return null;
+        return userRepository.findUserByEmail(email);
     }
 
 
@@ -142,7 +145,7 @@ public class UserServiceImpl implements UserService {
         currentUser.setUsername(newUsername);
         currentUser.setEmail(newEmail);
         currentUser.setActive(isActive);
-        currentUser.setNotLocked(isNonLocked);
+        currentUser.setAccountNonLocked(isNonLocked);
         currentUser.setRoles(getRoles(Arrays.asList(roles)));
 
         currentUser.setNotExpired(NotExpired);
@@ -165,7 +168,7 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
         }
         user.setActive(false);
-        user.setNotLocked(false);
+        user.setAccountNonLocked(false);
 
         user.setNotExpired(false);
         user.setCredentialsNotExpired(false);

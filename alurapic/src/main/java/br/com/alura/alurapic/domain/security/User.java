@@ -41,28 +41,33 @@ public class User {
 
     @CreationTimestamp
     @Column(updatable = false)
+    @JsonIgnore
     private Timestamp createdDate;
 
     @UpdateTimestamp
+    @JsonIgnore
     private Timestamp lastModifiedDate;
 
     @Builder.Default
     private boolean active = true;;
 
     @Builder.Default
-    private boolean notLocked = true;;
+    private boolean accountNonLocked = true;
 
     @Builder.Default
+    @JsonIgnore
     private boolean NotExpired = true;
 
     @Builder.Default
+    @JsonIgnore
     private boolean credentialsNotExpired = true;
 
     @Builder.Default
-    private boolean suspended = true;
+    private boolean suspended = false;
 
     @Builder.Default
-    private boolean banned = true;
+    @JsonIgnore
+    private boolean banned = false;
 
 
     @Singular
@@ -72,6 +77,7 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private Set<Role> roles;
 
+    @JsonIgnore
     @Transient
     public Set<GrantedAuthority> getAuthorities() {
         return this.roles.stream()
