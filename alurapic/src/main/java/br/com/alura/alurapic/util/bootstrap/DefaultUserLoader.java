@@ -28,19 +28,23 @@ public class DefaultUserLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        loadSecurityData();
+        if (authorityRepository.count() == 0) {
+            loadSecurityData();
+        }
     }
 
     private void loadSecurityData() {
         //user auths
         Authority createUser = authorityRepository.save(
                 Authority.builder().permission("user.create").build());
-        Authority readUser = authorityRepository.save(
-                Authority.builder().permission("user.read").build());
+        Authority listUser = authorityRepository.save(
+                Authority.builder().permission("user.list").build());
         Authority updateUser = authorityRepository.save(
                 Authority.builder().permission("user.update").build());
         Authority deleteUser = authorityRepository.save(
                 Authority.builder().permission("user.delete").build());
+
+
 
         Authority banUser = authorityRepository.save(
                 Authority.builder().permission("user.ban").build());
@@ -67,31 +71,62 @@ public class DefaultUserLoader implements CommandLineRunner {
         Authority blockPic = authorityRepository.save(
                 Authority.builder().permission("pic.block").build());
 
+        Authority createAuthority = authorityRepository.save(
+                Authority.builder().permission("authority.create").build());
+        Authority readAuthority = authorityRepository.save(
+                Authority.builder().permission("authority.read").build());
+        Authority updateAuthority = authorityRepository.save(
+                Authority.builder().permission("authority.update").build());
+        Authority deleteAuthority = authorityRepository.save(
+                Authority.builder().permission("authority.delete").build());
+
+        Authority createRole = authorityRepository.save(
+                Authority.builder().permission("role.create").build());
+        Authority readRole = authorityRepository.save(
+                Authority.builder().permission("role.read").build());
+        Authority updateRole = authorityRepository.save(
+                Authority.builder().permission("role.update").build());
+        Authority deleteRole = authorityRepository.save(
+                Authority.builder().permission("role.delete").build());
+
         Role adminRole = roleRepository.save(Role.builder().name("ADMIN").build());
         Role managerRole = roleRepository.save(Role.builder().name("MANAGER").build());
         Role userRole = roleRepository.save(Role.builder().name("USER").build());
 
-        adminRole.setAuthorities(new HashSet<>(Set.of(createUser,readUser,updateUser, deleteUser,
+        Authority createUserManager = authorityRepository.save(
+                Authority.builder().permission("user.manager.create").build());
+        Authority readUserManager = authorityRepository.save(
+                Authority.builder().permission("user.manager.read").build());
+        Authority updateUserManager = authorityRepository.save(
+                Authority.builder().permission("user.manager.update").build());
+        Authority deleteUserManager = authorityRepository.save(
+                Authority.builder().permission("user.manager.delete").build());
+
+        adminRole.setAuthorities(new HashSet<>(Set.of(createUser,listUser,updateUser, deleteUser,
                 createUserAdmin,readUserAdmin,updateUserAdmin,deleteUserAdmin,banUser, suspendUser,
+                createAuthority, readAuthority, updateAuthority, deleteAuthority,
+                createRole, readRole, updateRole, deleteRole,
+                createUserManager, readUserManager, updateUserManager, deleteUserManager,
                 createPic, updatePic, deletePic, blockPic)));
 
-        managerRole.setAuthorities(new HashSet<>(Set.of(createUser,readUser,updateUser, deleteUser,
+        managerRole.setAuthorities(new HashSet<>(Set.of(createUser,listUser,updateUser, deleteUser,
+                createUserManager, readUserManager, updateUserManager, deleteUserManager,
                 readUserAdmin,banUser, suspendUser, createPic, updatePic, deletePic, blockPic)));
 
-        userRole.setAuthorities(new HashSet<>(Set.of(readUser,updateUser, deleteUser,
+        userRole.setAuthorities(new HashSet<>(Set.of(listUser,updateUser, deleteUser,
                 createPic, updatePic, deletePic)));
 
         roleRepository.saveAll(Arrays.asList(adminRole, managerRole, userRole));
 
         userRepository.save(User.builder()
                 .username("admin")
-                .password(passwordEncoder.encode("admin"))
+                .password(passwordEncoder.encode("1234"))
                 .role(adminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("user")
-                .password(passwordEncoder.encode("password"))
+                .password(passwordEncoder.encode("1234"))
                 .role(userRole)
                 .build());
 
