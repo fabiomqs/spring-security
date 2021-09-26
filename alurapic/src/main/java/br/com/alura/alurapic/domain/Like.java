@@ -2,10 +2,8 @@ package br.com.alura.alurapic.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -13,17 +11,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Comment {
+public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Integer id;
-
-    @CreationTimestamp
-    private Date postDate;
-
-    private String comment;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,8 +28,4 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Transient
-    private Integer photoId;
-    @Transient
-    private String username;
 }

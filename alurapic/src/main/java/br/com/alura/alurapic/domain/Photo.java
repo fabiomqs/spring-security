@@ -1,5 +1,6 @@
 package br.com.alura.alurapic.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,12 +23,18 @@ public class Photo {
     private Integer id;
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING,
+            pattern = "dd/MM/yyyy hh:mm:ss",
+            locale = "pt-BR", timezone = "Brazil/East")
     private Date postDate;
     private String url;
     private  String description;
+
     @Builder.Default
     private boolean allowComments = true;
-    private Integer likes;
+
+    @Builder.Default
+    private Integer likes = 0;
 
     @Singular
     @OneToMany(cascade = CascadeType.ALL,
@@ -41,4 +48,5 @@ public class Photo {
 
     @Transient
     private String username;
+
 }

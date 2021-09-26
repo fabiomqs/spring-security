@@ -37,6 +37,7 @@ public class ResponseExceptionHandling extends ResponseExceptionHandler {
         return createHttpResponse(BAD_REQUEST, ACCOUNT_DISABLED);
     }
 
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<HttpResponse> badCredentialsException() {
         return createHttpResponse(BAD_REQUEST, INCORRECT_CREDENTIALS);
@@ -49,12 +50,18 @@ public class ResponseExceptionHandling extends ResponseExceptionHandler {
 
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<HttpResponse> lockedException() {
-        return createHttpResponse(UNAUTHORIZED, ACCOUNT_LOCKED);
+        return createHttpResponse(UNAUTHORIZED,
+                ACCOUNT_LOCKED);
     }
 
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<HttpResponse> tokenExpiredException(TokenExpiredException exception) {
         return createHttpResponse(UNAUTHORIZED, exception.getMessage());
+    }
+
+    @ExceptionHandler(PhotoNotFounException.class)
+    public ResponseEntity<HttpResponse> PhotoNotFoundException(PhotoNotFounException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(EmailExistException.class)
