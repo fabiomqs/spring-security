@@ -1,5 +1,6 @@
 package br.com.alura.alurapic.domain.security;
 
+import br.com.alura.alurapic.domain.Photo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -76,6 +77,12 @@ public class User {
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private Set<Role> roles;
+
+    //@Singular
+    //@JsonIgnore
+    //@OneToMany(cascade = CascadeType.ALL,
+    //        mappedBy = "user", orphanRemoval = true)
+    //private Set<Photo> photos;
 
     @JsonIgnore
     @Transient
