@@ -1,6 +1,6 @@
 package br.com.alura.alurapic.controller.api.v1;
 
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
 import br.com.alura.alurapic.exception.ErrorMappingHandling;
 import br.com.alura.alurapic.security.util.JwtTokenProvider;

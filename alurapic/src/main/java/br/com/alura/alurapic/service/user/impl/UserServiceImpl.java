@@ -1,7 +1,7 @@
 package br.com.alura.alurapic.service.user.impl;
 
 import br.com.alura.alurapic.domain.security.Role;
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
 import br.com.alura.alurapic.exception.domain.*;
 import br.com.alura.alurapic.repository.RoleRepository;
@@ -232,6 +232,14 @@ public class UserServiceImpl implements UserService {
                 "\n \n The Support Team";
         //emailService.sendEmail("Alura Pic - Account Banned", msg, user.getEmail());
         return savedUser;
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        User user = userRepository.findUserByUsername(username);
+        if(user == null)
+            return false;
+        return true;
     }
 
     private void authenticate(String username, String password) {

@@ -1,6 +1,6 @@
 package br.com.alura.alurapic.security.beans;
 
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

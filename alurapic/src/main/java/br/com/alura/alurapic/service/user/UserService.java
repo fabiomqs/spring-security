@@ -1,9 +1,8 @@
 package br.com.alura.alurapic.service.user;
 
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
 import br.com.alura.alurapic.exception.domain.*;
-import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
@@ -46,4 +45,6 @@ public interface UserService {
     User suspendUser(String username) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
 
     User banUser(String username) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
+
+    boolean userExists(String username);
 }

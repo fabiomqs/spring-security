@@ -1,6 +1,7 @@
-package br.com.alura.alurapic.domain.security;
+package br.com.alura.alurapic.domain;
 
 import br.com.alura.alurapic.domain.Photo;
+import br.com.alura.alurapic.domain.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

@@ -1,6 +1,6 @@
 package br.com.alura.alurapic.service.impl;
 
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
 import br.com.alura.alurapic.repository.UserRepository;
 import br.com.alura.alurapic.service.LoginAttemptService;

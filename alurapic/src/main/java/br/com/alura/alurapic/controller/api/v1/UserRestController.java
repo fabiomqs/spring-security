@@ -1,16 +1,10 @@
 package br.com.alura.alurapic.controller.api.v1;
 
 import br.com.alura.alurapic.domain.http.HttpResponse;
-import br.com.alura.alurapic.domain.security.User;
-import br.com.alura.alurapic.domain.security.UserPrincipal;
-import br.com.alura.alurapic.exception.ErrorMappingHandling;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.exception.domain.*;
-import br.com.alura.alurapic.security.perms.user.user.UserDeletePermission;
-import br.com.alura.alurapic.security.util.JwtTokenProvider;
 import br.com.alura.alurapic.service.user.UserService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static br.com.alura.alurapic.util.constant.FileConstant.*;
-import static br.com.alura.alurapic.util.constant.SecurityConstant.JWT_TOKEN_HEADER;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
@@ -103,6 +96,13 @@ public class UserRestController  {
     public User findUser(@PathVariable String username) throws UserNotFoundException {
         return userService.findUserByUsername(username);
     }
+
+    @ResponseStatus(OK)
+    @GetMapping("/exists/{username}")
+    public boolean userExists(@PathVariable String username) {
+        return userService.userExists(username);
+    }
+
 
     @ResponseStatus(OK)
     @GetMapping("/suspend/{username}")

@@ -1,7 +1,7 @@
 package br.com.alura.alurapic.repository;
 
 import br.com.alura.alurapic.domain.security.LoginFailure;
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Timestamp;

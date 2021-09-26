@@ -2,15 +2,13 @@ package br.com.alura.alurapic.util.bootstrap;
 
 import br.com.alura.alurapic.domain.security.Authority;
 import br.com.alura.alurapic.domain.security.Role;
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.repository.AuthorityRepository;
 import br.com.alura.alurapic.repository.RoleRepository;
 import br.com.alura.alurapic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;

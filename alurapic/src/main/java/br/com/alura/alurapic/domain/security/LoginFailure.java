@@ -1,5 +1,6 @@
 package br.com.alura.alurapic.domain.security;
 
+import br.com.alura.alurapic.domain.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

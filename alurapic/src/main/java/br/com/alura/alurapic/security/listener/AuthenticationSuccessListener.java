@@ -1,7 +1,7 @@
 package br.com.alura.alurapic.security.listener;
 
 import br.com.alura.alurapic.domain.security.LoginSuccess;
-import br.com.alura.alurapic.domain.security.User;
+import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
 import br.com.alura.alurapic.repository.LoginSuccessRepository;
 import br.com.alura.alurapic.service.LoginAttemptService;
