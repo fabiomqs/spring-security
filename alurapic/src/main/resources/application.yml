@@ -1,6 +1,20 @@
 jwt:
     secret: 'phND9slneUVAwGPI9Iakqhf0IfmyXV9lXRdIVrHEDE12Hf2a6Kt704fpznm3oiQy33K2w6ZbfYANK0'
 
+mail:
+    smtp: smtps
+    server: smtp.gmail.com
+    username: account@gmail.com
+    password: password
+    from: support@email.com
+    subject: Alura Pic - New Password
+    host: mail.smtp.host
+    auth: mail.smtp.auth
+    port: mail.smtp.port
+    default: 465
+    startttls: mail.smtp.starttls.enable
+    required: mail.smtp.starttls.required
+
 server:
     port: 8080
 #  error:
