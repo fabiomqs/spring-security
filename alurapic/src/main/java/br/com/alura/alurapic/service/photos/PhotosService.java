@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PhotosService {
 
-    List<Photo> getPhotos(String username);
+    List<Photo> getPhotos(String username) throws UserNotFoundException;
 
     Photo uploadPhotos(String username, String description,
                        boolean allowComments, MultipartFile profileImage) throws UserNotFoundException, IOException, NotAnImageFileException;

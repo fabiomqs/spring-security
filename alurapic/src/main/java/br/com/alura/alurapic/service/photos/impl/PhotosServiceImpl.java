@@ -52,8 +52,8 @@ public class PhotosServiceImpl implements PhotosService {
     }
 
     @Override
-    public List<Photo> getPhotos(String username) {
-        List<Photo> photos = photoRepository.findAll();
+    public List<Photo> getPhotos(String username) throws UserNotFoundException {
+        List<Photo> photos = photoRepository.findAllByUser(findUser(username));
         return photos.stream().map(photo -> {
             return prepareEntity(photo, false);
         }).collect(Collectors.toList());
@@ -93,14 +93,21 @@ public class PhotosServiceImpl implements PhotosService {
     @Override
     public void likePhoto(String username, Integer idPhoto)
             throws UserNotFoundException, PhotoNotFounException {
+        // getPhoto(idPhoto);
         Like like = likeRepository.getByUsernameAndPhoto(username, idPhoto);
-        if(like == null) {
+        if(like != null) {
+            Photo photo = like.getPhoto();
+            photo.lessLike();
             likeRepository.deleteById(like.getId());
+            photoRepository.save(photo);
         } else {
-            User user = findUser(username);
             Photo photo = findPhoto(idPhoto);
+            User user = findUser(username);
+            photo.plusLike();
             likeRepository.save(Like.builder().user(user).photo(photo).build());
+            photoRepository.save(photo);
         }
+
     }
 
     private void deletePhoto(Photo photo, User user) throws IOException {
@@ -169,8 +176,11 @@ public class PhotosServiceImpl implements PhotosService {
                 comment.setUsername(comment.getUser().getUsername());
                 return comment;
             }).collect(Collectors.toSet());
+            photo.setNumberOfcomments(photo.getComments().size());
         } else {
             photo.setComments(null);
+            //TODO - fix to get real count
+            photo.setNumberOfcomments(0);
         }
         return photo;
     }

@@ -49,4 +49,15 @@ public class Photo {
     @Transient
     private String username;
 
+    @Transient
+    private Integer numberOfcomments;
+
+    public void plusLike() {
+        likes += 1;
+    }
+
+    public void lessLike() {
+        likes -= 1;
+    }
+
 }

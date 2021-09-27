@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @RestController
-@RequestMapping("/api/v1/photo")
+@RequestMapping("/api/v1/photos")
 public class PhotoController {
 
     private final PhotosService photosService;
@@ -30,26 +30,21 @@ public class PhotoController {
 
     @ResponseStatus(OK)
     @GetMapping("/{username}")
-    public List<Photo> getPhotos(@PathVariable String username) {
+    public List<Photo> getPhotos(@PathVariable String username) throws UserNotFoundException {
         return photosService.getPhotos(username);
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/{username}/{idPhoto}")
+    @GetMapping(path = "/{username}/{idPhoto}", produces = IMAGE_JPEG_VALUE)
     public byte[] getPhoto(@PathVariable String username, @PathVariable String idPhoto)
             throws PhotoNotFounException, IOException {
         return Files.readAllBytes(Paths.get(USER_FOLDER + username +
-                PHOTOS_FOLDER + idPhoto));
-    }
-
-    @GetMapping(path = "/image/{username}/{fileName}", produces = IMAGE_JPEG_VALUE)
-    public byte[] getProfileImage(@PathVariable String username, @PathVariable String fileName) throws IOException {
-        return Files.readAllBytes(Paths.get(USER_FOLDER + username + FORWARD_SLASH + fileName));
+                PHOTOS_FOLDER + FORWARD_SLASH + idPhoto));
     }
 
     @ResponseStatus(OK)
     @PostMapping("/upload")
-    public Photo getPhotos(
+    public Photo uploadPhoto(
             @RequestParam("username")  String username,
                 @RequestParam("description") String description,
                 @RequestParam("allowComments") String allowComments,
@@ -69,7 +64,7 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/like/{idPhoto}")
+    @PostMapping("/photo/like/{idPhoto}")
     public void likePhoto(@RequestParam("username") String username,
                             @PathVariable String idPhoto)
             throws PhotoNotFounException, CommentNotFoundException, UserNotFoundException, IOException {
