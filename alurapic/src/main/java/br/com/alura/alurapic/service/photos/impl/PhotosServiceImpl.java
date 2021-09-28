@@ -22,12 +22,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static br.com.alura.alurapic.util.constant.FileConstant.*;
 import static br.com.alura.alurapic.util.constant.FileConstant.FILE_SAVED_IN_FILE_SYSTEM;
 import static br.com.alura.alurapic.util.constant.PhotoConstant.NO_PHOTO_FOUND_BY_ID;
+import static br.com.alura.alurapic.util.constant.SecurityConstant.TOKEN_PREFIX;
 import static br.com.alura.alurapic.util.constant.UserConstant.NO_USER_FOUND_BY_USERNAME;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.springframework.http.MediaType.*;
@@ -83,9 +85,6 @@ public class PhotosServiceImpl implements PhotosService {
         User user = findUser(username);
         Photo photo = findPhoto(idPhoto);
 
-        deletePhoto(photo, user);
-        //TODO Delete file
-
         photoRepository.deleteById(photo.getId());
     }
 
@@ -110,41 +109,26 @@ public class PhotosServiceImpl implements PhotosService {
 
     }
 
-    private void deletePhoto(Photo photo, User user) throws IOException {
-        Path photoPath = Paths.get(USER_FOLDER + user.getUsername() +
-                PHOTOS_FOLDER + FORWARD_SLASH + photo.getId() + DOT + JPG_EXTENSION)
-                .toAbsolutePath().normalize();
+//    private void deletePhoto(Photo photo, User user) throws IOException {
+//        Path photoPath = Paths.get(USER_FOLDER + user.getUsername() +
+//                PHOTOS_FOLDER + FORWARD_SLASH + photo.getId() + DOT + JPG_EXTENSION)
+//                .toAbsolutePath().normalize();
 
-        Files.deleteIfExists(photoPath);
+//        Files.deleteIfExists(photoPath);
 
-    }
+//    }
 
     private Photo savePhoto(User user, String description, boolean allowComments, MultipartFile photoImage)
             throws IOException, NotAnImageFileException {
-
-        if (photoImage == null) {
-            throw new NotAnImageFileException(IMAGE_NULL);
-        }
-        Photo photo = Photo.builder().allowComments(allowComments).description(description)
-                .user(user).build();
-        Photo savedPhoto = photoRepository.save(photo);
         if(!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE)
                 .contains(photoImage.getContentType())) {
             throw new NotAnImageFileException(photoImage.getOriginalFilename() + NOT_AN_IMAGE_FILE);
         }
-        Path userPhotosFolder = Paths.get(USER_FOLDER + user.getUsername() +
-                PHOTOS_FOLDER).toAbsolutePath().normalize();
-        if(!Files.exists(userPhotosFolder)) {
-            Files.createDirectories(userPhotosFolder);
-            log.info(DIRECTORY_CREATED + userPhotosFolder);
-        }
 
-        Files.copy(photoImage.getInputStream(),
-                userPhotosFolder.resolve(savedPhoto.getId() + DOT + JPG_EXTENSION), REPLACE_EXISTING);
-        savedPhoto.setUrl(setPhotoUrl(user.getUsername(), savedPhoto.getId()));
-        savedPhoto = photoRepository.save(savedPhoto);
+
+        Photo savedPhoto = photoRepository.save(Photo.builder().allowComments(allowComments).description(description)
+                .user(user).file64(photoImage.getBytes()).build());
         return savedPhoto;
-
     }
 
     private String setPhotoUrl(String username, Integer id) {
@@ -181,7 +165,15 @@ public class PhotosServiceImpl implements PhotosService {
             photo.setComments(null);
             //TODO - fix to get real count
             photo.setNumberOfcomments(0);
+            photo.setUrl(generateBase64Image(photo.getFile64()));
         }
         return photo;
+    }
+
+    private String generateBase64Image(byte[] file64) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(BASE_64_PREFIX);
+        builder.append(Base64.getEncoder().encodeToString(file64));
+        return builder.toString();
     }
 }
