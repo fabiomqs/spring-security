@@ -7,6 +7,7 @@ import { NotificationModule } from './core/notification/notification.module';
 import { ErrorsModule } from './errors/errors.module';
 import { PhotosModule } from './photos/photos.module';
 
+
 @NgModule({
   declarations: [
     AppComponent
