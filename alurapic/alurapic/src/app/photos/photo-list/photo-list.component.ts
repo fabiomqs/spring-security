@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SubSink } from 'subsink';
-import { Photo } from '../photo/photo';
 
-import { PhotoService } from '../photo/photo.service';
+import { SubSink } from 'subsink';
+
+import { Photo } from '../photo/photo';
 
 @Component({
   selector: 'app-photo-list',
@@ -18,22 +18,11 @@ export class PhotoListComponent implements OnInit, OnDestroy {
     filter:string = '';
 
     constructor(
-        private photoService:PhotoService,
         private activatedRoute: ActivatedRoute
     ) { }
  
     ngOnInit(): void {
-        const username = this.activatedRoute.snapshot.params.username;
-        const dest = this.activatedRoute.snapshot.params.dest;
-        this.subs.add(
-            this.photoService.listFromUser(username)
-                .subscribe(
-                    photos => {
-                        this.photos = photos
-                        
-                    },
-                   err => console.log(err))
-        )
+        this.photos = this.activatedRoute.snapshot.data['photos'];
     }
     
     ngOnDestroy(): void {
