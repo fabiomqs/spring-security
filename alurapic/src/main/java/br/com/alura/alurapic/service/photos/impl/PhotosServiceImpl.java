@@ -12,26 +12,23 @@ import br.com.alura.alurapic.repository.PhotoRepository;
 import br.com.alura.alurapic.repository.UserRepository;
 import br.com.alura.alurapic.service.photos.PhotosService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static br.com.alura.alurapic.util.constant.FileConstant.*;
-import static br.com.alura.alurapic.util.constant.FileConstant.FILE_SAVED_IN_FILE_SYSTEM;
 import static br.com.alura.alurapic.util.constant.PhotoConstant.NO_PHOTO_FOUND_BY_ID;
-import static br.com.alura.alurapic.util.constant.SecurityConstant.TOKEN_PREFIX;
 import static br.com.alura.alurapic.util.constant.UserConstant.NO_USER_FOUND_BY_USERNAME;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.springframework.http.MediaType.*;
 
 @Slf4j
@@ -57,6 +54,15 @@ public class PhotosServiceImpl implements PhotosService {
     public List<Photo> getPhotos(String username) throws UserNotFoundException {
         List<Photo> photos = photoRepository.findAllByUser(findUser(username));
         return photos.stream().map(photo -> {
+            return prepareEntity(photo, false);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Photo> getPhotos(String username, int page, int size) throws UserNotFoundException {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Photo> photosPage = photoRepository.findAllByUser(findUser(username), pageable);
+        return photosPage.stream().map(photo -> {
             return prepareEntity(photo, false);
         }).collect(Collectors.toList());
     }

@@ -2,6 +2,8 @@ package br.com.alura.alurapic.repository;
 
 import br.com.alura.alurapic.domain.Photo;
 import br.com.alura.alurapic.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +18,7 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
     Photo fetchById(Integer id);
 
     List<Photo> findAllByUser(User user);
+
+    List<Photo> findAllByUser(User user, Pageable pageable);
+
 }

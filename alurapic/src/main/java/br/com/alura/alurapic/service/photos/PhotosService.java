@@ -13,6 +13,8 @@ public interface PhotosService {
 
     List<Photo> getPhotos(String username) throws UserNotFoundException;
 
+    List<Photo> getPhotos(String username, int page, int size) throws UserNotFoundException;
+
     Photo uploadPhotos(String username, String description,
                        boolean allowComments, MultipartFile profileImage) throws UserNotFoundException, IOException, NotAnImageFileException;
 

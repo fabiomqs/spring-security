@@ -35,6 +35,15 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
+    @GetMapping(path = "/{username}", params = { "page" })
+    public List<Photo> getPhotosPaginated(
+            @PathVariable String username,
+            @RequestParam("page") int page,
+            @RequestParam(value = "size", defaultValue= "6") int size) throws UserNotFoundException {
+        return photosService.getPhotos(username, page, size);
+    }
+
+    @ResponseStatus(OK)
     @GetMapping(path = "/{username}/{idPhoto}", produces = IMAGE_JPEG_VALUE)
     public byte[] getPhoto(@PathVariable String username, @PathVariable String idPhoto)
             throws PhotoNotFounException, IOException {
