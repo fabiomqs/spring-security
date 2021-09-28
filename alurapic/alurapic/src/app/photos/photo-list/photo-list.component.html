@@ -8,7 +8,7 @@
             #searchInput="ngModel"
             ngModel
             autofocus
-            (ngModelChange)="filter = searchInput.value"
+            (ngModelChange)="debounce.next(searchInput.value)"
             >
     </form>
 </div>
