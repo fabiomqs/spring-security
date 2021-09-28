@@ -27,8 +27,8 @@ public class Photo {
             pattern = "dd/MM/yyyy hh:mm:ss",
             locale = "pt-BR", timezone = "Brazil/East")
     private Date postDate;
-    private String url;
-    private  String description;
+
+    private String description;
 
     @Builder.Default
     private boolean allowComments = true;
@@ -46,11 +46,19 @@ public class Photo {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Lob
+    @Column(name = "file64", columnDefinition = "LONGBLOB")
+    @JsonIgnore
+    private byte[] file64;
+
     @Transient
     private String username;
 
     @Transient
     private Integer numberOfcomments;
+
+    @Transient
+    private String url;
 
     public void plusLike() {
         likes += 1;
