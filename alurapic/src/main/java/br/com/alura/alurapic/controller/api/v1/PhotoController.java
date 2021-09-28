@@ -39,7 +39,7 @@ public class PhotoController {
     public List<Photo> getPhotosPaginated(
             @PathVariable String username,
             @RequestParam("page") int page,
-            @RequestParam(value = "size", defaultValue= "6") int size) throws UserNotFoundException {
+            @RequestParam(value = "size", defaultValue= "12") int size) throws UserNotFoundException {
         return photosService.getPhotos(username, page, size);
     }
 
