@@ -8,11 +8,12 @@ import { PhotoFormComponent } from './photo-form/photo-form.component';
 import { PhotosComponent } from './photo-list/photos/photos.component';
 import { FormsModule } from '@angular/forms';
 import { FiterByDescriptionPipe } from './photo-list/fiter-by-description.pipe';
+import { LoadButtonComponent } from './photo-list/load-button/load-button.component';
 
 
 
 @NgModule({
-  declarations: [PhotoComponent, PhotoListComponent, PhotoFormComponent, PhotosComponent, FiterByDescriptionPipe],
+  declarations: [PhotoComponent, PhotoListComponent, PhotoFormComponent, PhotosComponent, FiterByDescriptionPipe, LoadButtonComponent],
   imports: [
     CommonModule,
     HttpClientModule,

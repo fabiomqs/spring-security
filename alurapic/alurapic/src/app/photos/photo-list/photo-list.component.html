@@ -12,5 +12,10 @@
             >
     </form>
 </div>
-{{filter}}
+
 <app-photos [photos]="photos | fiterByDescription: filter"></app-photos>
+
+<app-load-button 
+    (click)="loadMore()" 
+    [hasMore]="hasMore">
+</app-load-button>
