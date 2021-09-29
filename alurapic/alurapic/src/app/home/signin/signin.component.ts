@@ -42,7 +42,6 @@ export class SigninComponent implements OnInit, OnDestroy {
             this.authService.authenticate(user)
                 .subscribe(
                     (response: HttpResponse<User>) => {
-                        console.log(response);
                         //this.router.navigateByUrl('user/' + username);
                         this.router.navigate(['user', username]);
                     },
