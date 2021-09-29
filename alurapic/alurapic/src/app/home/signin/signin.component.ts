@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { User } from 'src/app/model/user';
 import { SubSink } from 'subsink';
+import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class SigninComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         private authService: AuthService,
         private notificationService: NotificationService,
-        private router: Router
+        private router: Router,
+        private platformDetectorService: PlatformDetectorService
     ) { }
 
     ngOnInit(): void {
@@ -47,7 +49,8 @@ export class SigninComponent implements OnInit, OnDestroy {
                     (errorResponse: HttpErrorResponse) => {
                         console.log(errorResponse);
                         this.loginForm.reset();
-                        this.userNameInput.nativeElement.focus();
+                        this.platformDetectorService.isPlatformBrowser &&
+                            this.userNameInput.nativeElement.focus();
                         this.notificationService
                             .sendNotificationError(errorResponse.error.message);
                     }
