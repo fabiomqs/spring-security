@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-load-button',
-  templateUrl: './load-button.component.html',
-  styleUrls: ['./load-button.component.css']
+  templateUrl: './load-button.component.html'
 })
 export class LoadButtonComponent implements OnInit {
 
