@@ -1,20 +1,23 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { APIURL } from 'src/app/core/tokens';
 import { Photo } from './photo';
-
-const API = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
 
-    constructor(private http:HttpClient) { }
+    constructor(
+        private http:HttpClient,
+        @Inject(APIURL) private apiUrl: string,
+        
+    ) { }
 
     listFromUser(username: string):Observable<Photo[]> {
         return this.http
-                .get<Photo[]>(`${API}/api/v1/photos/${username}`)
+                .get<Photo[]>(`${this.apiUrl}/api/v1/photos/${username}`)
     }
 
     listFromUserPaginated(username: string, page: number, size:number):Observable<Photo[]> {
@@ -22,7 +25,7 @@ export class PhotoService {
                 .append('page', page.toString())
                 .append('size', size.toString());
         return this.http
-                .get<Photo[]>(`${API}/api/v1/photos/${username}`, { params })
+                .get<Photo[]>(`${this.apiUrl}/api/v1/photos/${username}`, { params })
     }
 
 }

@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { PAGESIZE } from 'src/app/core/tokens';
 
 import { SubSink } from 'subsink';
 
@@ -21,14 +22,13 @@ export class PhotoListComponent implements OnInit, OnDestroy {
     
     hasMore: boolean = false;
     currentePage: number = 0;
-    //TODO - put page size on enviroments
-    pageSize: number = 12;
     userName: string = '';
 
 
     constructor(
         private photoService: PhotoService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        @Inject(PAGESIZE) private pageSize: number
     ) { }
  
     ngOnInit(): void {

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { PAGESIZE } from 'src/app/core/tokens';
 
 import { Photo } from '../photo/photo';
 import { PhotoService } from '../photo/photo.service';
@@ -10,11 +11,13 @@ import { PhotoService } from '../photo/photo.service';
 })
 export class PhotoListResolver implements Resolve<Observable<Photo[]>> {
 
-    constructor(private photoService: PhotoService) {}
+    constructor(
+        private photoService: PhotoService,
+        @Inject(PAGESIZE) private pageSize: number
+    ) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Photo[]> {
         const userName = route.params.username;
-        //TODO - put page size on enviroments
-        return this.photoService.listFromUserPaginated(userName, 0, 12);
+        return this.photoService.listFromUserPaginated(userName, 0, this.pageSize);
     }
 }
