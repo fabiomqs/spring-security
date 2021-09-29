@@ -8,6 +8,7 @@ import { LoadButtonComponent } from './load-button/load-button.component';
 import { FiterByDescriptionPipe } from './fiter-by-description.pipe';
 import { PhotoModule } from '../photo/photo.module';
 import { CardModule } from 'src/app/shared/components/card/card.module';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -16,7 +17,8 @@ import { CardModule } from 'src/app/shared/components/card/card.module';
       PhotoListComponent,
       PhotosComponent,
       LoadButtonComponent,
-      FiterByDescriptionPipe
+      FiterByDescriptionPipe,
+      SearchComponent
   ],
   imports: [
     CommonModule,

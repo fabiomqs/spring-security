@@ -18,7 +18,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     photos:Photo[] = [];
     filter:string = '';
-    debounce: Subject<string> = new Subject<string>();
+    
     hasMore: boolean = false;
     currentePage: number = 0;
     //TODO - put page size on enviroments
@@ -39,11 +39,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
         } else {
             this.hasMore = true;
         }
-        this.subs.add(
-            this.debounce
-            .pipe(debounceTime(300))
-            .subscribe(filter => this.filter = filter)
-        );
+        
     }
 
     loadMore() {
@@ -51,6 +47,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
             this.photoService
                 .listFromUserPaginated(this.userName, ++this.currentePage, this.pageSize)
                 .subscribe(photos => {
+                    this.filter = '';
                     this.photos = this.photos.concat(photos);
                     if(photos.length < this.pageSize)
                         this.hasMore = false;
