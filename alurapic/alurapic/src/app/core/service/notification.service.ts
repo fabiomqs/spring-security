@@ -7,8 +7,22 @@ export class NotificationService {
 
     constructor(private notifier:NotifierService) { }
 
-    public notify(type: NotificationType, message: string): void {
+    private notify(type: NotificationType, message: string): void {
         this.notifier.notify(type, message);
+    }
+
+    sendNotificationError(message: string):void {
+        if(message) 
+            this.notify(NotificationType.ERROR, message);
+        else
+            this.notify(NotificationType.ERROR, 'An Unknow error has occurred!');
+    }
+
+    sendNotification(type: NotificationType, message: string):void {
+        if(message) 
+            this.notify(type, message);
+        else
+            this.notify(NotificationType.ERROR, 'An Unknow error has occurred!');
     }
 
 }

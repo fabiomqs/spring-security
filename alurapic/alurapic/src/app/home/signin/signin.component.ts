@@ -1,5 +1,7 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
@@ -18,7 +20,8 @@ export class SigninComponent implements OnInit, OnDestroy {
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -35,11 +38,16 @@ export class SigninComponent implements OnInit, OnDestroy {
         this.subs.add(
             this.authService.authenticate(user)
                 .subscribe(
-                    ret => console.log(ret),
-                    err => {
-                        console.log(err);
+                    (response: HttpResponse<User>) => {
+                        console.log(response);
+                        //this.router.navigateByUrl('user/' + username);
+                        this.router.navigate(['user', username]);
+                    },
+                    (errorResponse: HttpErrorResponse) => {
+                        console.log(errorResponse);
                         this.loginForm.reset();
-                        this.notificationService.notify(NotificationType.ERROR, 'Invalid Username or Password!')
+                        this.notificationService
+                            .sendNotificationError(errorResponse.error.message);
                     }
                 )
         );
