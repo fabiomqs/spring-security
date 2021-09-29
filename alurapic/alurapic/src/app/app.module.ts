@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotificationModule } from './core/notification/notification.module';
 import { ErrorsModule } from './errors/errors.module';
+import { HomeModule } from './home/home.module';
 import { PhotosModule } from './photos/photos.module';
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PhotosModule } from './photos/photos.module';
     AppRoutingModule,
     PhotosModule,
     ErrorsModule,
-    NotificationModule
+    NotificationModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
