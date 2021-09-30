@@ -14,19 +14,19 @@ import { DarkenOnHoverModule } from 'src/app/shared/directives/darken-on-hover/d
 
 
 @NgModule({
-  declarations: [
-      PhotoListComponent,
-      PhotosComponent,
-      LoadButtonComponent,
-      FiterByDescriptionPipe,
-      SearchComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    PhotoModule,
-    CardModule,
-    DarkenOnHoverModule
-  ]
+    declarations: [
+        PhotoListComponent,
+        PhotosComponent,
+        LoadButtonComponent,
+        FiterByDescriptionPipe,
+        SearchComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        PhotoModule,
+        CardModule,
+        DarkenOnHoverModule
+    ]
 })
 export class PhotoListModule { }

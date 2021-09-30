@@ -8,7 +8,7 @@ import { TokenService } from '../jwt-token/token.service';
 import { APIURL } from '../tokens';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
 

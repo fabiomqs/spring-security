@@ -5,7 +5,7 @@ import { APIURL } from 'src/app/core/tokens';
 import { Photo } from './photo';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PhotoService {
 

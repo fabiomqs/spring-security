@@ -10,8 +10,8 @@ import { Photo } from '../photo/photo';
 import { PhotoService } from '../photo/photo.service';
 
 @Component({
-  selector: 'app-photo-list',
-  templateUrl: './photo-list.component.html'
+    selector: 'app-photo-list',
+    templateUrl: './photo-list.component.html'
 })
 export class PhotoListComponent implements OnInit, OnDestroy {
 

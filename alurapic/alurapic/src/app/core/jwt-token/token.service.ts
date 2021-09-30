@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 const KEY = 'atuhToken';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class TokenService {
 

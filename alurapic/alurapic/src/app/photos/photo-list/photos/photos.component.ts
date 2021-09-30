@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { Photo } from '../../photo/photo';
 
 @Component({
-  selector: 'app-photos',
-  templateUrl: './photos.component.html'
+    selector: 'app-photos',
+    templateUrl: './photos.component.html'
 })
 export class PhotosComponent implements OnInit, OnChanges {
 

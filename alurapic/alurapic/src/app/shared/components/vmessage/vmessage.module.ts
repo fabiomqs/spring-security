@@ -5,10 +5,10 @@ import { VmessageComponent } from './vmessage.component';
 
 
 @NgModule({
-  declarations: [VmessageComponent],
-  imports: [
-    CommonModule
-  ],
-  exports: [VmessageComponent]
+    declarations: [VmessageComponent],
+    imports: [
+        CommonModule
+    ],
+    exports: [VmessageComponent]
 })
 export class VmessageModule { }

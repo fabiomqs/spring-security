@@ -8,11 +8,13 @@ import { PhotoModule } from './photo/photo.module';
 
 
 @NgModule({
-  imports: [
-    PhotoListModule,
-    PhotoFormModule,
-    PhotoModule
-  ],
-  exports: [ PhotoComponent ]
+    imports: [
+        PhotoListModule,
+        PhotoFormModule,
+        PhotoModule
+    ],
+    exports: [ 
+        PhotoComponent
+    ]
 })
 export class PhotosModule { }

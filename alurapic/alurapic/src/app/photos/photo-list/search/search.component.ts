@@ -4,8 +4,8 @@ import { debounceTime } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html'
+    selector: 'app-search',
+    templateUrl: './search.component.html'
 })
 export class SearchComponent implements OnInit, OnDestroy {
 

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Photo } from '../photo/photo';
 
 @Pipe({
-  name: 'fiterByDescription'
+    name: 'fiterByDescription'
 })
 export class FiterByDescriptionPipe implements PipeTransform {
 

@@ -10,7 +10,7 @@ import { PlatformDetectorService } from 'src/app/core/platform-detector/platform
 
 
 @Component({
-  templateUrl: './signin.component.html'
+    templateUrl: './signin.component.html'
 })
 export class SigninComponent implements OnInit, OnDestroy {
 
