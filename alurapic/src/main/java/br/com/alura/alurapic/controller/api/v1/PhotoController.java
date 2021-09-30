@@ -5,7 +5,7 @@ import br.com.alura.alurapic.exception.domain.CommentNotFoundException;
 import br.com.alura.alurapic.exception.domain.NotAnImageFileException;
 import br.com.alura.alurapic.exception.domain.PhotoNotFounException;
 import br.com.alura.alurapic.exception.domain.UserNotFoundException;
-import br.com.alura.alurapic.service.photos.PhotosService;
+import br.com.alura.alurapic.service.PhotosService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

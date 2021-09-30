@@ -1,4 +1,4 @@
-package br.com.alura.alurapic.service.photos;
+package br.com.alura.alurapic.service;
 
 import br.com.alura.alurapic.domain.Comment;
 import br.com.alura.alurapic.domain.Photo;

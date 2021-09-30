@@ -4,7 +4,7 @@ import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
 import br.com.alura.alurapic.exception.ErrorMappingHandling;
 import br.com.alura.alurapic.security.util.JwtTokenProvider;
-import br.com.alura.alurapic.service.user.UserService;
+import br.com.alura.alurapic.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package br.com.alura.alurapic.service.photos.impl;
+package br.com.alura.alurapic.service.impl;
 
 import br.com.alura.alurapic.domain.Like;
 import br.com.alura.alurapic.domain.Photo;
@@ -10,7 +10,7 @@ import br.com.alura.alurapic.repository.CommentRepository;
 import br.com.alura.alurapic.repository.LikeRepository;
 import br.com.alura.alurapic.repository.PhotoRepository;
 import br.com.alura.alurapic.repository.UserRepository;
-import br.com.alura.alurapic.service.photos.PhotosService;
+import br.com.alura.alurapic.service.PhotosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

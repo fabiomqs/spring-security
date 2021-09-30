@@ -3,7 +3,7 @@ package br.com.alura.alurapic.controller.api.v1;
 import br.com.alura.alurapic.domain.http.HttpResponse;
 import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.exception.domain.*;
-import br.com.alura.alurapic.service.user.UserService;
+import br.com.alura.alurapic.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,10 +40,11 @@ public class UserRestController  {
     public User register(@RequestParam("firstName") String firstName,
                          @RequestParam("lastName") String lastName,
                          @RequestParam("username") String username,
+                         @RequestParam("password") String password,
                          @RequestParam("email") String email)
             throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
 
-        User newUser = userService.register(firstName, lastName, username, email);
+        User newUser = userService.register(firstName, lastName, username, password, email);
         return newUser;
     }
 

@@ -1,4 +1,4 @@
-package br.com.alura.alurapic.service.photos.impl;
+package br.com.alura.alurapic.service.impl;
 
 import br.com.alura.alurapic.domain.Comment;
 import br.com.alura.alurapic.domain.Photo;
@@ -7,10 +7,9 @@ import br.com.alura.alurapic.exception.domain.CommentNotFoundException;
 import br.com.alura.alurapic.exception.domain.PhotoNotFounException;
 import br.com.alura.alurapic.exception.domain.UserNotFoundException;
 import br.com.alura.alurapic.repository.CommentRepository;
-import br.com.alura.alurapic.repository.LikeRepository;
 import br.com.alura.alurapic.repository.PhotoRepository;
 import br.com.alura.alurapic.repository.UserRepository;
-import br.com.alura.alurapic.service.photos.CommentService;
+import br.com.alura.alurapic.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

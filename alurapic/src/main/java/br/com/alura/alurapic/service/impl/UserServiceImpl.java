@@ -1,4 +1,4 @@
-package br.com.alura.alurapic.service.user.impl;
+package br.com.alura.alurapic.service.impl;
 
 import br.com.alura.alurapic.domain.security.Role;
 import br.com.alura.alurapic.domain.User;
@@ -9,7 +9,7 @@ import br.com.alura.alurapic.repository.UserRepository;
 import br.com.alura.alurapic.security.util.JwtTokenProvider;
 import br.com.alura.alurapic.service.EmailService;
 import br.com.alura.alurapic.service.LoginAttemptService;
-import br.com.alura.alurapic.service.user.UserService;
+import br.com.alura.alurapic.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,12 +80,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public User register(String firstName, String lastName, String username, String email)
+    public User register(String firstName, String lastName, String username, String password, String email)
             throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
         validateNewUsernameAndEmail(StringUtils.EMPTY, username, email);
-        User user = buildUser(firstName, lastName,username, email, Arrays.asList("USER"));
+        User user = buildUser(firstName, lastName,username, password, email, Arrays.asList("USER"));
         User savedUser = userRepository.save(user);
-        log.info(username + " new password: " + user.getTransientPassword());
+        //log.info(username + " new password: " + user.getTransientPassword());
         //
         //emailService.sendNewPasswordEmail(firstName, user.getTransientPassword(), email);
         return savedUser;
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
             throws UserNotFoundException, UsernameExistException, EmailExistException, IOException,
             NotAnImageFileException {
         validateNewUsernameAndEmail(StringUtils.EMPTY, username, email);
-        User user = buildUser(firstName, lastName,username, email,Arrays.asList(roles));
+        User user = buildUser(firstName, lastName,username, null, email,Arrays.asList(roles));
         User savedUser = userRepository.save(user);
         saveProfileImage(user, profileImage);
         log.info(username + " new password: " + user.getTransientPassword());
@@ -257,16 +257,19 @@ public class UserServiceImpl implements UserService {
         return passwordEncoder.encode(password);
     }
 
-    private User buildUser(String firstName, String lastName, String username, String email,
+    private User buildUser(String firstName, String lastName, String username, String password, String email,
                            List<String> roleNames) {
-        String password = generatePassword();
-        User user = User.builder().firstName(firstName)
+        User.UserBuilder builder = User.builder().firstName(firstName)
                 .lastName(lastName).username(username).email(email)
-                .password(encodePassword(password)).transientPassword(password)
+
                 .roles(getRoles(roleNames))
-                .profileImageUrl(getTemporaryProfileImageUrl(username))
-                .build();
-        return user;
+                .profileImageUrl(getTemporaryProfileImageUrl(username));
+        if(password == null || password == "") {
+            password = generatePassword();
+            builder.transientPassword(password);
+        }
+        builder.password(encodePassword(password));
+        return builder.build();
     }
 
     private String getTemporaryProfileImageUrl(String username) {

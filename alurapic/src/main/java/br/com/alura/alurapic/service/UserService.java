@@ -1,4 +1,4 @@
-package br.com.alura.alurapic.service.user;
+package br.com.alura.alurapic.service;
 
 import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.domain.security.UserPrincipal;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserService {
     UserPrincipal login(User user);
 
-    User register(String firstName, String lastName, String username, String email)
+    User register(String firstName, String lastName, String username, String password, String email)
             throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
 
     List<User> getUsers();
