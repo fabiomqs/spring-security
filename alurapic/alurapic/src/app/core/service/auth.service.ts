@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HeaderType } from 'src/app/enums/header-type.enum';
 import { User } from 'src/app/model/user';
+import { TokenService } from '../jwt-token/token.service';
 import { APIURL } from '../tokens';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class AuthService {
 
     constructor(
         private httpClient:HttpClient,
+        private tokenService:TokenService,
         @Inject(APIURL) private apiUrl: string
     ) { }
 
@@ -22,11 +24,9 @@ export class AuthService {
             .pipe(tap(
                 (response: HttpResponse<User>) => {
                     const token = response.headers.get(HeaderType.JWT_TOKEN);
-                    console.log(token);
+                    this.tokenService.setToken(token);
                 }
             ));
     }
-
-    
 
 }
