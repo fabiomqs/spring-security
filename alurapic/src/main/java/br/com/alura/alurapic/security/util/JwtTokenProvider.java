@@ -38,6 +38,10 @@ public class JwtTokenProvider {
                 .withIssuedAt(new Date())
                 .withSubject(userPrincipal.getUsername())
                 .withArrayClaim(AUTHORITIES, claims)
+                .withClaim("firstName", userPrincipal.getUser().getFirstName())
+                .withClaim("lastName", userPrincipal.getUser().getLastName())
+                .withClaim("email", userPrincipal.getUser().getEmail())
+                .withClaim("username", userPrincipal.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(secret.getBytes()));
 
