@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HeaderType } from 'src/app/enums/header-type.enum';
 import { User } from 'src/app/model/user';
-import { APIURL } from '../tokens';
-import { UserService } from '../user/user.service';
+import { APIURL } from '../../tokens';
+import { UserService } from '../../user/user.service';
 
 @Injectable({
     providedIn: 'root'

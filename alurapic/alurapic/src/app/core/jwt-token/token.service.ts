@@ -9,11 +9,11 @@ export class TokenService {
 
     constructor() { }
 
-    hasToken() {
+    hasToken():boolean {
         return !!this.getToken();
     }
 
-    setToken(token: string) {
+    setToken(token: string):void {
         window.localStorage.setItem(KEY, token);
     }
 
@@ -21,7 +21,7 @@ export class TokenService {
         return window.localStorage.getItem(KEY);
     }
 
-    removeToken() {
+    removeToken():void {
         window.localStorage.removeItem(KEY);
     }
 

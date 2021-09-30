@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from 'src/app/core/auth/service/auth.service';
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { User } from 'src/app/model/user';
 import { SubSink } from 'subsink';
