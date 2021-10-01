@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { PAGESIZE } from 'src/app/core/tokens';
 
 import { Photo } from '../photo/photo';
-import { PhotoService } from '../photo/photo.service';
+import { PhotoService } from '../photo/service/photo.service';
 
 @Injectable({
     providedIn: 'root'

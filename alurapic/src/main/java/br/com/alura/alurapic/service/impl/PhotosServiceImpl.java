@@ -14,6 +14,8 @@ import br.com.alura.alurapic.service.PhotosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +62,7 @@ public class PhotosServiceImpl implements PhotosService {
 
     @Override
     public List<Photo> getPhotos(String username, int page, int size) throws UserNotFoundException {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "postDate"));
         List<Photo> photosPage = photoRepository.findAllByUser(findUser(username), pageable);
         return photosPage.stream().map(photo -> {
             return prepareEntity(photo, false);

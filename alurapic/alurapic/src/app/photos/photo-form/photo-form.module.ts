@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PhotoFormComponent } from './photo-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { VmessageModule } from 'src/app/shared/components/vmessage/vmessage.module';
 
 
 
@@ -9,7 +11,9 @@ import { PhotoFormComponent } from './photo-form.component';
         PhotoFormComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule,
+        VmessageModule
     ]
 })
 export class PhotoFormModule { }
