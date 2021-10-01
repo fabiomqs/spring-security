@@ -4,12 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotificationModule } from './core/notification/notification.module';
-
 import { ErrorsModule } from './errors/errors.module';
-import { HomeModule } from './home/home.module';
 import { PhotosModule } from './photos/photos.module';
 import { APIURL, PAGESIZE } from './core/tokens';
-
 import {environment} from '../environments/environment';
 import { CoreModule } from './core/core.module';
 
@@ -19,12 +16,11 @@ import { CoreModule } from './core/core.module';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         PhotosModule,
         ErrorsModule,
-        HomeModule,
+        CoreModule,
         NotificationModule,
-        CoreModule
+        AppRoutingModule
     ],
     providers: [
         {provide: APIURL, useValue: environment.apiUrl},
