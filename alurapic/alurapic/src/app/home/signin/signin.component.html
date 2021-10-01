@@ -10,7 +10,7 @@
             autofocus>  
         <app-vmessage
             text="User name is required!"
-            *ngIf="loginForm.get('userName').errors?.required"
+            *ngIf="loginForm.get('userName').errors?.required && loginForm.get('userName').touched"
         ></app-vmessage>
     </div>
 
@@ -21,7 +21,7 @@
             placeholder="password">      
         <app-vmessage
             text="Password is required!"
-            *ngIf="loginForm.get('password').errors?.required"
+            *ngIf="loginForm.get('password').errors?.required && loginForm.get('password').touched"
         ></app-vmessage>
     </div>
 
@@ -34,4 +34,4 @@
 
 </form>
 
-<p>Not a user?<a>Register now</a></p>
+<p>Not a user?<a [routerLink]="['signup']">Register now</a></p>

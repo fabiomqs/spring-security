@@ -1,14 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { SubSink } from 'subsink';
+
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { NewUser } from 'src/app/model/new-user';
 import { User } from 'src/app/model/user';
 import { lowerCaseValidator } from 'src/app/shared/validators/lower-case.validator';
-import { SubSink } from 'subsink';
 import { SignupService } from './service/signup.service';
 import { UserNotTakenValidatorService } from './service/user-not-taken.validator.service';
+import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
     selector: 'app-signup',
@@ -19,12 +22,14 @@ export class SignupComponent implements OnInit, OnDestroy {
     private subs = new SubSink();
 
     signupForm: FormGroup;
+    @ViewChild('inputFirstName') inputFirstName: ElementRef<HTMLInputElement>;
 
     constructor(
         private formBuilder: FormBuilder,
         private signupService: SignupService,
         private notificationService:NotificationService,
         private router: Router,
+        private platformDetectorService: PlatformDetectorService,
         private userNotTakenValidatorService:UserNotTakenValidatorService
     ) { }
     
@@ -86,6 +91,9 @@ export class SignupComponent implements OnInit, OnDestroy {
                 ]
             ]
         });
+
+    //    this.platformDetectorService.isPlatformBrowser &&
+    //                        this.inputFirstName.nativeElement.focus();
     }
 
     ngOnDestroy(): void {

@@ -2,10 +2,12 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { SubSink } from 'subsink';
+
 import { AuthService } from 'src/app/core/auth/service/auth.service';
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { User } from 'src/app/model/user';
-import { SubSink } from 'subsink';
 import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
 
 
@@ -32,6 +34,8 @@ export class SigninComponent implements OnInit, OnDestroy {
             userName: ['', Validators.required],
             password: ['', Validators.required]
         });
+        //this.platformDetectorService.isPlatformBrowser &&
+        //                    this.userNameInput.nativeElement.focus();
     }
 
     login() {
