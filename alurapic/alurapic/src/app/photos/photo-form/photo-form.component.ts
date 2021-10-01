@@ -17,6 +17,7 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
 
     photoForm: FormGroup;
     file: File;
+    preview: string;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -56,7 +57,10 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
     onPhotoChange(event: Event):void {
         const target = event.target as HTMLInputElement;
         const file: File = (target.files as FileList)[0];
-        this.file = file;       
+        this.file = file;    
+        const reader = new FileReader();   
+        reader.onload = ev => this.preview = ev.target.result as string;
+        reader.readAsDataURL(this.file);
     }
 
     ngOnDestroy(): void {
