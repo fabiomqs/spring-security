@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { APIURL } from 'src/app/core/tokens';
@@ -30,15 +30,15 @@ export class PhotoService {
                 .get<Photo[]>(`${this.apiUrl}/api/v1/photos/user/${username}`, { params })
     }
 
-    upload(description: string, allowComments: boolean, file: File):Observable<Photo> {
+    upload(description: string, allowComments: boolean, photo: string):Observable<HttpEvent<Photo>> {
         const formData = new FormData();
         formData.append('username', this.userService.getUsername())
         formData.append('description', description)
         formData.append('allowComments', allowComments ? 'true' : 'false');
-        formData.append('photo', file);
+        formData.append('photo', photo);
         return this.http
-                .post<Photo>(`${this.apiUrl}/api/v1/photos/photo/upload`, formData);
-        
+                .post<Photo>(`${this.apiUrl}/api/v1/photos/photo/upload/base64`, 
+                formData, {reportProgress: true, observe: 'events'});
     }
 
 }

@@ -65,6 +65,19 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
+    @PostMapping("/photo/upload/base64")
+    public Photo uploadPhotoBase64(
+            @RequestParam("username")  String username,
+            @RequestParam("description") String description,
+            @RequestParam("allowComments") String allowComments,
+            @RequestParam("photo") String photo)
+            throws UserNotFoundException, IOException, NotAnImageFileException {
+
+        return photosService.uploadPhotoBase64(username, description,
+                Boolean.parseBoolean(allowComments), photo);
+    }
+
+    @ResponseStatus(OK)
     @DeleteMapping("/photo/{username}/{idPhoto}")
     public void deletePhoto(@PathVariable String username,
                                @PathVariable String idPhoto)

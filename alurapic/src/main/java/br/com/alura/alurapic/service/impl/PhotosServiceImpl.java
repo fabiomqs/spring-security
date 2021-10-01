@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 import static br.com.alura.alurapic.util.constant.FileConstant.*;
 import static br.com.alura.alurapic.util.constant.PhotoConstant.NO_PHOTO_FOUND_BY_ID;
+import static br.com.alura.alurapic.util.constant.SecurityConstant.TOKEN_PREFIX;
 import static br.com.alura.alurapic.util.constant.UserConstant.NO_USER_FOUND_BY_USERNAME;
 import static org.springframework.http.MediaType.*;
 
@@ -78,6 +79,15 @@ public class PhotosServiceImpl implements PhotosService {
         return savePhoto(user, description, allowComments, profileImage);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Photo uploadPhotoBase64(String username, String description,
+                                   boolean allowComments, String photo) throws UserNotFoundException, IOException, NotAnImageFileException {
+        User user = findUser(username);
+
+        return savePhotoBase64(user, description, allowComments, photo);
+    }
+
     @Override
     public Photo getPhoto(Integer idPhoto) throws PhotoNotFounException {
         Photo photo = photoRepository.fetchById(idPhoto);
@@ -117,15 +127,6 @@ public class PhotosServiceImpl implements PhotosService {
 
     }
 
-//    private void deletePhoto(Photo photo, User user) throws IOException {
-//        Path photoPath = Paths.get(USER_FOLDER + user.getUsername() +
-//                PHOTOS_FOLDER + FORWARD_SLASH + photo.getId() + DOT + JPG_EXTENSION)
-//                .toAbsolutePath().normalize();
-
-//        Files.deleteIfExists(photoPath);
-
-//    }
-
     private Photo savePhoto(User user, String description, boolean allowComments, MultipartFile photoImage)
             throws IOException, NotAnImageFileException {
         if(!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE)
@@ -136,6 +137,21 @@ public class PhotosServiceImpl implements PhotosService {
 
         Photo savedPhoto = photoRepository.save(Photo.builder().allowComments(allowComments).description(description)
                 .user(user).file64(photoImage.getBytes()).build());
+        return savedPhoto;
+    }
+
+    private Photo savePhotoBase64(User user, String description, boolean allowComments, String photoImage)
+            throws IOException, NotAnImageFileException {
+
+        if(!photoImage.startsWith(BASE_64_PREFIX)) {
+            throw new NotAnImageFileException("This" + NOT_AN_IMAGE_FILE);
+        }
+
+        String onlyPhoto = photoImage.substring(BASE_64_PREFIX.length());
+        byte[] file64 = Base64.getDecoder().decode(onlyPhoto);
+
+        Photo savedPhoto = photoRepository.save(Photo.builder().allowComments(allowComments).description(description)
+                .user(user).file64(file64).build());
         return savedPhoto;
     }
 

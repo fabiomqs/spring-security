@@ -2,7 +2,7 @@
     <form [formGroup]="photoForm" (submit)="upload()" class="row">
       <div class="col-md-6 text-center">
 
-        <div class="form-group" *ngIf="!preview; else previewImage">
+        <div class="form-group" *ngIf="!photo; else previewPhoto">
 
             <button type="button" (click)="fileInput.click()" class="btn btn-primary">
                 <i class="fa fa-image fa-4x align-middle"></i>
@@ -19,11 +19,16 @@
                 *ngIf="photoForm.get('file').errors?.required"
             ></app-vmessage>
         </div>
-        <ng-template #previewImage>
+        <ng-template #previewPhoto>
             <div class="text-center">
-                <app-photo [url]="preview" title="Preview">
+                <app-photo [url]="photo" title="Preview">
                 </app-photo>
             </div>
+            <div *ngIf="fileStatus?.status==='progress'" class="progress mt-1">
+                <div class="progress-bar bg-info" role="progressbar"
+                  [style.width.%]="fileStatus?.percentage" aria-valuenow="0" aria-valuemin="0"
+                  aria-valuemax="100">{{fileStatus?.percentage}}%</div>
+              </div>
         </ng-template>
 
       </div>
