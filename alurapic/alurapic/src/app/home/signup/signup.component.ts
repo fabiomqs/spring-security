@@ -14,8 +14,8 @@ import { UserNotTakenValidatorService } from './service/user-not-taken.validator
 import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
-    selector: 'app-signup',
-    templateUrl: './signup.component.html'
+    templateUrl: './signup.component.html',
+    providers: [ UserNotTakenValidatorService ]
 })
 export class SignupComponent implements OnInit, OnDestroy {
 

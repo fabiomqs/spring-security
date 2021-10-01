@@ -3,9 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { APIURL } from 'src/app/core/tokens';
 import { NewUser } from 'src/app/model/new-user';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SignupService {
 
     constructor(
