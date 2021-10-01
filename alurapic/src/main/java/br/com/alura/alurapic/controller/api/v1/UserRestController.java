@@ -3,6 +3,9 @@ package br.com.alura.alurapic.controller.api.v1;
 import br.com.alura.alurapic.domain.http.HttpResponse;
 import br.com.alura.alurapic.domain.User;
 import br.com.alura.alurapic.exception.domain.*;
+import br.com.alura.alurapic.security.perms.user.manager.ManagerCreatePermission;
+import br.com.alura.alurapic.security.perms.user.user.UserDeletePermission;
+import br.com.alura.alurapic.security.perms.user.user.UserUpdatePermission;
 import br.com.alura.alurapic.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +51,7 @@ public class UserRestController  {
         return newUser;
     }
 
+    @ManagerCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/add")
     public User addUser(@RequestParam("firstName") String firstName,
@@ -64,6 +68,7 @@ public class UserRestController  {
         return newUser;
     }
 
+    @UserUpdatePermission
     @ResponseStatus(OK)
     @PostMapping("/update")
     public User updateUser(@RequestParam("currentUsername") String currentUsername,
@@ -104,7 +109,7 @@ public class UserRestController  {
         return userService.userExists(username);
     }
 
-
+    @ManagerCreatePermission
     @ResponseStatus(OK)
     @GetMapping("/suspend/{username}")
     public User suspendUser(@PathVariable String username) throws UserNotFoundException,
@@ -112,6 +117,7 @@ public class UserRestController  {
         return userService.suspendUser(username);
     }
 
+    @ManagerCreatePermission
     @ResponseStatus(OK)
     @GetMapping("/ban/{username}")
     public User banUser(@PathVariable String username) throws UserNotFoundException,
@@ -132,12 +138,13 @@ public class UserRestController  {
     }
 
     @DeleteMapping("/delete/{username}")
-//    @UserDeletePermission
+    @UserDeletePermission
     public HttpResponse deleteUser(@PathVariable String username) throws UserNotFoundException, IOException {
         userService.deleteUser(username);
         return response(NO_CONTENT, USER_DELETED_SUCCESSFULLY);
     }
 
+    @UserUpdatePermission
     @ResponseStatus(OK)
     @PostMapping("/update-profile-image")
     public User updateProfileImage(@RequestParam("username") String username,

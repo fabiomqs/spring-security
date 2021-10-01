@@ -1,4 +1,4 @@
-package br.com.alura.alurapic.security.perms.pic;
+package br.com.alura.alurapic.security.perms.photos;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 //TODO
 //check pic owner
 @PreAuthorize("hasAuthority('pic.update') AND " +
-        "@picAuthenticationManager.usernameMatches(authentication, #username)")
-public @interface PicUpdatePermission {
+        "@picAuthenticationManager.usernameMatchesPhoto(authentication, #username, #idPhoto)")
+public @interface PhotoUpdatePermission {
 }

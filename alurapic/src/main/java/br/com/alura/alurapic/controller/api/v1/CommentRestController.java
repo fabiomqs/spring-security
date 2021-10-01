@@ -5,6 +5,8 @@ import br.com.alura.alurapic.domain.Photo;
 import br.com.alura.alurapic.exception.domain.CommentNotFoundException;
 import br.com.alura.alurapic.exception.domain.PhotoNotFounException;
 import br.com.alura.alurapic.exception.domain.UserNotFoundException;
+import br.com.alura.alurapic.security.perms.photos.PhotoCommentDeletePermission;
+import br.com.alura.alurapic.security.perms.photos.PhotoCreatePermission;
 import br.com.alura.alurapic.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,7 @@ public class CommentRestController {
         return commentService.getComments(Integer.parseInt(idPhoto));
     }
 
+    @PhotoCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/{idPhoto}")
     public Photo addComment(@RequestParam("username") String username,
@@ -37,6 +40,7 @@ public class CommentRestController {
         return commentService.addComment(username, Integer.parseInt(idPhoto), comment);
     }
 
+    @PhotoCommentDeletePermission
     @ResponseStatus(OK)
     @DeleteMapping("/{idPhoto}/{idComment}")
     public Photo deleteComment(@RequestParam("username") String username,

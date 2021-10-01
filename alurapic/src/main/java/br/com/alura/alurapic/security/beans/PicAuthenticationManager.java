@@ -1,6 +1,10 @@
 package br.com.alura.alurapic.security.beans;
 
-import br.com.alura.alurapic.domain.User;
+import br.com.alura.alurapic.domain.Comment;
+import br.com.alura.alurapic.domain.Photo;
+import br.com.alura.alurapic.domain.security.UserPrincipal;
+import br.com.alura.alurapic.repository.CommentRepository;
+import br.com.alura.alurapic.repository.PhotoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -9,15 +13,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class PicAuthenticationManager {
 
-    //TODO
-    //ADD pic owner check
+    private final PhotoRepository photoRepository;
+    private final CommentRepository commentRepository;
+
+    public PicAuthenticationManager(
+            PhotoRepository photoRepository,
+            CommentRepository commentRepository) {
+        this.photoRepository = photoRepository;
+        this.commentRepository = commentRepository;
+    }
+
     public boolean usernameMatches(Authentication authentication, String username) {
-        //TODO
-        //User or UserPrincipal
-        User authenticatedUser = (User) authentication.getPrincipal();
+        UserPrincipal authenticatedUser = (UserPrincipal) authentication.getPrincipal();
+        if(!authenticatedUser.getUsername().equals(username))
+            return false;
+        return true;
+    }
 
-        log.debug("Auth User username: " + authenticatedUser.getUsername() + " username:" + username);
+    public boolean usernameMatchesPhoto(Authentication authentication, String username, String idPhoto) {
+        UserPrincipal authenticatedUser = (UserPrincipal) authentication.getPrincipal();
+        if(!authenticatedUser.getUsername().equals(username))
+            return false;
+        Photo photo = photoRepository.fetchByIdAndUser(Integer.parseInt(idPhoto), username);
+        if(photo == null)
+            return false;
+        return true;
+    }
 
-        return authenticatedUser.getUsername().equals(username);
+    public boolean usernameMatchesComment(Authentication authentication, String username, String idPhoto, String idComment) {
+        UserPrincipal authenticatedUser = (UserPrincipal) authentication.getPrincipal();
+        if(!authenticatedUser.getUsername().equals(username))
+            return false;
+        Comment comment = commentRepository.fetchByIdAndPhotoAndUser(Integer.parseInt(idComment), Integer.parseInt(idPhoto), username);
+        if(comment == null)
+            return false;
+        return true;
     }
 }

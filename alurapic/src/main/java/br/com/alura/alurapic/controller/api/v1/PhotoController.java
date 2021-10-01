@@ -5,6 +5,8 @@ import br.com.alura.alurapic.exception.domain.CommentNotFoundException;
 import br.com.alura.alurapic.exception.domain.NotAnImageFileException;
 import br.com.alura.alurapic.exception.domain.PhotoNotFounException;
 import br.com.alura.alurapic.exception.domain.UserNotFoundException;
+import br.com.alura.alurapic.security.perms.photos.PhotoCreatePermission;
+import br.com.alura.alurapic.security.perms.photos.PhotoDeletePermission;
 import br.com.alura.alurapic.service.PhotosService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +53,7 @@ public class PhotoController {
                 PHOTOS_FOLDER + FORWARD_SLASH + idPhoto));
     }
 
+    @PhotoCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/photo/upload")
     public Photo uploadPhoto(
@@ -64,6 +67,7 @@ public class PhotoController {
                 Boolean.parseBoolean(allowComments), photo);
     }
 
+    @PhotoCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/photo/upload/base64")
     public Photo uploadPhotoBase64(
@@ -77,6 +81,7 @@ public class PhotoController {
                 Boolean.parseBoolean(allowComments), photo);
     }
 
+    @PhotoDeletePermission
     @ResponseStatus(OK)
     @DeleteMapping("/photo/{username}/{idPhoto}")
     public void deletePhoto(@PathVariable String username,
@@ -85,6 +90,7 @@ public class PhotoController {
         photosService.deletePhoto(username, Integer.parseInt(idPhoto));
     }
 
+    @PhotoCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/photo/like/{idPhoto}")
     public void likePhoto(@RequestParam("username") String username,
