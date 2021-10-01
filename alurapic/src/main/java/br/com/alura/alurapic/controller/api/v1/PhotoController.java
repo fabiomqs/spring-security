@@ -29,13 +29,13 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/{username}")
+    @GetMapping("/user/{username}")
     public List<Photo> getPhotos(@PathVariable String username) throws UserNotFoundException {
         return photosService.getPhotos(username);
     }
 
     @ResponseStatus(OK)
-    @GetMapping(path = "/{username}", params = { "page" })
+    @GetMapping(path = "/user/{username}", params = { "page" })
     public List<Photo> getPhotosPaginated(
             @PathVariable String username,
             @RequestParam("page") int page,
@@ -44,7 +44,7 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping(path = "/{username}/{idPhoto}", produces = IMAGE_JPEG_VALUE)
+    @GetMapping(path = "/user/{username}/{idPhoto}", produces = IMAGE_JPEG_VALUE)
     public byte[] getPhoto(@PathVariable String username, @PathVariable String idPhoto)
             throws PhotoNotFounException, IOException {
         return Files.readAllBytes(Paths.get(USER_FOLDER + username +
@@ -52,7 +52,7 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/upload")
+    @PostMapping("/photo/upload")
     public Photo uploadPhoto(
             @RequestParam("username")  String username,
                 @RequestParam("description") String description,
@@ -65,7 +65,7 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @DeleteMapping("/{username}/{idPhoto}")
+    @DeleteMapping("/photo/{username}/{idPhoto}")
     public void deletePhoto(@PathVariable String username,
                                @PathVariable String idPhoto)
             throws PhotoNotFounException, CommentNotFoundException, UserNotFoundException, IOException {

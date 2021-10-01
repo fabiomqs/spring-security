@@ -17,7 +17,7 @@ export class PhotoService {
 
     listFromUser(username: string):Observable<Photo[]> {
         return this.http
-                .get<Photo[]>(`${this.apiUrl}/api/v1/photos/${username}`)
+                .get<Photo[]>(`${this.apiUrl}/api/v1/photos/user/${username}`)
     }
 
     listFromUserPaginated(username: string, page: number, size:number):Observable<Photo[]> {
@@ -25,7 +25,7 @@ export class PhotoService {
                 .append('page', page.toString())
                 .append('size', size.toString());
         return this.http
-                .get<Photo[]>(`${this.apiUrl}/api/v1/photos/${username}`, { params })
+                .get<Photo[]>(`${this.apiUrl}/api/v1/photos/user/${username}`, { params })
     }
 
 }
