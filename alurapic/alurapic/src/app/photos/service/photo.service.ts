@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { APIURL } from 'src/app/core/tokens';
 import { UserService } from 'src/app/core/user/user.service';
-import { Photo } from '../../../model/photo';
+import { Photo } from '../../model/photo';
 
 @Injectable({
     providedIn: 'root'
@@ -41,9 +41,31 @@ export class PhotoService {
                 formData, {reportProgress: true, observe: 'events'});
     }
 
-    findById(id: string):Observable<Photo> {
+    findById(photoId: number):Observable<Photo> {
         return this.http
-                .get<Photo>(`${this.apiUrl}/api/v1/photos/user/photo/${id}`)
+                .get<Photo>(`${this.apiUrl}/api/v1/photos/user/photo/${photoId}`)
+    }
+
+    getComments(photoId: number):Observable<Comment[]> {
+        return this.http
+                .get<Comment[]>(`${this.apiUrl}/api/v1/photos/comment/all/${photoId}`)
+    }
+
+    getCommentsPaginated(photoId: number, page: number, size:number):Observable<Comment[]> {
+        const params = new HttpParams()
+                .append('page', page.toString())
+                .append('size', size.toString());
+        return this.http
+                .get<Comment[]>(`${this.apiUrl}/api/v1/photos/comment/${photoId}`, { params })
+    }
+
+    addComment(photoId: number, comment: string) {
+        const formData = new FormData();
+        formData.append('username', this.userService.getUsername());
+        formData.append('comment', comment);
+        return this.http
+                .post(`${this.apiUrl}/api/v1/photos/comment/${photoId}`, 
+                formData);
     }
 
 }

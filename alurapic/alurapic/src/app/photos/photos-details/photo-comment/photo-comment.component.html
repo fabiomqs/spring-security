@@ -1,0 +1,29 @@
+<div *ngIf="(comments$ | async) as comments">
+    <ul class="list-unstyled comments-list">
+        <li *ngFor="let comment of comments">
+            <a class="text-dark font-weight-bold mr-1" [routerLink]="['/user', comment.username]">
+                {{ comment.username }}
+            </a>
+            <em>
+                {{ comment.postDate | date:'dd-MM-yyyy HH:mm' }}
+            </em>
+            <p class="break-word mb-2">
+                {{ comment.comment }}
+            </p>
+        </li>
+    </ul>
+    <div class="mt-4">
+        <form [formGroup]="commentForm" (submit)="submitComment()">
+            <div class="input-group">
+                <textarea formControlName="comment" class="form-control"></textarea>
+                <div class="input-group-append">
+                    <button type="submit" [disabled]="commentForm.invalid" 
+                    class="btn btn-primary pull-left">Publish</button>
+                </div>
+            </div>
+            <app-vmessage
+                *ngIf="commentForm.get('comment').errors?.maxlength && commentForm.get('comment').touched"
+                text="Maximun Length is 255!"></app-vmessage>
+        </form>
+    </div>
+</div>

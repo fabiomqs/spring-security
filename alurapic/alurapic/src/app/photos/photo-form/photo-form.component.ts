@@ -7,7 +7,7 @@ import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { FileUploadStatus } from 'src/app/model/file-upload.status';
 import { SubSink } from 'subsink';
 import { Photo } from '../../model/photo';
-import { PhotoService } from '../photo/service/photo.service';
+import { PhotoService } from '../service/photo.service';
 
 @Component({
     selector: 'app-photo-form',

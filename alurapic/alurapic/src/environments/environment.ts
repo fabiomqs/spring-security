@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080',
-  pageSize: 12
+    production: false,
+    apiUrl: 'http://localhost:8080',
+    pagePhotosSize: 12,
+    pageCommentsSize: 10
 };
 
 /*

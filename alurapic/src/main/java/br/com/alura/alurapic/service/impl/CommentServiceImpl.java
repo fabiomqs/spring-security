@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getComments(Integer idPhoto) {
-        List<Comment> comments = commentRepository.findAllByIdPhoto(idPhoto);
+        List<Comment> comments = commentRepository.findAllByIdPhoto(idPhoto, Sort.by(Sort.Direction.DESC, "postDate"));
         return comments.stream().map(comment -> {
             return prepareComment(comment);
         }).collect(Collectors.toList());

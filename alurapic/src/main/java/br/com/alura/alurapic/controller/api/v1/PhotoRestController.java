@@ -18,11 +18,11 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/photos")
-public class PhotoController {
+public class PhotoRestController {
 
     private final PhotosService photosService;
 
-    public PhotoController(PhotosService photosService) {
+    public PhotoRestController(PhotosService photosService) {
         this.photosService = photosService;
     }
 

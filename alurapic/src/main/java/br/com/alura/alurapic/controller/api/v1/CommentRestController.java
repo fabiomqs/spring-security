@@ -15,7 +15,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/v1/photo/comment")
+@RequestMapping("/api/v1/photos/comment")
 public class CommentRestController {
 
     private final CommentService commentService;
@@ -25,7 +25,7 @@ public class CommentRestController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/{idPhoto}")
+    @GetMapping("/all/{idPhoto}")
     public List<Comment> getAllComments(@PathVariable String idPhoto) {
         return commentService.getComments(Integer.parseInt(idPhoto));
     }
@@ -39,14 +39,15 @@ public class CommentRestController {
         return commentService.getCommentsPage(Integer.parseInt(idPhoto), page, size);
     }
 
+    //TODO - Modificar retorno
     @PhotoCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/{idPhoto}")
-    public Photo addComment(@RequestParam("username") String username,
+    public void addComment(@RequestParam("username") String username,
                             @PathVariable String idPhoto,
                             @RequestParam("comment") String comment)
             throws UserNotFoundException, PhotoNotFounException {
-        return commentService.addComment(username, Integer.parseInt(idPhoto), comment);
+        commentService.addComment(username, Integer.parseInt(idPhoto), comment);
     }
 
     @PhotoCommentDeletePermission

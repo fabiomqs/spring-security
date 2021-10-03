@@ -7,7 +7,7 @@ import { PAGESIZE } from 'src/app/core/tokens';
 import { SubSink } from 'subsink';
 
 import { Photo } from '../../model/photo';
-import { PhotoService } from '../photo/service/photo.service';
+import { PhotoService } from '../service/photo.service';
 
 @Component({
     selector: 'app-photo-list',
@@ -32,8 +32,13 @@ export class PhotoListComponent implements OnInit, OnDestroy {
     ) { }
  
     ngOnInit(): void {
-        this.userName = this.activatedRoute.snapshot.params.username;
-        this.photos = this.activatedRoute.snapshot.data['photos'];
+        this.subs.add (
+            this.activatedRoute.params.subscribe(params => {
+                this.userName = params.username;
+                this.photos = this.activatedRoute.snapshot.data['photos'];
+            })
+        );
+        
         if(this.photos.length < this.pageSize) {
             this.hasMore = false;
         } else {
