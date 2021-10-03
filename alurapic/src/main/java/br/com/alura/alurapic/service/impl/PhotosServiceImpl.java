@@ -19,8 +19,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,7 +26,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static br.com.alura.alurapic.util.constant.FileConstant.*;
+import static br.com.alura.alurapic.util.constant.FileConstant.BASE_64_PREFIX;
+import static br.com.alura.alurapic.util.constant.FileConstant.NOT_AN_IMAGE_FILE;
 import static br.com.alura.alurapic.util.constant.PhotoConstant.NO_PHOTO_FOUND_BY_ID;
 import static br.com.alura.alurapic.util.constant.UserConstant.NO_USER_FOUND_BY_USERNAME;
 import static org.springframework.http.MediaType.*;
@@ -89,10 +88,10 @@ public class PhotosServiceImpl implements PhotosService {
 
     @Override
     public Photo getPhoto(Integer idPhoto) throws PhotoNotFounException {
-        Photo photo = photoRepository.fetchById(idPhoto);
+        Photo photo = photoRepository.fetchByIdWithUser(idPhoto);
         if(photo == null)
             throw new PhotoNotFounException(NO_PHOTO_FOUND_BY_ID + idPhoto);
-        return prepareEntity(photo, true);
+        return prepareEntity(photo, false);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -154,12 +153,12 @@ public class PhotosServiceImpl implements PhotosService {
         return savedPhoto;
     }
 
-    private String setPhotoUrl(String username, Integer id) {
-        return ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path(PHOTO_PATH + username + FORWARD_SLASH + id +
-                         DOT + JPG_EXTENSION).toUriString();
-    }
+//    private String setPhotoUrl(String username, Integer id) {
+//        return ServletUriComponentsBuilder
+//                .fromCurrentContextPath()
+//                .path(PHOTO_PATH + username + FORWARD_SLASH + id +
+//                         DOT + JPG_EXTENSION).toUriString();
+//    }
 
     private Photo findPhoto(Integer id) throws PhotoNotFounException {
         return photoRepository.findById(id)
@@ -176,7 +175,6 @@ public class PhotosServiceImpl implements PhotosService {
     }
 
     private Photo prepareEntity(Photo photo, boolean withComments) {
-        photo.setUsername(photo.getUser().getUsername());
         if(withComments) {
             photo.getComments().stream().map(comment -> {
                 comment.setPhotoId(comment.getPhoto().getId());
@@ -189,6 +187,7 @@ public class PhotosServiceImpl implements PhotosService {
             //TODO - has a better way?
             photo.setNumberOfcomments(commentRepository.countByPhoto(photo));
         }
+        photo.setUsername(photo.getUser().getUsername());
         photo.setUrl(generateBase64Image(photo.getFile64()));
         return photo;
     }

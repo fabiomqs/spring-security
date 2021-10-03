@@ -11,6 +11,9 @@ import br.com.alura.alurapic.repository.PhotoRepository;
 import br.com.alura.alurapic.repository.UserRepository;
 import br.com.alura.alurapic.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +41,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getComments(Integer idPhoto) {
-        List<Comment> comments = commentRepository.findAll();
+        List<Comment> comments = commentRepository.findAllByIdPhoto(idPhoto);
+        return comments.stream().map(comment -> {
+            return prepareComment(comment);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Comment> getCommentsPage(Integer idPhoto, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "postDate"));
+
+        List<Comment> comments = commentRepository.findAllByIdPhotoPage(idPhoto, pageable);
         return comments.stream().map(comment -> {
             return prepareComment(comment);
         }).collect(Collectors.toList());

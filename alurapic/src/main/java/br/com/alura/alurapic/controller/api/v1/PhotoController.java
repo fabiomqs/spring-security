@@ -12,13 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
-import static br.com.alura.alurapic.util.constant.FileConstant.*;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @RestController
 @RequestMapping("/api/v1/photos")

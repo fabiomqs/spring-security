@@ -30,6 +30,15 @@ public class CommentRestController {
         return commentService.getComments(Integer.parseInt(idPhoto));
     }
 
+    @ResponseStatus(OK)
+    @GetMapping(path = "/{idPhoto}", params = { "page" })
+    public List<Comment> getAllCommentsPage(
+            @PathVariable String idPhoto,
+            @RequestParam("page") int page,
+            @RequestParam(value = "size", defaultValue= "10")  int size) {
+        return commentService.getCommentsPage(Integer.parseInt(idPhoto), page, size);
+    }
+
     @PhotoCreatePermission
     @ResponseStatus(OK)
     @PostMapping("/{idPhoto}")

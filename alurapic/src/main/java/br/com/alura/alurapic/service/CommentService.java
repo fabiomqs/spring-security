@@ -12,6 +12,8 @@ public interface CommentService {
 
     List<Comment> getComments(Integer idPhoto);
 
+    List<Comment> getCommentsPage(Integer idPhoto, int page, int size);
+
     Photo addComment(String username, Integer idPhoto, String comment)
             throws UserNotFoundException, PhotoNotFounException;
 

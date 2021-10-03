@@ -19,6 +19,9 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
     @Query("SELECT p FROM Photo p JOIN FETCH p.user u WHERE p.id = ?1 and u.username = ?2")
     Photo fetchByIdAndUser(Integer id, String username);
 
+    @Query("SELECT p FROM Photo p JOIN FETCH p.user u WHERE p.id = ?1")
+    Photo fetchByIdWithUser(Integer id);
+
     List<Photo> findAllByUser(User user);
 
     List<Photo> findAllByUser(User user, Pageable pageable);
