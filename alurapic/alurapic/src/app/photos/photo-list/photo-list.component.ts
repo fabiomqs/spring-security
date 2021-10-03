@@ -6,7 +6,7 @@ import { PAGESIZE } from 'src/app/core/tokens';
 
 import { SubSink } from 'subsink';
 
-import { Photo } from '../photo/photo';
+import { Photo } from '../../model/photo';
 import { PhotoService } from '../photo/service/photo.service';
 
 @Component({

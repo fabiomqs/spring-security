@@ -13,7 +13,7 @@ import java.util.List;
 public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     @Query("SELECT p FROM Photo p LEFT JOIN FETCH p.comments c " +
-            "JOIN FETCH p.user JOIN FETCH c.user WHERE p.id = ?1")
+            "JOIN FETCH p.user LEFT JOIN FETCH c.user WHERE p.id = ?1")
     Photo fetchById(Integer id);
 
     @Query("SELECT p FROM Photo p JOIN FETCH p.user u WHERE p.id = ?1 and u.username = ?2")

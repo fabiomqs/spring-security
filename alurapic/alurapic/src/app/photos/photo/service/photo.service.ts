@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { APIURL } from 'src/app/core/tokens';
 import { UserService } from 'src/app/core/user/user.service';
-import { Photo } from '../photo';
+import { Photo } from '../../../model/photo';
 
 @Injectable({
     providedIn: 'root'
@@ -39,6 +39,11 @@ export class PhotoService {
         return this.http
                 .post<Photo>(`${this.apiUrl}/api/v1/photos/photo/upload/base64`, 
                 formData, {reportProgress: true, observe: 'events'});
+    }
+
+    findById(id: string):Observable<Photo> {
+        return this.http
+                .get<Photo>(`${this.apiUrl}/api/v1/photos/user/photo/${id}`)
     }
 
 }

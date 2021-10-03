@@ -4,6 +4,7 @@ import { PhotoComponent } from './photo/photo.component';
 import { PhotoListModule } from './photo-list/photo-list.module';
 import { PhotoFormModule } from './photo-form/photo-form.module';
 import { PhotoModule } from './photo/photo.module';
+import { PhotosDetailsModule } from './photos-details/photos-details.module';
 
 
 
@@ -11,7 +12,8 @@ import { PhotoModule } from './photo/photo.module';
     imports: [
         PhotoListModule,
         PhotoFormModule,
-        PhotoModule
+        PhotoModule,
+        PhotosDetailsModule
     ],
     exports: [ 
         PhotoComponent

@@ -11,7 +11,6 @@ import br.com.alura.alurapic.repository.LikeRepository;
 import br.com.alura.alurapic.repository.PhotoRepository;
 import br.com.alura.alurapic.repository.UserRepository;
 import br.com.alura.alurapic.service.PhotosService;
-import co.elastic.apm.api.CaptureSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
 
 import static br.com.alura.alurapic.util.constant.FileConstant.*;
 import static br.com.alura.alurapic.util.constant.PhotoConstant.NO_PHOTO_FOUND_BY_ID;
-import static br.com.alura.alurapic.util.constant.SecurityConstant.TOKEN_PREFIX;
 import static br.com.alura.alurapic.util.constant.UserConstant.NO_USER_FOUND_BY_USERNAME;
 import static org.springframework.http.MediaType.*;
 
@@ -188,10 +186,10 @@ public class PhotosServiceImpl implements PhotosService {
             photo.setNumberOfcomments(photo.getComments().size());
         } else {
             photo.setComments(null);
-            //TODO - fix to get real count
-            photo.setNumberOfcomments(0);
-            photo.setUrl(generateBase64Image(photo.getFile64()));
+            //TODO - has a better way?
+            photo.setNumberOfcomments(commentRepository.countByPhoto(photo));
         }
+        photo.setUrl(generateBase64Image(photo.getFile64()));
         return photo;
     }
 

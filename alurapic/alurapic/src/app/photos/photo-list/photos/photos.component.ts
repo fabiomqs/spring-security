@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Photo } from '../../photo/photo';
+import { Photo } from '../../../model/photo';
 
 @Component({
     selector: 'app-photos',

@@ -6,7 +6,7 @@ import { NotificationService } from 'src/app/core/notification/service/notificat
 import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { FileUploadStatus } from 'src/app/model/file-upload.status';
 import { SubSink } from 'subsink';
-import { Photo } from '../photo/photo';
+import { Photo } from '../../model/photo';
 import { PhotoService } from '../photo/service/photo.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.photoForm = this.formBuilder.group({
             file: ['',Validators.required],
-            description: ['', Validators.maxLength(300)],
+            description: ['', Validators.maxLength(255)],
             allowComments: [true]
         })
         this.fileStatus.percentage = 50;

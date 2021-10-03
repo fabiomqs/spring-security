@@ -46,11 +46,9 @@ public class PhotoController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping(path = "/user/{username}/{idPhoto}", produces = IMAGE_JPEG_VALUE)
-    public byte[] getPhoto(@PathVariable String username, @PathVariable String idPhoto)
-            throws PhotoNotFounException, IOException {
-        return Files.readAllBytes(Paths.get(USER_FOLDER + username +
-                PHOTOS_FOLDER + FORWARD_SLASH + idPhoto));
+    @GetMapping(path = "/user/photo/{idPhoto}")
+    public Photo getPhoto(@PathVariable String idPhoto) throws PhotoNotFounException {
+        return photosService.getPhoto(Integer.parseInt(idPhoto));
     }
 
     @PhotoCreatePermission
