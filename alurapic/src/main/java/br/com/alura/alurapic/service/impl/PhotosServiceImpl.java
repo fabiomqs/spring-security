@@ -11,6 +11,7 @@ import br.com.alura.alurapic.repository.LikeRepository;
 import br.com.alura.alurapic.repository.PhotoRepository;
 import br.com.alura.alurapic.repository.UserRepository;
 import br.com.alura.alurapic.service.PhotosService;
+import co.elastic.apm.api.CaptureSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

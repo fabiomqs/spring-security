@@ -8,6 +8,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @PreAuthorize("hasAuthority('pic.delete') AND " +
         "(@picAuthenticationManager.usernameMatchesPhoto(authentication, #username, #idPhoto) OR " +
-        "@picAuthenticationManager.usernameMatchesComment(authentication, #username, #idPhoto, idComment)")
+        "@picAuthenticationManager.usernameMatchesComment(authentication, #username, #idPhoto, idComment))")
 public @interface PhotoCommentDeletePermission {
 }
