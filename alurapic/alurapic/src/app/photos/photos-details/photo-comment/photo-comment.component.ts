@@ -8,6 +8,7 @@ import { SubSink } from 'subsink';
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { PhotoService } from '../../service/photo.service';
+import { Photo } from 'src/app/model/photo';
 
 @Component({
     selector: 'app-photo-comment',
@@ -19,6 +20,7 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
     private subs = new SubSink();
 
     @Input() photoId: number
+    @Input() photo: Photo
     commentForm: FormGroup;
 
     comments$: Observable<Comment[]>;
@@ -53,19 +55,25 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
                     this.commentForm.reset();
                     this.notificationService.sendNotification(
                         NotificationType.SUCCESS, 'Comment Added Successfully');
-                }))
-                
+                },
+                err => this.notificationService.sendNotificationError(err.error.message)))
         
     }
 
-    //.subscribe(
-    //    () => {
-    //        this.commentForm.reset();
-    //        this.notificationService.sendNotification(
-    //            NotificationType.SUCCESS, 'Comment Added Successfully')
-    //    },
-    //    err => this.notificationService.sendNotificationError(err.error.message)
-    //)
+    //TODO - Update Comments Count on Details
+    deleteComment(commentId:number) {
+        this.comments$ = this.photoService
+            .deleteComment(this.photoId, commentId)
+            .pipe(switchMap(
+                () => this.photoService.getComments(this.photoId)))
+            .pipe(tap(() => {
+                this.notificationService.sendNotification(
+                    NotificationType.INFO, 'Comment Removed Successfully');
+            },
+            err => this.notificationService.sendNotificationError(err.error.message)))
+            
+        
+    }
 
     ngOnDestroy(): void {
         this.subs.unsubscribe();

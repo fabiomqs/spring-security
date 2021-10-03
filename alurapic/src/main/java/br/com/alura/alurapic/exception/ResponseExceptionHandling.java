@@ -79,6 +79,12 @@ public class ResponseExceptionHandling extends ResponseExceptionHandler {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(CommentNotAllowedException.class)
+    public ResponseEntity<HttpResponse> commentNotAllowedException(CommentNotAllowedException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+
     @ExceptionHandler(CommentNotFoundException.class)
     public ResponseEntity<HttpResponse> commentNotFoundException(CommentNotFoundException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());

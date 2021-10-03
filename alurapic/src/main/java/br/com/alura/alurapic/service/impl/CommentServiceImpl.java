@@ -3,6 +3,7 @@ package br.com.alura.alurapic.service.impl;
 import br.com.alura.alurapic.domain.Comment;
 import br.com.alura.alurapic.domain.Photo;
 import br.com.alura.alurapic.domain.User;
+import br.com.alura.alurapic.exception.domain.CommentNotAllowedException;
 import br.com.alura.alurapic.exception.domain.CommentNotFoundException;
 import br.com.alura.alurapic.exception.domain.PhotoNotFounException;
 import br.com.alura.alurapic.exception.domain.UserNotFoundException;
@@ -58,20 +59,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Photo addComment(String username, Integer idPhoto, String comment)
-            throws UserNotFoundException, PhotoNotFounException {
-        User user = findUser(username);
+    public void addComment(String username, Integer idPhoto, String comment)
+            throws UserNotFoundException, PhotoNotFounException, CommentNotAllowedException {
         Photo photo = findPhoto(idPhoto);
+        if(!photo.isAllowComments())
+            throw new CommentNotAllowedException("Comments not allowed for this photo!");
+        User user = findUser(username);
         commentRepository.save(Comment.builder().user(user).photo(photo).comment(comment).build());
-        return prepareEntity(findPhoto(idPhoto), true);
+        //return prepareEntity(findPhoto(idPhoto), true);
     }
 
     @Override
-    public Photo deleteComment(String username, Integer idPhoto, Integer idComment)
+    public void deleteComment(String username, Integer idPhoto, Integer idComment)
             throws CommentNotFoundException, PhotoNotFounException {
         Comment comment = findComment(idComment);
         commentRepository.deleteById(comment.getId());
-        return prepareEntity(findPhoto(idPhoto), true);
+        //return prepareEntity(findPhoto(idPhoto), true);
     }
 
     private Photo findPhoto(Integer id) throws PhotoNotFounException {

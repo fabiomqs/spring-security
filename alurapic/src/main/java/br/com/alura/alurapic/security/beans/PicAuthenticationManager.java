@@ -24,15 +24,15 @@ public class PicAuthenticationManager {
     }
 
     public boolean usernameMatches(Authentication authentication, String username) {
-        UserPrincipal authenticatedUser = (UserPrincipal) authentication.getPrincipal();
-        if(!authenticatedUser.getUsername().equals(username))
+        String userPrincipal = (String) authentication.getPrincipal();
+        if(!userPrincipal.equals(username))
             return false;
         return true;
     }
 
     public boolean usernameMatchesPhoto(Authentication authentication, String username, String idPhoto) {
-        UserPrincipal authenticatedUser = (UserPrincipal) authentication.getPrincipal();
-        if(!authenticatedUser.getUsername().equals(username))
+        String userPrincipal = (String) authentication.getPrincipal();
+        if(!userPrincipal.equals(username))
             return false;
         Photo photo = photoRepository.fetchByIdAndUser(Integer.parseInt(idPhoto), username);
         if(photo == null)
@@ -41,8 +41,8 @@ public class PicAuthenticationManager {
     }
 
     public boolean usernameMatchesComment(Authentication authentication, String username, String idPhoto, String idComment) {
-        UserPrincipal authenticatedUser = (UserPrincipal) authentication.getPrincipal();
-        if(!authenticatedUser.getUsername().equals(username))
+        String userPrincipal = (String) authentication.getPrincipal();
+        if(!userPrincipal.equals(username))
             return false;
         Comment comment = commentRepository.fetchByIdAndPhotoAndUser(Integer.parseInt(idComment), Integer.parseInt(idPhoto), username);
         if(comment == null)

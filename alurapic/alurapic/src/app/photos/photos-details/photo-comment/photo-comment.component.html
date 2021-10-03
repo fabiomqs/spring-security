@@ -1,6 +1,6 @@
 <div *ngIf="(comments$ | async) as comments">
-    <ul class="list-unstyled comments-list">
-        <li *ngFor="let comment of comments">
+    <ul class="list-group comments-list">
+        <li class="list-group-item" *ngFor="let comment of comments">
             <a class="text-dark font-weight-bold mr-1" [routerLink]="['/user', comment.username]">
                 {{ comment.username }}
             </a>
@@ -10,6 +10,7 @@
             <p class="break-word mb-2">
                 {{ comment.comment }}
             </p>
+            <i commentOwnerOnly [ownedComment]="comment" [ownedPhoto]="photo" (click)="deleteComment(comment.id)" class="fa fa-trash-o pull-right"></i>
         </li>
     </ul>
     <div class="mt-4">

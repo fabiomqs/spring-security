@@ -2,6 +2,7 @@ package br.com.alura.alurapic.controller.api.v1;
 
 import br.com.alura.alurapic.domain.Comment;
 import br.com.alura.alurapic.domain.Photo;
+import br.com.alura.alurapic.exception.domain.CommentNotAllowedException;
 import br.com.alura.alurapic.exception.domain.CommentNotFoundException;
 import br.com.alura.alurapic.exception.domain.PhotoNotFounException;
 import br.com.alura.alurapic.exception.domain.UserNotFoundException;
@@ -25,13 +26,13 @@ public class CommentRestController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/all/{idPhoto}")
+    @GetMapping("/public/all/{idPhoto}")
     public List<Comment> getAllComments(@PathVariable String idPhoto) {
         return commentService.getComments(Integer.parseInt(idPhoto));
     }
 
     @ResponseStatus(OK)
-    @GetMapping(path = "/{idPhoto}", params = { "page" })
+    @GetMapping(path = "/public/{idPhoto}", params = { "page" })
     public List<Comment> getAllCommentsPage(
             @PathVariable String idPhoto,
             @RequestParam("page") int page,
@@ -46,18 +47,18 @@ public class CommentRestController {
     public void addComment(@RequestParam("username") String username,
                             @PathVariable String idPhoto,
                             @RequestParam("comment") String comment)
-            throws UserNotFoundException, PhotoNotFounException {
+            throws UserNotFoundException, PhotoNotFounException, CommentNotAllowedException {
         commentService.addComment(username, Integer.parseInt(idPhoto), comment);
     }
 
     @PhotoCommentDeletePermission
     @ResponseStatus(OK)
-    @DeleteMapping("/{idPhoto}/{idComment}")
-    public Photo deleteComment(@RequestParam("username") String username,
+    @DeleteMapping("/{username}/{idPhoto}/{idComment}")
+    public void deleteComment(@PathVariable("username") String username,
                                @PathVariable String idPhoto,
                                @PathVariable String idComment)
             throws PhotoNotFounException, CommentNotFoundException {
-        return commentService.deleteComment(username,
+        commentService.deleteComment(username,
                 Integer.parseInt(idPhoto), Integer.parseInt(idComment));
     }
 }

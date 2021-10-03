@@ -48,7 +48,7 @@ export class PhotoService {
 
     getComments(photoId: number):Observable<Comment[]> {
         return this.http
-                .get<Comment[]>(`${this.apiUrl}/api/v1/photos/comment/all/${photoId}`)
+                .get<Comment[]>(`${this.apiUrl}/api/v1/photos/comment/public/all/${photoId}`)
     }
 
     getCommentsPaginated(photoId: number, page: number, size:number):Observable<Comment[]> {
@@ -56,7 +56,7 @@ export class PhotoService {
                 .append('page', page.toString())
                 .append('size', size.toString());
         return this.http
-                .get<Comment[]>(`${this.apiUrl}/api/v1/photos/comment/${photoId}`, { params })
+                .get<Comment[]>(`${this.apiUrl}/api/v1/photos/comment/public/${photoId}`, { params })
     }
 
     addComment(photoId: number, comment: string) {
@@ -66,6 +66,16 @@ export class PhotoService {
         return this.http
                 .post(`${this.apiUrl}/api/v1/photos/comment/${photoId}`, 
                 formData);
+    }
+
+    deletePhoto(photoId: number) {
+        return this.http
+                .delete(`${this.apiUrl}/api/v1/photos/photo/${this.userService.getUsername()}/${photoId}`)
+    }
+
+    deleteComment(photoId: number, commentId: number) {
+        return this.http
+                .delete(`${this.apiUrl}/api/v1/photos/comment/${this.userService.getUsername()}/${photoId}/${commentId}`)
     }
 
 }
