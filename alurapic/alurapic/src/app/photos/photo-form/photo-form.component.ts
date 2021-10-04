@@ -2,11 +2,11 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotificationService } from 'src/app/core/notification/service/notification.service';
-import { NotificationType } from 'src/app/enums/notification-type.enum';
+import { UserService } from 'src/app/core/user/user.service';
+//import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { FileUploadStatus } from 'src/app/model/file-upload.status';
+import { AlertService } from 'src/app/shared/components/alert/service/alert.service';
 import { SubSink } from 'subsink';
-import { Photo } from '../../model/photo';
 import { PhotoService } from '../service/photo.service';
 
 @Component({
@@ -26,7 +26,9 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         private photoService: PhotoService,
         private router:Router,
-        private notificationService: NotificationService
+        private alertService: AlertService,
+        private userService: UserService
+        //private notificationService: NotificationService
     ) { }
     
 
@@ -49,7 +51,7 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
                     this.reportUploadProgress(event);
                 },
                 err=> {
-                    this.notificationService.sendNotificationError(err.error.message);
+                    this.alertService.danger(err.error.message);
                     console.error(err)
                 }
             )
@@ -72,14 +74,14 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
                 break;
             case HttpEventType.Response:
                 if(event.status === 200) {
-                    this.notificationService
-                        .sendNotification(NotificationType.SUCCESS, 'Photo Uploaded');
-                    this.router.navigate(['']);
+                    this.alertService
+                        .success('Photo Uploaded', true);
+                    this.router.navigate(['/user', this.userService.getUsername()]);
                     this.fileStatus.percentage = 100;
                     this.fileStatus.status = 'done';
                 } else {
-                    this.notificationService
-                        .sendNotificationError('Error on photo upload');
+                    this.alertService
+                        .danger('Error on photo upload');
                     this.fileStatus.percentage = 100;
                     this.fileStatus.status = 'done';
                     break;

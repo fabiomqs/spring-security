@@ -6,9 +6,9 @@ import { switchMap, tap } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
-import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { PhotoService } from '../../service/photo.service';
 import { Photo } from 'src/app/model/photo';
+//import { AlertService } from 'src/app/shared/components/alert/service/alert.service';
 
 @Component({
     selector: 'app-photo-comment',
@@ -28,6 +28,7 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
     constructor(
         private photoService:PhotoService,
         private formBuilder: FormBuilder,
+        //private alertService: AlertService
         private notificationService: NotificationService
     ) { }
     
@@ -53,10 +54,9 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
                     () => this.photoService.getComments(this.photoId)))
                 .pipe(tap(() => {
                     this.commentForm.reset();
-                    this.notificationService.sendNotification(
-                        NotificationType.SUCCESS, 'Comment Added Successfully');
+                    this.notificationService.success('Comment Added Successfully');
                 },
-                err => this.notificationService.sendNotificationError(err.error.message)))
+                err => this.notificationService.error(err.error.message)))
         
     }
 
@@ -67,10 +67,9 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
             .pipe(switchMap(
                 () => this.photoService.getComments(this.photoId)))
             .pipe(tap(() => {
-                this.notificationService.sendNotification(
-                    NotificationType.INFO, 'Comment Removed Successfully');
+                this.notificationService.info('Comment Removed Successfully');
             },
-            err => this.notificationService.sendNotificationError(err.error.message)))
+            err => this.notificationService.error(err.error.message)))
             
         
     }

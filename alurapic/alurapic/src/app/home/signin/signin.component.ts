@@ -55,7 +55,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                         this.platformDetectorService.isPlatformBrowser &&
                             this.userNameInput.nativeElement.focus();
                         this.notificationService
-                            .sendNotificationError(errorResponse.error.message);
+                            .error(errorResponse.error.message);
                     }
                 )
         );

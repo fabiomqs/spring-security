@@ -11,16 +11,51 @@ export class NotificationService {
         this.notifier.notify(type, message);
     }
 
-    sendNotificationError(message: string):void {
+ //   sendNotificationError(message: string):void {
+ //       if(message) 
+ //           this.notify(NotificationType.ERROR, message);
+ //       else
+ //           this.notify(NotificationType.ERROR, 'An Unknow error has occurred!');
+ //   }
+
+ //   sendNotification(type: NotificationType, message: string):void {
+ //       if(message) 
+ //           this.notify(type, message);
+ //       else
+ //           this.notify(NotificationType.ERROR, 'An Unknow error has occurred!');
+ //   }
+
+    default(message: string):void {
         if(message) 
-            this.notify(NotificationType.ERROR, message);
+            this.notify(NotificationType.DEFAULT, message);
         else
-            this.notify(NotificationType.ERROR, 'An Unknow error has occurred!');
+            this.error(message);
     }
 
-    sendNotification(type: NotificationType, message: string):void {
+    success(message: string):void {
         if(message) 
-            this.notify(type, message);
+            this.notify(NotificationType.SUCCESS, message);
+        else
+            this.error(message);
+    }
+    
+    info(message: string):void {
+        if(message) 
+            this.notify(NotificationType.INFO, message);
+        else
+            this.error(message);
+    }
+    
+    warning(message: string):void {
+        if(message) 
+            this.notify(NotificationType.WARNING, message);
+        else
+            this.error(message);
+    }
+    
+    error(message: string):void {
+        if(message) 
+            this.notify(NotificationType.ERROR, message);
         else
             this.notify(NotificationType.ERROR, 'An Unknow error has occurred!');
     }

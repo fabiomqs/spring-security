@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
 
 import { NotificationService } from 'src/app/core/notification/service/notification.service';
-import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { NewUser } from 'src/app/model/new-user';
 import { User } from 'src/app/model/user';
 import { lowerCaseValidator } from 'src/app/shared/validators/lower-case.validator';
@@ -41,8 +40,7 @@ export class SignupComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (ret: User) => {
                         this.notificationService
-                        .sendNotification(NotificationType.SUCCESS, 
-                            `${ret.username} cadastrado com sucesso`);
+                        .success(`${ret.username} cadastrado com sucesso`);
                         this.router.navigate(['']);
                     },
                     err => console.log(err)
