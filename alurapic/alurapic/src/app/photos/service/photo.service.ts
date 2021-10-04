@@ -78,4 +78,10 @@ export class PhotoService {
                 .delete(`${this.apiUrl}/api/v1/photos/comment/${this.userService.getUsername()}/${photoId}/${commentId}`)
     }
 
+    like(photoId: number):Observable<boolean> {
+        return this.http
+                .post<boolean>(
+                    `${this.apiUrl}/api/v1/photos/photo/like/${photoId}/${this.userService.getUsername()}`, {});
+    }
+
 }

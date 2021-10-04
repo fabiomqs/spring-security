@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { VmessageModule } from 'src/app/shared/components/vmessage/vmessage.module';
 import { PhotoOwnerOnlyDirective } from './photo-directives/photo-owner-only.directive';
 import { CommentOwnerOnlyDirective } from './photo-directives/comment-owner-only.directive';
+import { ShowIfLoggedModule } from 'src/app/shared/directives/show-if-logged/show-if-logged.module';
 
 
 
@@ -23,7 +24,8 @@ import { CommentOwnerOnlyDirective } from './photo-directives/comment-owner-only
     PhotoModule,
     RouterModule,
     ReactiveFormsModule,
-    VmessageModule
+    VmessageModule,
+    ShowIfLoggedModule
   ], 
   exports: [
       PhotosDetailsComponent,

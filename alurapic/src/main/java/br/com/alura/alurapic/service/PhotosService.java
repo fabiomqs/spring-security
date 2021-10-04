@@ -25,5 +25,5 @@ public interface PhotosService {
 
     void deletePhoto(String username, Integer idPhoto) throws PhotoNotFounException, UserNotFoundException, IOException;
 
-    void likePhoto(String username, Integer idPhoto) throws UserNotFoundException, PhotoNotFounException;
+    boolean likePhoto(String username, Integer idPhoto) throws UserNotFoundException, PhotoNotFounException;
 }

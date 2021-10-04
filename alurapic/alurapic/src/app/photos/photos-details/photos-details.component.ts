@@ -60,7 +60,26 @@ export class PhotosDetailsComponent implements OnInit, OnDestroy {
         )
     }
 
+    like(photo: Photo) {
+        this.subs.add(
+            this.photoService.like(photo.id)
+                .subscribe(
+                    liked => this.photo$ = this.photoService.findById(photo.id),
+                    err => this.alertService.danger(err.error.message)
+                )
+        )
+    }
+
+    updatePhotoInfo = (photo: Photo): void => {
+        
+            this.photo$ = this.photoService
+                .findById(photo.id);
+                
+    }
+
     ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
+
+    
 }

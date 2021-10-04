@@ -21,6 +21,7 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
 
     @Input() photoId: number
     @Input() photo: Photo
+    @Input() callbackFunction: (photo: Photo) => void;
     commentForm: FormGroup;
 
     comments$: Observable<Comment[]>;
@@ -68,6 +69,7 @@ export class PhotoCommentComponent implements OnInit, OnDestroy {
                 () => this.photoService.getComments(this.photoId)))
             .pipe(tap(() => {
                 this.notificationService.info('Comment Removed Successfully');
+                this.callbackFunction(this.photo);
             },
             err => this.notificationService.error(err.error.message)))
             

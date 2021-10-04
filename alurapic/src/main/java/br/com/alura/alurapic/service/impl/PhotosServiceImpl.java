@@ -106,7 +106,7 @@ public class PhotosServiceImpl implements PhotosService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void likePhoto(String username, Integer idPhoto)
+    public boolean likePhoto(String username, Integer idPhoto)
             throws UserNotFoundException, PhotoNotFounException {
         // getPhoto(idPhoto);
         Like like = likeRepository.getByUsernameAndPhoto(username, idPhoto);
@@ -115,12 +115,14 @@ public class PhotosServiceImpl implements PhotosService {
             photo.lessLike();
             likeRepository.deleteById(like.getId());
             photoRepository.save(photo);
+            return false;
         } else {
             Photo photo = findPhoto(idPhoto);
             User user = findUser(username);
             photo.plusLike();
             likeRepository.save(Like.builder().user(user).photo(photo).build());
             photoRepository.save(photo);
+            return true;
         }
 
     }

@@ -79,18 +79,18 @@ public class PhotoRestController {
     @ResponseStatus(OK)
     @DeleteMapping("/photo/{username}/{idPhoto}")
     public void deletePhoto(@PathVariable String username,
-                               @PathVariable String idPhoto)
+                            @PathVariable String idPhoto)
             throws PhotoNotFounException, CommentNotFoundException, UserNotFoundException, IOException {
         photosService.deletePhoto(username, Integer.parseInt(idPhoto));
     }
 
     @PhotoCreatePermission
     @ResponseStatus(OK)
-    @PostMapping("/photo/like/{idPhoto}")
-    public void likePhoto(@RequestParam("username") String username,
-                            @PathVariable String idPhoto)
+    @PostMapping("/photo/like/{idPhoto}/{username}")
+    public boolean likePhoto(@PathVariable String username,
+                          @PathVariable String idPhoto)
             throws PhotoNotFounException, CommentNotFoundException, UserNotFoundException, IOException {
-        photosService.likePhoto(username, Integer.parseInt(idPhoto));
+        return photosService.likePhoto(username, Integer.parseInt(idPhoto));
     }
 
 
