@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private notificationService: NotificationService,
         private router: Router,
-        private platformDetectorService: PlatformDetectorService
+        private platformDetectorService: PlatformDetectorService,
     ) { }
 
     ngOnInit(): void {
