@@ -1,7 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { PAGESIZE } from 'src/app/core/tokens';
 
 import { SubSink } from 'subsink';
