@@ -5,6 +5,7 @@
 export const environment = {
     production: false,
     apiUrl: 'http://localhost:8080',
+    logUrl: 'http://localhost:8081',
     pagePhotosSize: 12,
     pageCommentsSize: 10
 };

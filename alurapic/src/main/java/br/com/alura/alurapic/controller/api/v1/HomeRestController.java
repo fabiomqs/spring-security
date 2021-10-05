@@ -22,9 +22,12 @@ public class HomeRestController extends ErrorMappingHandling {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public HomeRestController(UserService userService, JwtTokenProvider jwtTokenProvider) {
+
+    public HomeRestController(UserService userService,
+                              JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
+
     }
 
     @PostMapping("/login")

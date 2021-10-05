@@ -13,8 +13,7 @@ export class PhotoService {
     constructor(
         private http:HttpClient,
         private userService: UserService,
-        @Inject(APIURL) private apiUrl: string,
-        
+        @Inject(APIURL) private apiUrl: string
     ) { }
 
     listFromUser(username: string):Observable<Photo[]> {
