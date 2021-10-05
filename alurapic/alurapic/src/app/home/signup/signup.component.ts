@@ -11,6 +11,7 @@ import { lowerCaseValidator } from 'src/app/shared/validators/lower-case.validat
 import { SignupService } from './service/signup.service';
 import { UserNotTakenValidatorService } from './service/user-not-taken.validator.service';
 import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
+import { usernamePassword } from './validator/username-password.validator';
 
 @Component({
     templateUrl: './signup.component.html',
@@ -34,18 +35,20 @@ export class SignupComponent implements OnInit, OnDestroy {
     
 
     signup() {
-        const newUser = this.signupForm.getRawValue() as NewUser;
-        this.subs.add(
-            this.signupService.signup(newUser)
-                .subscribe(
-                    (ret: User) => {
-                        this.notificationService
-                        .success(`${ret.username} cadastrado com sucesso`);
-                        this.router.navigate(['']);
-                    },
-                    err => console.log(err)
-                )
-        )
+        if(this.signupForm.valid && !this.signupForm.pending) {
+            const newUser = this.signupForm.getRawValue() as NewUser;
+            this.subs.add(
+                this.signupService.signup(newUser)
+                    .subscribe(
+                        (ret: User) => {
+                            this.notificationService
+                                .success(`${ret.username} cadastrado com sucesso`);
+                            this.router.navigate(['']);
+                        },
+                        err => console.log(err)
+                    )
+            )
+        }
     }
 
     ngOnInit(): void {
@@ -88,6 +91,8 @@ export class SignupComponent implements OnInit, OnDestroy {
                     Validators.maxLength(20)
                 ]
             ]
+        }, {
+            validator: usernamePassword
         });
 
     //    this.platformDetectorService.isPlatformBrowser &&
