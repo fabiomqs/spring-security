@@ -53,7 +53,7 @@ export class PhotosDetailsComponent implements OnInit, OnDestroy {
                 .deletePhoto(this.photoId)
                 .subscribe(() => {
                     this.alertService.info('Photo Removed Successfully', true);
-                    this.router.navigate(['/user', this.userService.getUsername()]);
+                    this.router.navigate(['/user', this.userService.getUsername()], { replaceUrl: true });
                 }, 
                 err => this.alertService.danger(err.error.message)
             )

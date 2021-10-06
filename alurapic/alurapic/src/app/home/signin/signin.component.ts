@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { SubSink } from 'subsink';
 
@@ -10,7 +10,6 @@ import { NotificationService } from 'src/app/core/notification/service/notificat
 import { User } from 'src/app/model/user';
 import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
 
-
 @Component({
     templateUrl: './signin.component.html'
 })
@@ -18,6 +17,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     private subs = new SubSink();
 
+    fromUrl: string;
     loginForm: FormGroup;
     @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
 
@@ -27,9 +27,14 @@ export class SigninComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private router: Router,
         private platformDetectorService: PlatformDetectorService,
+        private activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
+        this.subs.add(
+            this.activatedRoute.queryParams
+                .subscribe(params => this.fromUrl = params.fromUrl)
+        );
         this.loginForm = this.formBuilder.group({
             userName: ['', Validators.required],
             password: ['', Validators.required]
@@ -46,8 +51,11 @@ export class SigninComponent implements OnInit, OnDestroy {
             this.authService.authenticate(user)
                 .subscribe(
                     (response: HttpResponse<User>) => {
-                        //this.router.navigateByUrl('user/' + username);
-                        this.router.navigate(['user', username]);
+                        if(this.fromUrl) {
+                            this.router.navigateByUrl(this.fromUrl);
+                        } else {
+                            this.router.navigate(['user', username]);
+                        }
                     },
                     (errorResponse: HttpErrorResponse) => {
                         console.log(errorResponse);
