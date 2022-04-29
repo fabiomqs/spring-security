@@ -6,8 +6,6 @@ import { PhotoFormModule } from './photo-form/photo-form.module';
 import { PhotoModule } from './photo/photo.module';
 import { PhotosDetailsModule } from './photos-details/photos-details.module';
 
-
-
 @NgModule({
     imports: [
         PhotoListModule,

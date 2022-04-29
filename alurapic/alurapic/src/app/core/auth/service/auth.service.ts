@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { HeaderType } from 'src/app/enums/header-type.enum';
 import { User } from 'src/app/model/user';
 import { APIURL } from '../../tokens';
-import { UserService } from '../../user/user.service';
+import { LocalCacheService } from '../../user/local-cache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ export class AuthService {
 
     constructor(
         private httpClient:HttpClient,
-        private userService:UserService,
+        private localCacheService:LocalCacheService,
         @Inject(APIURL) private apiUrl: string
     ) { }
 
@@ -24,7 +24,7 @@ export class AuthService {
             .pipe(tap(
                 (response: HttpResponse<User>) => {
                     const token = response.headers.get(HeaderType.JWT_TOKEN);
-                    this.userService.setToken(token);
+                    this.localCacheService.setToken(token);
                 }
             ));
     }

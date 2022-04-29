@@ -2,7 +2,7 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/core/user/user.service';
+import { LocalCacheService } from 'src/app/core/user/local-cache.service';
 //import { NotificationService } from 'src/app/core/notification/service/notification.service';
 import { FileUploadStatus } from 'src/app/model/file-upload.status';
 import { AlertService } from 'src/app/shared/components/alert/service/alert.service';
@@ -27,7 +27,7 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
         private photoService: PhotoService,
         private router:Router,
         private alertService: AlertService,
-        private userService: UserService
+        private localCacheService: LocalCacheService
         //private notificationService: NotificationService
     ) { }
     
@@ -76,7 +76,7 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
                 if(event.status === 200) {
                     this.alertService
                         .success('Photo Uploaded', true);
-                    this.router.navigate(['/user', this.userService.getUsername()]);
+                    this.router.navigate(['/user', this.localCacheService.getUsername()]);
                     this.fileStatus.percentage = 100;
                     this.fileStatus.status = 'done';
                 } else {

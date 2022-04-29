@@ -6,7 +6,7 @@ import * as StackTrace from "stacktrace-js";
 
 import { environment } from "src/environments/environment";
 
-import { UserService } from "src/app/core/user/user.service";
+import { LocalCacheService } from "src/app/core/user/local-cache.service";
 import { ServerLog } from "src/app/model/server-log";
 import { ServerLogService } from "./service/server-log.service";
 
@@ -20,8 +20,8 @@ export class GlobalErrorHandler implements ErrorHandler{
         const url = location instanceof PathLocationStrategy ?
             location.path() : '';
 
-        const userService = this.injector.get(UserService);
-        const username = userService.isLogged() ? userService.getUsername() : 'no user';
+        const localCacheService = this.injector.get(LocalCacheService);
+        const username = localCacheService.isLogged() ? localCacheService.getUsername() : 'no user';
         const serverLogService = this.injector.get(ServerLogService);
         const router = this.injector.get(Router);
 

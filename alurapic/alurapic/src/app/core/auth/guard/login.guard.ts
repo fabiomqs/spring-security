@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserService } from '../../user/user.service';
+import { LocalCacheService } from '../../user/local-cache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +9,7 @@ import { UserService } from '../../user/user.service';
 export class LoginGuard implements CanActivate {
     
     constructor(
-        private userService:UserService,
+        private localCacheService:LocalCacheService,
         private router:Router
     ) {}
 
@@ -17,11 +17,11 @@ export class LoginGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         
-        if(this.userService.isLogged()) {
+        if(this.localCacheService.isLogged()) {
 
             this.router.navigate([
                 'user', 
-                this.userService.getUsername()
+                this.localCacheService.getUsername()
             ]);
             return false;
         }

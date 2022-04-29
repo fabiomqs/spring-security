@@ -23,20 +23,21 @@ export class User {
 
     constructor();
     constructor(username:string, password:string);
+    constructor(firstName: string, lastName: string, email: string, username:string, role: string);
 
-    constructor(username?:string, password?:string) {
-        this.firstName = '';
-        this.lastName = '';
+    constructor(firstName?: string, lastName?: string, email?: string, username?:string, password?:string, role?: string) {
+        this.firstName = firstName || '';
+        this.lastName = lastName || '';
         this.username = username || '';
         this.password = password || '';
-        this.email = '';
+        this.email = email || '';
         this.active = false;
         this.accountNonLocked = false;
         this.NotExpired = false;
         this.credentialsNotExpired = false;
         this.suspended = false;
         this.banned = false;
-        this.role = ''
+        this.role = role || ''
         this.authorities = [];
     }
     

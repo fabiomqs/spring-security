@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
-import { UserService } from '../user/user.service';
+import { LocalCacheService } from '../user/local-cache.service';
 
 @Component({
     selector: 'app-header',
@@ -13,16 +13,16 @@ export class HeaderComponent implements OnInit {
     user$: Observable<User>
 
     constructor(
-        private userService: UserService,
+        private localCacheService: LocalCacheService,
         private router:Router
     ) { }
 
     ngOnInit(): void {
-        this.user$ = this.userService.getUser();
+        this.user$ = this.localCacheService.getUser();
     }
 
     logout() {
-        this.userService.logout();
+        this.localCacheService.logout();
         this.router.navigate(['']);
     }
 

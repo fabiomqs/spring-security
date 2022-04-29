@@ -9,7 +9,7 @@ import { SubSink } from 'subsink';
 import { Photo } from 'src/app/model/photo';
 import { PhotoService } from '../service/photo.service';
 import { AlertService } from 'src/app/shared/components/alert/service/alert.service';
-import { UserService } from 'src/app/core/user/user.service';
+import { LocalCacheService } from 'src/app/core/user/local-cache.service';
 
 @Component({
     templateUrl: './photos-details.component.html'
@@ -26,7 +26,7 @@ export class PhotosDetailsComponent implements OnInit, OnDestroy {
         private router: Router,
         private photoService: PhotoService,
         private alertService: AlertService,
-        private userService: UserService
+        private localCacheService: LocalCacheService
         //private notificationService:NotificationService
     ) { }
     
@@ -53,7 +53,7 @@ export class PhotosDetailsComponent implements OnInit, OnDestroy {
                 .deletePhoto(this.photoId)
                 .subscribe(() => {
                     this.alertService.info('Photo Removed Successfully', true);
-                    this.router.navigate(['/user', this.userService.getUsername()], { replaceUrl: true });
+                    this.router.navigate(['/user', this.localCacheService.getUsername()], { replaceUrl: true });
                 }, 
                 err => this.alertService.danger(err.error.message)
             )
